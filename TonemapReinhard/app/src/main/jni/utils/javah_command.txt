@@ -1,0 +1,1 @@
+javah -classpath /usr/local/opt/android-sdk/platforms/android-23/android.jar:../../../build/intermediates/classes/debug br.ufmg.dcc.tonemapreinhard.ReinhardManualCompilerSchedOperator
