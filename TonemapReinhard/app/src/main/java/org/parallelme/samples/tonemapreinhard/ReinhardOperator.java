@@ -1,12 +1,8 @@
-package br.ufmg.dcc.tonemapreinhard;
+package org.parallelme.samples.tonemapreinhard;
 
 import android.graphics.Bitmap;
+import org.parallelme.samples.tonemapreinhard.formats.RGBE;
 
-import br.ufmg.dcc.tonemapreinhard.formats.RGBE;
-
-/**
- * Created by renatoutsch on 6/4/15.
- */
 public interface ReinhardOperator {
     public void runOp(RGBE.ResourceData resourceData, float key, float power, Bitmap bitmap);
     public void waitFinish();

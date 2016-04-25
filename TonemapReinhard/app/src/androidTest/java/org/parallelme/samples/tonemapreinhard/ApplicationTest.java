@@ -1,4 +1,4 @@
-package br.ufmg.dcc.tonemapreinhard;
+package org.parallelme.samples.tonemapreinhard;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

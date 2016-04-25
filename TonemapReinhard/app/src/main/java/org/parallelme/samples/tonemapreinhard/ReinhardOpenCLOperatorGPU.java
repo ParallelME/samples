@@ -1,12 +1,8 @@
-package br.ufmg.dcc.tonemapreinhard;
+package org.parallelme.samples.tonemapreinhard;
 
 import android.graphics.Bitmap;
+import org.parallelme.samples.tonemapreinhard.formats.RGBE;
 
-import br.ufmg.dcc.tonemapreinhard.formats.RGBE;
-
-/**
- * Created by renatoutsch on 10/6/15.
- */
 public class ReinhardOpenCLOperatorGPU implements ReinhardOperator {
     /// Stores a pointer to the OpenCL tonemapping state.
     private long tonemapperPtr;
@@ -43,6 +39,6 @@ public class ReinhardOpenCLOperatorGPU implements ReinhardOperator {
     }
 
     static {
-        System.loadLibrary("reinhardOpenCLOperator");
+        System.loadLibrary("TonemapReinhard");
     }
 }

@@ -1,22 +1,24 @@
-package br.ufmg.dcc.tonemapreinhard.formats;
+package org.parallelme.samples.tonemapreinhard.formats;
 
 import android.content.res.Resources;
 import java.io.*;
 import java.util.regex.*;
 
-/** This file contains code to read and write four byte rgbe file format
- developed by Greg Ward.  It handles the conversions between rgbe and
- pixels consisting of floats.  The data is assumed to be an array of floats.
- By default there are three floats per pixel in the order red, green, blue.
- (RGBE_DATA_??? values control this.)  Only the mimimal header reading and
- writing is implemented.  Each routine does error checking and will return
- a status value as defined below.  This code is intended as a skeleton so
- feel free to modify it to suit your needs. <P>
-
- Ported to Java and restructured by Kenneth Russell. <BR>
- posted to http://www.graphics.cornell.edu/~bjw/ <BR>
- written by Bruce Walter  (bjw@graphics.cornell.edu)  5/26/95 <BR>
- based on code written by Greg Ward <BR>
+/*
+ * This file contains code to read and write four byte rgbe file format
+ * developed by Greg Ward.  It handles the conversions between rgbe and
+ * pixels consisting of floats.  The data is assumed to be an array of floats.
+ * By default there are three floats per pixel in the order red, green, blue.
+ * (RGBE_DATA_??? values control this.)  Only the mimimal header reading and
+ * writing is implemented.  Each routine does error checking and will return
+ * a status value as defined below.  This code is intended as a skeleton so
+ * feel free to modify it to suit your needs.
+ *
+ * ResourceData Android-related functions added by Renato Utsch.
+ * Ported to Java and restructured by Kenneth Russell.
+ * posted to http://www.graphics.cornell.edu/~bjw/
+ * written by Bruce Walter  (bjw@graphics.cornell.edu)  5/26/95
+ * based on code written by Greg Ward
  */
 
 public class RGBE {
@@ -269,9 +271,6 @@ public class RGBE {
         public int height;
     }
 
-    /**
-     * 06/04/2015 by RenatoUtsch - Load from Android resource.
-     */
     public static ResourceData loadFromResource(Resources res, int resource) {
         ResourceData resData = new ResourceData();
 

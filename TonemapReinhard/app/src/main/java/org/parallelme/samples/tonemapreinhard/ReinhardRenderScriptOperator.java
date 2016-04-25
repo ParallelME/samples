@@ -1,14 +1,9 @@
-package br.ufmg.dcc.tonemapreinhard;
+package org.parallelme.samples.tonemapreinhard;
 
 import android.support.v8.renderscript.*;
 import android.graphics.Bitmap;
+import org.parallelme.samples.tonemapreinhard.formats.RGBE;
 
-import br.ufmg.dcc.tonemapreinhard.ScriptC_tonemapper;
-import br.ufmg.dcc.tonemapreinhard.formats.RGBE;
-
-/**
- * Created by renatoutsch on 5/27/15.
- */
 public class ReinhardRenderScriptOperator implements ReinhardOperator {
     RenderScript mRS;
     Allocation mDataAllocation;

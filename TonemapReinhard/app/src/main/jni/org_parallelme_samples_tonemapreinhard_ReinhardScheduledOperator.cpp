@@ -1,4 +1,4 @@
-#include "br_ufmg_dcc_tonemapreinhard_ReinhardScheduledOperator.h"
+#include "org_parallelme_samples_tonemapreinhard_ReinhardScheduledOperator.h"
 #include "tonemapper/ScheduledTonemapper.hpp"
 #include "error.h"
 #include <stdexcept>
@@ -12,7 +12,7 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *jvm, void *reserved) {
     return JNI_VERSION_1_6;
 }
 
-JNIEXPORT jlong JNICALL Java_br_ufmg_dcc_tonemapreinhard_ReinhardScheduledOperator_init
+JNIEXPORT jlong JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardScheduledOperator_init
         (JNIEnv *env, jobject a, jobject ctx, jstring scriptcName) {
     try {
         auto tonemapper = new ScheduledTonemapper(gJvm, ctx, scriptcName);
@@ -23,13 +23,13 @@ JNIEXPORT jlong JNICALL Java_br_ufmg_dcc_tonemapreinhard_ReinhardScheduledOperat
     }
 }
 
-JNIEXPORT void JNICALL Java_br_ufmg_dcc_tonemapreinhard_ReinhardScheduledOperator_cleanUp
+JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardScheduledOperator_cleanUp
         (JNIEnv *env, jobject a, jlong tonemapperPtr) {
     auto tonemapper = reinterpret_cast<ScheduledTonemapper *>(tonemapperPtr);
     delete tonemapper;
 }
 
-JNIEXPORT void JNICALL Java_br_ufmg_dcc_tonemapreinhard_ReinhardScheduledOperator_nativeRunOp
+JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardScheduledOperator_nativeRunOp
         (JNIEnv *env, jobject a, jlong tonemapperPtr, jint width, jint height,
          jbyteArray imageDataArray, jfloat key, jfloat power, jobject bitmap) {
     auto tonemapper = reinterpret_cast<ScheduledTonemapper *>(tonemapperPtr);
@@ -42,7 +42,7 @@ JNIEXPORT void JNICALL Java_br_ufmg_dcc_tonemapreinhard_ReinhardScheduledOperato
     }
 }
 
-JNIEXPORT void JNICALL Java_br_ufmg_dcc_tonemapreinhard_ReinhardScheduledOperator_nativeWaitFinish
+JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardScheduledOperator_nativeWaitFinish
   (JNIEnv *env, jobject a, jlong tonemapperPtr) {
     auto tonemapper = reinterpret_cast<ScheduledTonemapper *>(tonemapperPtr);
     tonemapper->waitFinish();

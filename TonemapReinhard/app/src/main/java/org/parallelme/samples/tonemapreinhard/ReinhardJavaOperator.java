@@ -1,13 +1,9 @@
-package br.ufmg.dcc.tonemapreinhard;
+package org.parallelme.samples.tonemapreinhard;
 
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import br.ufmg.dcc.tonemapreinhard.formats.RGBE;
+import org.parallelme.samples.tonemapreinhard.formats.RGBE;
 
-/**
- * Created by renatoutsch on 5/26/15.
- */
 public class ReinhardJavaOperator implements ReinhardOperator {
     public float[][][] data;
     public int width, height;

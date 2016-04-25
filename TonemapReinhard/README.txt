@@ -3,7 +3,7 @@ compilation of the Java sources and the NDK toolchain for management and
 compilation of the C/C++ sources. To open and run the app, please follow these
 instructions:
 
-1. Install the Android Studio IDE (1.3+) and the Android SDK:
+1. Install the Android Studio IDE (2.0+) and the Android SDK:
 https://developer.android.com/sdk
 
 2. Install the Android NDK through Android Studio:

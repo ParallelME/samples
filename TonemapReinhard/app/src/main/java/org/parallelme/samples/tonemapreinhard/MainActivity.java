@@ -1,4 +1,4 @@
-package br.ufmg.dcc.tonemapreinhard;
+package org.parallelme.samples.tonemapreinhard;
 
 import android.app.ProgressDialog;
 import android.support.v8.renderscript.*;
@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,11 +18,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Vector;
 
-import br.com.renatoutsch.tonemapreinhard.R;
-import br.ufmg.dcc.tonemapreinhard.formats.RGBE;
+import org.parallelme.samples.tonemapreinhard.formats.RGBE;
 
 
 public class MainActivity extends Activity {
@@ -203,7 +200,7 @@ public class MainActivity extends Activity {
             runWithOptions.add("Scheduler");
 
         mRunWithSpinner = (Spinner) findViewById(R.id.spinner_run_with);
-        ArrayAdapter<CharSequence> runWithAdapter = new ArrayAdapter(this,
+        ArrayAdapter<CharSequence> runWithAdapter = new ArrayAdapter<>(this,
                 R.layout.spinner_layout, runWithOptions);
         runWithAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mRunWithSpinner.setAdapter(runWithAdapter);

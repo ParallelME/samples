@@ -2,9 +2,9 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    buildToolsVersion "23.0.2"
     defaultConfig {
-        applicationId "br.ufmg.dcc.tonemapreinhard"
+        applicationId "org.parallelme.samples.tonemapreinhard"
         minSdkVersion 19
         targetSdkVersion 23
         versionCode 1
