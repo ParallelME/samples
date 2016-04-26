@@ -23,7 +23,7 @@ public class ReinhardCollectionOperator implements ReinhardOperator {
         this.tonemap();
         this.toRgb();
         this.clamp(power);
-        image.copyTo(bitmap);
+        image.toBitmap(bitmap);
 
         image = null;
     }
