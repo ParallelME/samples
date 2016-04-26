@@ -10,7 +10,6 @@ import br.ufmg.dcc.parallelme.userlibrary.image.RGBE;
 
 public class ReinhardCollectionOperator implements ReinhardOperator {
     private HDRImage image;
-    private Bitmap outBitmap;
     private float sum;
     private float max;
     private float scaleFactor;
@@ -18,16 +17,15 @@ public class ReinhardCollectionOperator implements ReinhardOperator {
 
     public void runOp(RGBE.ResourceData resourceData, float key, float power, Bitmap bitmap) {
         image = new HDRImage(resourceData);
-        outBitmap = bitmap;
 
         this.toYxy();
         this.logAverage(key);
         this.tonemap();
         this.toRgb();
-        this.toBitmap(power);
+        this.clamp(power);
+        image.copyTo(bitmap);
 
         image = null;
-        outBitmap = null;
     }
 
     public void waitFinish() {
@@ -132,7 +130,7 @@ public class ReinhardCollectionOperator implements ReinhardOperator {
         });
     }
 
-    private void toBitmap(final float power) {
+    private void clamp(final float power) {
         image.foreach(new ForeachFunction<Pixel>() {
             @Override
             public void function(Pixel pixel) {
@@ -140,13 +138,6 @@ public class ReinhardCollectionOperator implements ReinhardOperator {
                 if (pixel.rgba.red > 1.0f) pixel.rgba.red = 1.0f;
                 if (pixel.rgba.green > 1.0f) pixel.rgba.green = 1.0f;
                 if (pixel.rgba.blue > 1.0f) pixel.rgba.blue = 1.0f;
-
-                // Convert to bitmap.
-                outBitmap.setPixel(pixel.x, pixel.y, Color.rgb(
-                        (int) (255.0f * Math.pow(pixel.rgba.red, power)),
-                        (int) (255.0f * Math.pow(pixel.rgba.green, power)),
-                        (int) (255.0f * Math.pow(pixel.rgba.blue, power))
-                ));
             }
         });
     }
