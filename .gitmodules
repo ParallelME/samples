@@ -1,3 +1,6 @@
 [submodule "TonemapReinhard/app/src/main/jni/runtime"]
 	path = TonemapReinhard/app/src/main/jni/runtime
 	url = git@github.com:ParallelME/runtime.git
+[submodule "userlibrary"]
+	path = userlibrary
+	url = git@github.com:ParallelME/user-library.git
