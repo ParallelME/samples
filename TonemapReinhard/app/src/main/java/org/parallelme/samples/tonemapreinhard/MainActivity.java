@@ -20,8 +20,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Vector;
 
-import org.parallelme.samples.tonemapreinhard.formats.RGBE;
-
+import br.ufmg.dcc.parallelme.userlibrary.image.RGBE;
 
 public class MainActivity extends Activity {
     private SeekBar mKeyValueSeekBar;
@@ -38,6 +37,7 @@ public class MainActivity extends Activity {
     private TextView mBenchmarkText;
     private RenderScript mRS;
     private ReinhardJavaOperator mReinhardJavaOperator;
+    private ReinhardCollectionOperator mReinhardCollectionOperator;
     private ReinhardRenderScriptOperator mReinhardRenderScriptOperator;
     private ReinhardOpenCLOperatorCPU mReinhardOpenCLOperatorCPU;
     private ReinhardOpenCLOperatorGPU mReinhardOpenCLOperatorGPU;
@@ -148,10 +148,12 @@ public class MainActivity extends Activity {
         if(mRunWithSpinner.getSelectedItemPosition() == 0)
             new ReinhardOperatorTask().execute(mReinhardJavaOperator);
         else if(mRunWithSpinner.getSelectedItemPosition() == 1)
-            new ReinhardOperatorTask().execute(mReinhardRenderScriptOperator);
+            new ReinhardOperatorTask().execute(mReinhardCollectionOperator);
         else if(mRunWithSpinner.getSelectedItemPosition() == 2)
-            new ReinhardOperatorTask().execute(mReinhardOpenCLOperatorCPU);
+            new ReinhardOperatorTask().execute(mReinhardRenderScriptOperator);
         else if(mRunWithSpinner.getSelectedItemPosition() == 3)
+            new ReinhardOperatorTask().execute(mReinhardOpenCLOperatorCPU);
+        else if(mRunWithSpinner.getSelectedItemPosition() == 4)
             new ReinhardOperatorTask().execute(mReinhardOpenCLOperatorGPU);
         else
             new ReinhardOperatorTask().execute(mReinhardScheduledOperator);
@@ -176,6 +178,7 @@ public class MainActivity extends Activity {
 
         mRS = RenderScript.create(this);
         mReinhardJavaOperator = new ReinhardJavaOperator();
+        mReinhardCollectionOperator = new ReinhardCollectionOperator();
         mReinhardRenderScriptOperator = new ReinhardRenderScriptOperator(mRS);
         mReinhardOpenCLOperatorCPU = new ReinhardOpenCLOperatorCPU();
         mReinhardOpenCLOperatorGPU = new ReinhardOpenCLOperatorGPU();
@@ -191,6 +194,7 @@ public class MainActivity extends Activity {
         // RunWith options.
         ArrayList runWithOptions = new ArrayList();
         runWithOptions.add("Java");
+        runWithOptions.add("User Library");
         runWithOptions.add("RenderScript");
         if(mReinhardOpenCLOperatorCPU.inited())
             runWithOptions.add("OpenCL CPU");

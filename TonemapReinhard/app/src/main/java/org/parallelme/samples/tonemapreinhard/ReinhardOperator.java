@@ -1,7 +1,7 @@
 package org.parallelme.samples.tonemapreinhard;
 
 import android.graphics.Bitmap;
-import org.parallelme.samples.tonemapreinhard.formats.RGBE;
+import br.ufmg.dcc.parallelme.userlibrary.image.RGBE;
 
 public interface ReinhardOperator {
     public void runOp(RGBE.ResourceData resourceData, float key, float power, Bitmap bitmap);

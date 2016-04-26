@@ -1,7 +1,7 @@
 package org.parallelme.samples.tonemapreinhard;
 
 import android.graphics.Bitmap;
-import org.parallelme.samples.tonemapreinhard.formats.RGBE;
+import br.ufmg.dcc.parallelme.userlibrary.image.RGBE;
 
 public class ReinhardOpenCLOperatorGPU implements ReinhardOperator {
     /// Stores a pointer to the OpenCL tonemapping state.

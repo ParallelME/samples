@@ -2,7 +2,7 @@ package org.parallelme.samples.tonemapreinhard;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import org.parallelme.samples.tonemapreinhard.formats.RGBE;
+import br.ufmg.dcc.parallelme.userlibrary.image.RGBE;
 
 public class ReinhardJavaOperator implements ReinhardOperator {
     public float[][][] data;
@@ -22,6 +22,10 @@ public class ReinhardJavaOperator implements ReinhardOperator {
     private void toBitmap(Bitmap bitmap, float power) {
         for(int y = 0; y < height; ++y) {
             for(int x = 0; x < width; ++x) {
+                if(data[y][x][0] > 1.0f) data[y][x][0] = 1.0f;
+                if(data[y][x][1] > 1.0f) data[y][x][1] = 1.0f;
+                if(data[y][x][2] > 1.0f) data[y][x][2] = 1.0f;
+
                 bitmap.setPixel(x, y, Color.rgb(
                         (int) (255.0f * Math.pow(data[y][x][0], power)),
                         (int) (255.0f * Math.pow(data[y][x][1], power)),
@@ -93,16 +97,6 @@ public class ReinhardJavaOperator implements ReinhardOperator {
         }
     }
 
-    private void clamp() {
-        for(int y = 0; y < height; ++y) {
-            for(int x = 0; x < width; ++x) {
-                if(data[y][x][0] > 1.0f) data[y][x][0] = 1.0f;
-                if(data[y][x][1] > 1.0f) data[y][x][1] = 1.0f;
-                if(data[y][x][2] > 1.0f) data[y][x][2] = 1.0f;
-            }
-        }
-    }
-
     private static class LogAverageReturn {
         public float scaleFactor;
         public float lmax2;
@@ -153,8 +147,6 @@ public class ReinhardJavaOperator implements ReinhardOperator {
         LogAverageReturn ret = logAverage(key);
         tonemap(ret.scaleFactor, ret.lmax2);
         toRgb();
-        clamp();
-
         toBitmap(bitmap, power);
 
         data = null;
