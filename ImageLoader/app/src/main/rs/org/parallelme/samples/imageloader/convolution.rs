@@ -1,5 +1,5 @@
 #pragma version(1)
-#pragma rs java_package_name(br.ufmg.dcc.imageloader)
+#pragma rs java_package_name(org.parallelme.samples.imageloader)
 
 float kernel[9] = {1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f };
 uint32_t kernelWidth = 3;

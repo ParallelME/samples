@@ -1,13 +1,13 @@
-package br.ufmg.dcc.imageloader;
+package org.parallelme.samples.imageloader;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import br.ufmg.dcc.parallelme.userlibrary.function.*;
-import br.ufmg.dcc.parallelme.userlibrary.image.BitmapImage;
-import br.ufmg.dcc.parallelme.userlibrary.image.Pixel;
-import br.ufmg.dcc.parallelme.userlibrary.image.RGBA;
+import org.parallelme.userlibrary.function.*;
+import org.parallelme.userlibrary.image.BitmapImage;
+import org.parallelme.userlibrary.image.Pixel;
+import org.parallelme.userlibrary.image.RGBA;
 
 /**
  * Parallel version of JavaLoader class.

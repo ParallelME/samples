@@ -1,13 +1,13 @@
-package br.ufmg.dcc.imageloader;
+package org.parallelme.samples.imageloader;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import br.ufmg.dcc.parallelme.userlibrary.function.ForeachFunction;
-import br.ufmg.dcc.parallelme.userlibrary.image.BitmapImage;
-import br.ufmg.dcc.parallelme.userlibrary.image.Pixel;
-import br.ufmg.dcc.parallelme.userlibrary.image.RGB;
+import org.parallelme.userlibrary.function.ForeachFunction;
+import org.parallelme.userlibrary.image.BitmapImage;
+import org.parallelme.userlibrary.image.Pixel;
+import org.parallelme.userlibrary.image.RGB;
 
 /**
  * @author Wilson de Carvalho.

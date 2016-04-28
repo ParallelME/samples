@@ -1,5 +1,5 @@
 #pragma version(1)
-#pragma rs java_package_name(br.ufmg.dcc.imageloader)
+#pragma rs java_package_name(org.parallelme.samples.imageloader)
 
 float3 __attribute__((kernel)) root(float3 pixel, uint32_t x, uint32_t y) {
     float3 foo;

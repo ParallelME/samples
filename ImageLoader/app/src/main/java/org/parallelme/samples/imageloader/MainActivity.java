@@ -1,4 +1,4 @@
-package br.ufmg.dcc.imageloader;
+package org.parallelme.samples.imageloader;
 
 import android.app.Activity;
 import android.content.Context; // ++ OB

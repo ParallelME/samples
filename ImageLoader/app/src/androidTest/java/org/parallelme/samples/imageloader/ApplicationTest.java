@@ -1,4 +1,4 @@
-package br.ufmg.dcc.imageloader;
+package org.parallelme.samples.imageloader;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

@@ -1,4 +1,4 @@
-package br.ufmg.dcc.imageloader;
+package org.parallelme.samples.imageloader;
 
 import android.graphics.Bitmap;
 import android.content.res.Resources;

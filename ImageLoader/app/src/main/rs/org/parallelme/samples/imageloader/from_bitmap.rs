@@ -1,5 +1,5 @@
 #pragma version(1)
-#pragma rs java_package_name(br.ufmg.dcc.imageloader)
+#pragma rs java_package_name(org.parallelme.samples.imageloader)
 
 typedef struct __attribute__((packed, aligned(4))) ABCD {
     float3 abcd;

@@ -1,11 +1,10 @@
-package br.ufmg.dcc.imageloader;
+package org.parallelme.samples.imageloader;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.support.v8.renderscript.*;
-import android.util.Log;
 
 /**
  * @author Renato Utsch
