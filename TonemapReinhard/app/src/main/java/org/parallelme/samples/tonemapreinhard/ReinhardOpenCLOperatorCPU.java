@@ -1,7 +1,7 @@
 package org.parallelme.samples.tonemapreinhard;
 
 import android.graphics.Bitmap;
-import br.ufmg.dcc.parallelme.userlibrary.image.RGBE;
+import org.parallelme.userlibrary.image.RGBE;
 
 public class ReinhardOpenCLOperatorCPU implements ReinhardOperator {
     private long tonemapperPtr;

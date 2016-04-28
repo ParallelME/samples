@@ -20,7 +20,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Vector;
 
-import br.ufmg.dcc.parallelme.userlibrary.image.RGBE;
+import org.parallelme.userlibrary.image.RGBE;
 
 public class MainActivity extends Activity {
     private SeekBar mKeyValueSeekBar;

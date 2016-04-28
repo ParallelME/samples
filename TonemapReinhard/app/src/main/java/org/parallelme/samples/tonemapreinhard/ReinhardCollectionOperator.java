@@ -1,12 +1,11 @@
 package org.parallelme.samples.tonemapreinhard;
 
 import android.graphics.Bitmap;
-import android.graphics.Color;
 
-import br.ufmg.dcc.parallelme.userlibrary.function.ForeachFunction;
-import br.ufmg.dcc.parallelme.userlibrary.image.HDRImage;
-import br.ufmg.dcc.parallelme.userlibrary.image.Pixel;
-import br.ufmg.dcc.parallelme.userlibrary.image.RGBE;
+import org.parallelme.userlibrary.function.ForeachFunction;
+import org.parallelme.userlibrary.image.HDRImage;
+import org.parallelme.userlibrary.image.Pixel;
+import org.parallelme.userlibrary.image.RGBE;
 
 public class ReinhardCollectionOperator implements ReinhardOperator {
     private HDRImage image;

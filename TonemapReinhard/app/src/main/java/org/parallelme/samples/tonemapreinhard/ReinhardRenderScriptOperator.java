@@ -2,7 +2,7 @@ package org.parallelme.samples.tonemapreinhard;
 
 import android.support.v8.renderscript.*;
 import android.graphics.Bitmap;
-import br.ufmg.dcc.parallelme.userlibrary.image.RGBE;
+import org.parallelme.userlibrary.image.RGBE;
 
 public class ReinhardRenderScriptOperator implements ReinhardOperator {
     RenderScript mRS;

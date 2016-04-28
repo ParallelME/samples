@@ -2,7 +2,7 @@ package org.parallelme.samples.tonemapreinhard;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import br.ufmg.dcc.parallelme.userlibrary.image.RGBE;
+import org.parallelme.userlibrary.image.RGBE;
 
 public class ReinhardJavaOperator implements ReinhardOperator {
     public float[][][] data;
