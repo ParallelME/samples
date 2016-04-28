@@ -1,3 +1,11 @@
+/**                                               _    __ ____
+ *   _ __  ___ _____   ___   __  __   ___ __     / |  / /  __/
+ *  |  _ \/ _ |  _  | / _ | / / / /  / __/ /    /  | / / /__
+ *  |  __/ __ |  ___|/ __ |/ /_/ /__/ __/ /__  / / v  / /__
+ *  |_| /_/ |_|_|\_\/_/ |_/____/___/___/____/ /_/  /_/____/
+ *
+ */
+
 #include "org_parallelme_samples_tonemapreinhard_ReinhardScheduledOperator.h"
 #include "tonemapper/ScheduledTonemapper.hpp"
 #include "error.h"
