@@ -4,7 +4,7 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
     defaultConfig {
-        applicationId "br.ufmg.dcc.imageloader"
+        applicationId "org.parallelme.samples.imageloader"
         minSdkVersion 19
         targetSdkVersion 23
         versionCode 1
