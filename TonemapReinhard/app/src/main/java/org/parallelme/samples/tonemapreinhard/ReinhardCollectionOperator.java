@@ -43,24 +43,24 @@ public class ReinhardCollectionOperator implements ReinhardOperator {
         image.foreach(new ForeachFunction<Pixel>() {
             @Override
             public void function(Pixel pixel) {
-                float[] result = new float[3];
+                float result0, result1, result2;
                 float w;
 
-                result[0] = result[1] = result[2] = 0.0f;
-                result[0] += 0.5141364f * pixel.rgba.red;
-                result[0] += 0.3238786f * pixel.rgba.green;
-                result[0] += 0.16036376f * pixel.rgba.blue;
-                result[1] += 0.265068f * pixel.rgba.red;
-                result[1] += 0.67023428f * pixel.rgba.green;
-                result[1] += 0.06409157f * pixel.rgba.blue;
-                result[2] += 0.0241188f * pixel.rgba.red;
-                result[2] += 0.1228178f * pixel.rgba.green;
-                result[2] += 0.84442666f * pixel.rgba.blue;
-                w = result[0] + result[1] + result[2];
+                result0 = result1 = result2 = 0.0f;
+                result0 += 0.5141364f * pixel.rgba.red;
+                result0 += 0.3238786f * pixel.rgba.green;
+                result0 += 0.16036376f * pixel.rgba.blue;
+                result1 += 0.265068f * pixel.rgba.red;
+                result1 += 0.67023428f * pixel.rgba.green;
+                result1 += 0.06409157f * pixel.rgba.blue;
+                result2 += 0.0241188f * pixel.rgba.red;
+                result2 += 0.1228178f * pixel.rgba.green;
+                result2 += 0.84442666f * pixel.rgba.blue;
+                w = result0 + result1 + result2;
                 if (w > 0.0) {
-                    pixel.rgba.red = result[1];
-                    pixel.rgba.green = result[0] / w;
-                    pixel.rgba.blue = result[1] / w;
+                    pixel.rgba.red = result1;
+                    pixel.rgba.green = result0 / w;
+                    pixel.rgba.blue = result1 / w;
                 } else {
                     pixel.rgba.red = pixel.rgba.green = pixel.rgba.blue = 0.0f;
                 }
@@ -145,6 +145,10 @@ public class ReinhardCollectionOperator implements ReinhardOperator {
                 if (pixel.rgba.red > 1.0f) pixel.rgba.red = 1.0f;
                 if (pixel.rgba.green > 1.0f) pixel.rgba.green = 1.0f;
                 if (pixel.rgba.blue > 1.0f) pixel.rgba.blue = 1.0f;
+
+                pixel.rgba.red = (float) Math.pow(pixel.rgba.red, power);
+                pixel.rgba.green = (float) Math.pow(pixel.rgba.green, power);
+                pixel.rgba.blue = (float) Math.pow(pixel.rgba.blue, power);
             }
         });
     }

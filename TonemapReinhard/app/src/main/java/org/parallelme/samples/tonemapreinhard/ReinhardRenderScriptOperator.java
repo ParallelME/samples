@@ -33,8 +33,7 @@ public class ReinhardRenderScriptOperator implements ReinhardOperator {
                 .setY(mHeight)
                 .create();
 
-        mImageAllocation = Allocation.createTyped(mRS, imageType,
-                Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
+        mImageAllocation = Allocation.createTyped(mRS, imageType);
         mDataAllocation = Allocation.createTyped(mRS, dataType);
         mImageAllocation.copyFrom(resourceData.data);
 

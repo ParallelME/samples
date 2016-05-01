@@ -167,11 +167,8 @@ uchar4 __attribute__((kernel)) to_bitmap(float4 in, uint32_t x, uint32_t y) {
 
     // Clamp.
     if(in.s0 > 1.0f) in.s0 = 1.0f;
-    if(in.s0 < 0.0f) in.s0 = 0.0f;
     if(in.s1 > 1.0f) in.s1 = 1.0f;
-    if(in.s1 < 0.0f) in.s1 = 0.0f;
     if(in.s2 > 1.0f) in.s2 = 1.0f;
-    if(in.s2 < 0.0f) in.s2 = 0.0f;
 
     out.r = (uchar) (255.0f * pow(in.s0, toBitmapPower));
     out.g = (uchar) (255.0f * pow(in.s1, toBitmapPower));

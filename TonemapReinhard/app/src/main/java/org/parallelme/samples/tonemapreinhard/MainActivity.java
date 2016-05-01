@@ -45,11 +45,19 @@ public class MainActivity extends Activity {
     private TextView mBenchmarkText;
     private RenderScript mRS;
     private ReinhardJavaOperator mReinhardJavaOperator;
+    private int mReinhardJavaOperatorID;
     private ReinhardCollectionOperator mReinhardCollectionOperator;
+    private int mReinhardCollectionOperatorID;
+    private ReinhardCompilerOperator mReinhardCompilerOperator;
+    private int mReinhardCompilerOperatorID;
     private ReinhardRenderScriptOperator mReinhardRenderScriptOperator;
+    private int mReinhardRenderScriptOperatorID;
     private ReinhardOpenCLOperatorCPU mReinhardOpenCLOperatorCPU;
+    private int mReinhardOpenCLOperatorCPUID;
     private ReinhardOpenCLOperatorGPU mReinhardOpenCLOperatorGPU;
+    private int mReinhardOpenCLOperatorGPUID;
     private ReinhardScheduledOperator mReinhardScheduledOperator;
+    private int mReinhardScheduledOperatorID;
     private int mRunCount;
     private int mImageResource;
     private float mKey;
@@ -149,22 +157,26 @@ public class MainActivity extends Activity {
     }
 
     /** Called when the user clicks the Tonemap button */
-    public void tonemap(View view) {
+    public void tonemap(View view) throws Exception {
         mProgressDialog.show();
 
         // Choose between the Reinhard Operator versions.
-        if(mRunWithSpinner.getSelectedItemPosition() == 0)
+        if(mRunWithSpinner.getSelectedItemPosition() == mReinhardJavaOperatorID)
             new ReinhardOperatorTask().execute(mReinhardJavaOperator);
-        else if(mRunWithSpinner.getSelectedItemPosition() == 1)
+        else if(mRunWithSpinner.getSelectedItemPosition() == mReinhardCollectionOperatorID)
             new ReinhardOperatorTask().execute(mReinhardCollectionOperator);
-        else if(mRunWithSpinner.getSelectedItemPosition() == 2)
+        else if(mRunWithSpinner.getSelectedItemPosition() == mReinhardCompilerOperatorID)
+            new ReinhardOperatorTask().execute(mReinhardCompilerOperator);
+        else if(mRunWithSpinner.getSelectedItemPosition() == mReinhardRenderScriptOperatorID)
             new ReinhardOperatorTask().execute(mReinhardRenderScriptOperator);
-        else if(mRunWithSpinner.getSelectedItemPosition() == 3)
+        else if(mRunWithSpinner.getSelectedItemPosition() == mReinhardOpenCLOperatorCPUID)
             new ReinhardOperatorTask().execute(mReinhardOpenCLOperatorCPU);
-        else if(mRunWithSpinner.getSelectedItemPosition() == 4)
+        else if(mRunWithSpinner.getSelectedItemPosition() == mReinhardOpenCLOperatorGPUID)
             new ReinhardOperatorTask().execute(mReinhardOpenCLOperatorGPU);
-        else
+        else if(mRunWithSpinner.getSelectedItemPosition() == mReinhardScheduledOperatorID)
             new ReinhardOperatorTask().execute(mReinhardScheduledOperator);
+        else
+            throw new Exception("Invalid reinhard operator selected.");
     }
 
     /** Called when the user clicks the Reset button */
@@ -187,6 +199,7 @@ public class MainActivity extends Activity {
         mRS = RenderScript.create(this);
         mReinhardJavaOperator = new ReinhardJavaOperator();
         mReinhardCollectionOperator = new ReinhardCollectionOperator();
+        mReinhardCompilerOperator = new ReinhardCompilerOperator(mRS);
         mReinhardRenderScriptOperator = new ReinhardRenderScriptOperator(mRS);
         mReinhardOpenCLOperatorCPU = new ReinhardOpenCLOperatorCPU();
         mReinhardOpenCLOperatorGPU = new ReinhardOpenCLOperatorGPU();
@@ -200,16 +213,27 @@ public class MainActivity extends Activity {
         mImageSpinner.setOnItemSelectedListener(new ImageChangeListener());
 
         // RunWith options.
+        int id = 0;
         ArrayList runWithOptions = new ArrayList();
         runWithOptions.add("Java");
+        mReinhardJavaOperatorID = id++;
         runWithOptions.add("User Library");
+        mReinhardCollectionOperatorID = id++;
+        runWithOptions.add("Compiler");
+        mReinhardCompilerOperatorID = id++;
         runWithOptions.add("RenderScript");
-        if(mReinhardOpenCLOperatorCPU.inited())
+        if(mReinhardOpenCLOperatorCPU.inited()) {
             runWithOptions.add("OpenCL CPU");
-        if(mReinhardOpenCLOperatorGPU.inited())
+            mReinhardOpenCLOperatorCPUID = id++;
+        }
+        if(mReinhardOpenCLOperatorGPU.inited()) {
             runWithOptions.add("OpenCL GPU");
-        if(mReinhardScheduledOperator.inited())
+            mReinhardOpenCLOperatorGPUID = id++;
+        }
+        if(mReinhardScheduledOperator.inited()) {
             runWithOptions.add("Scheduler");
+            mReinhardScheduledOperatorID = id++;
+        }
 
         mRunWithSpinner = (Spinner) findViewById(R.id.spinner_run_with);
         ArrayAdapter<CharSequence> runWithAdapter = new ArrayAdapter<>(this,
