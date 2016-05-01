@@ -123,10 +123,6 @@ void Tonemapper::runToYxy(int workDims, size_t *offset, size_t *workSize) {
         &clData->dataBuffer);
     stop_if(err < 0, "failed to set the first toYxy kernel argument.");
 
-    err = clSetKernelArg(clData->toYxyKernel, 1, sizeof(clData->dataBuffer),
-        &clData->dataBuffer);
-    stop_if(err < 0, "failed to set the second toYxy kernel argument.");
-
     err = clEnqueueNDRangeKernel(clData->queue, clData->toYxyKernel, workDims,
             offset, workSize, NULL, 0, NULL, NULL);
     stop_if(err < 0, "failed to enqueue the toYxy kernel for execution.");
@@ -134,26 +130,18 @@ void Tonemapper::runToYxy(int workDims, size_t *offset, size_t *workSize) {
 
 void Tonemapper::runLogAverage(int width, int height, float key) {
     int err;
-    size_t offset[] = {0, 0};
-    size_t lineWorkSize[] = {1, (size_t) height};
-    size_t finalWorkSize[] = {1, 1};
+    size_t offset[] = {0};
+    size_t lineWorkSize[] = {(size_t) height};
+    size_t finalWorkSize[] = {1};
 
     err = clSetKernelArg(clData->lineLogAverageKernel, 0,
             sizeof(clData->dataBuffer), &clData->dataBuffer);
     stop_if(err < 0, "failed to set the first lineLogAverage kernel argument.");
 
-    err = clSetKernelArg(clData->lineLogAverageKernel, 1,
-            sizeof(clData->dataBuffer), &clData->dataBuffer);
+    err = clSetKernelArg(clData->lineLogAverageKernel, 1, sizeof(width), &width);
     stop_if(err < 0, "failed to set the second lineLogAverage kernel argument.");
 
-    err = clSetKernelArg(clData->lineLogAverageKernel, 2,
-            sizeof(clData->dataBuffer), &clData->dataBuffer);
-    stop_if(err < 0, "failed to set the third lineLogAverage kernel argument.");
-
-    err = clSetKernelArg(clData->lineLogAverageKernel, 3, sizeof(width), &width);
-    stop_if(err < 0, "failed to set the fourth lineLogAverage kernel argument.");
-
-    err = clEnqueueNDRangeKernel(clData->queue, clData->lineLogAverageKernel, 2,
+    err = clEnqueueNDRangeKernel(clData->queue, clData->lineLogAverageKernel, 1,
             offset, lineWorkSize, NULL, 0, NULL, NULL);
     stop_if(err < 0, "failed to enqueue the lineLogAverage kernel for execution.");
 
@@ -161,24 +149,16 @@ void Tonemapper::runLogAverage(int width, int height, float key) {
             &clData->dataBuffer);
     stop_if(err < 0, "failed to set the first logAverage kernel argument.");
 
-    err = clSetKernelArg(clData->logAverageKernel, 1, sizeof(clData->dataBuffer),
-            &clData->dataBuffer);
+    err = clSetKernelArg(clData->logAverageKernel, 1, sizeof(width), &width);
     stop_if(err < 0, "failed to set the second logAverage kernel argument.");
 
-    err = clSetKernelArg(clData->logAverageKernel, 2, sizeof(clData->dataBuffer),
-            &clData->dataBuffer);
+    err = clSetKernelArg(clData->logAverageKernel, 2, sizeof(height), &height);
     stop_if(err < 0, "failed to set the third logAverage kernel argument.");
 
-    err = clSetKernelArg(clData->logAverageKernel, 3, sizeof(width), &width);
+    err = clSetKernelArg(clData->logAverageKernel, 3, sizeof(key), &key);
     stop_if(err < 0, "failed to set the fourth logAverage kernel argument.");
 
-    err = clSetKernelArg(clData->logAverageKernel, 4, sizeof(height), &height);
-    stop_if(err < 0, "failed to set the fifth logAverage kernel argument.");
-
-    err = clSetKernelArg(clData->logAverageKernel, 5, sizeof(key), &key);
-    stop_if(err < 0, "failed to set the sixth logAverage kernel argument.");
-
-    err = clEnqueueNDRangeKernel(clData->queue, clData->logAverageKernel, 2,
+    err = clEnqueueNDRangeKernel(clData->queue, clData->logAverageKernel, 1,
             offset, finalWorkSize, NULL, 0, NULL, NULL);
     stop_if(err < 0, "failed to enqueue the logAverage kernel for execution.");
 }
@@ -189,14 +169,6 @@ void Tonemapper::runTonemap(int workDims, size_t *offset, size_t *workSize) {
     err = clSetKernelArg(clData->tonemapKernel, 0, sizeof(clData->dataBuffer),
             &clData->dataBuffer);
     stop_if(err < 0, "failed to set the first tonemap kernel argument.");
-
-    err = clSetKernelArg(clData->tonemapKernel, 1, sizeof(clData->dataBuffer),
-            &clData->dataBuffer);
-    stop_if(err < 0, "failed to set the second tonemap kernel argument.");
-
-    err = clSetKernelArg(clData->tonemapKernel, 2, sizeof(clData->dataBuffer),
-            &clData->dataBuffer);
-    stop_if(err < 0, "failed to set the third tonemap kernel argument.");
 
     err = clEnqueueNDRangeKernel(clData->queue, clData->tonemapKernel,
             workDims, offset, workSize, NULL, 0, NULL, NULL);
@@ -209,10 +181,6 @@ void Tonemapper::runToRgb(int workDims, size_t *offset, size_t *workSize) {
     err = clSetKernelArg(clData->toRgbKernel, 0, sizeof(clData->dataBuffer),
         &clData->dataBuffer);
     stop_if(err < 0, "failed to set the first toRgb kernel argument.");
-
-    err = clSetKernelArg(clData->toRgbKernel, 1, sizeof(clData->dataBuffer),
-        &clData->dataBuffer);
-    stop_if(err < 0, "failed to set the second toRgb kernel argument.");
 
     err = clEnqueueNDRangeKernel(clData->queue, clData->toRgbKernel, workDims,
             offset, workSize, NULL, 0, NULL, NULL);
@@ -264,14 +232,14 @@ void Tonemapper::tonemap(int width, int height, float key, float power,
             dataBufferSize, NULL, &err);
     stop_if(err < 0, "failed to create the data buffer.");
 
-    size_t offset[] = { 0, 0 };
-    size_t workSize[] = { (size_t) width, (size_t) height };
-    runToFloat(2, offset, workSize);
-    runToYxy(2, offset, workSize);
+    size_t offset[] = { 0 };
+    size_t workSize[] = { (size_t) height * width };
+    runToFloat(1, offset, workSize);
+    runToYxy(1, offset, workSize);
     runLogAverage(width, height, key);
-    runTonemap(2, offset, workSize);
-    runToRgb(2, offset, workSize);
-    runToBitmap(2, offset, workSize, power);
+    runTonemap(1, offset, workSize);
+    runToRgb(1, offset, workSize);
+    runToBitmap(1, offset, workSize, power);
 
     err = clFinish(clData->queue);
     stop_if(err < 0, "failed to finish command queue.");

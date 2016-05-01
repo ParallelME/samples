@@ -12,19 +12,15 @@
 #include <memory>
 #include <vector>
 #include <jni.h>
-
-class Runtime;
-class Program;
-class Task;
-class Buffer;
+#include <parallelme/ParallelME.hpp>
 
 /**
  * Class responsible for the scheduled implementation of Eric Reinhard's
  * tonemapping algorithm.
  */
 class ScheduledTonemapper {
-    std::shared_ptr<Runtime> _runtime;
-    std::vector< std::shared_ptr<Program> > _programs;
+    std::shared_ptr<parallelme::Runtime> _runtime;
+    std::shared_ptr<parallelme::Program> _program;
     JavaVM *_jvm;
 
 public:
