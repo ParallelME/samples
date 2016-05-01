@@ -4,7 +4,6 @@
  *  |  __/ __ |  ___|/ __ |/ /_/ /__/ __/ /__  / / v  / /__
  *  |_| /_/ |_|_|\_\/_/ |_/____/___/___/____/ /_/  /_/____/
  *
- * Code created automatically by ParallelME compiler.
  */
 
 #pragma version(1)
