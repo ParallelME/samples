@@ -24,7 +24,7 @@ class ScheduledTonemapper {
     JavaVM *_jvm;
 
 public:
-    ScheduledTonemapper(JavaVM *jvm, jobject androidContext, jstring scriptcName);
+    ScheduledTonemapper(JavaVM *jvm);
     ~ScheduledTonemapper();
 
     /**

@@ -15,7 +15,7 @@ import org.parallelme.userlibrary.image.RGBE;
 public class ReinhardScheduledOperator implements ReinhardOperator {
     private long tonemapperPtr;
 
-    private native long init(Context ctx, String scriptc);
+    private native long init();
     private native void cleanUp(long tonemapperPtr);
     private native void nativeRunOp(long tonemapperPtr, int width, int height, byte[] data, float key, float power, Bitmap bitmap);
     private native void nativeWaitFinish(long tonemapperPtr);
@@ -33,8 +33,8 @@ public class ReinhardScheduledOperator implements ReinhardOperator {
         return tonemapperPtr != 0;
     }
 
-    ReinhardScheduledOperator(Context ctx) {
-        tonemapperPtr = init(ctx, "org/parallelme/samples/tonemapreinhard/ScriptC_tonemapper");
+    ReinhardScheduledOperator() {
+        tonemapperPtr = init();
     }
 
     protected void finalize() throws Throwable {

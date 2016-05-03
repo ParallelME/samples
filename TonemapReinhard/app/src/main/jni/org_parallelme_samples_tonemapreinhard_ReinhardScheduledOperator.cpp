@@ -21,9 +21,9 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *jvm, void *reserved) {
 }
 
 JNIEXPORT jlong JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardScheduledOperator_init
-        (JNIEnv *env, jobject a, jobject ctx, jstring scriptcName) {
+        (JNIEnv *env, jobject a) {
     try {
-        auto tonemapper = new ScheduledTonemapper(gJvm, ctx, scriptcName);
+        auto tonemapper = new ScheduledTonemapper(gJvm);
         return reinterpret_cast<jlong>(tonemapper);
     }
     catch(std::runtime_error &e) {

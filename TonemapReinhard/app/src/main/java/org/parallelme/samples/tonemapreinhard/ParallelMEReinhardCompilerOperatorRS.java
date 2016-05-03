@@ -26,6 +26,10 @@ public class ParallelMEReinhardCompilerOperatorRS implements ParallelMEReinhardC
         $kernel_ReinhardCompilerOperator = new ScriptC_ReinhardCompilerOperator($mRS);
     }
 
+    public boolean valid() {
+        return true;
+    }
+
     public void createHDRImage(RGBE.ResourceData $imageResourceData) {
         Type $imageInDataType = new Type.Builder($mRS, Element.RGBA_8888($mRS))
                 .setX($imageResourceData.width)
@@ -91,42 +95,23 @@ public class ParallelMEReinhardCompilerOperatorRS implements ParallelMEReinhardC
         return $maxIterator2[0];
     }
 
-    public void setScaleFactorIterator3(float scaleFactor) {
-        $gScaleFactorIterator3_Allocation = Allocation.createSized($mRS, Element.F32($mRS), 1);
+    public void setScaleFactorIterator3(final float scaleFactor) {
         $kernel_ReinhardCompilerOperator.set_gScaleFactorIterator3(scaleFactor);
-        $kernel_ReinhardCompilerOperator.set_gOutputScaleFactorIterator3($gScaleFactorIterator3_Allocation);
     }
 
-    public void setLmax2Iterator3(float lmax2) {
-        $gLmax2Iterator3_Allocation = Allocation.createSized($mRS, Element.F32($mRS), 1);
+    public void setLmax2Iterator3(final float lmax2) {
         $kernel_ReinhardCompilerOperator.set_gLmax2Iterator3(lmax2);
-        $kernel_ReinhardCompilerOperator.set_gOutputLmax2Iterator3($gLmax2Iterator3_Allocation);
     }
 
     public void iterator3() {
-        $kernel_ReinhardCompilerOperator.set_gInputImageIterator3($imageOut);
-        $kernel_ReinhardCompilerOperator.set_gInputXSizeIterator3($imageOut.getType().getX());
-        $kernel_ReinhardCompilerOperator.set_gInputYSizeIterator3($imageOut.getType().getY());
-        $kernel_ReinhardCompilerOperator.invoke_iterator3();
-    }
-
-    public float getScaleFactorIterator3() {
-        float[] $scaleFactorIterator3 = new float[1];
-        $gScaleFactorIterator3_Allocation.copyTo($scaleFactorIterator3);
-        return $scaleFactorIterator3[0];
-    }
-
-    public float getLmax2Iterator3() {
-        float[] $lmax2Iterator3 = new float[1];
-        $gLmax2Iterator3_Allocation.copyTo($lmax2Iterator3);
-        return $lmax2Iterator3[0];
+        $kernel_ReinhardCompilerOperator.forEach_iterator3($imageOut, $imageOut);
     }
 
     public void iterator4() {
         $kernel_ReinhardCompilerOperator.forEach_iterator4($imageOut, $imageOut);
     }
 
-    public void setPowerIterator5(float power) {
+    public void setPowerIterator5(final float power) {
         $kernel_ReinhardCompilerOperator.set_gPowerIterator5(power);
     }
 

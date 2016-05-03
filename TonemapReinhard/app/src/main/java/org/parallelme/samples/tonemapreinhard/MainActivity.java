@@ -50,6 +50,8 @@ public class MainActivity extends Activity {
     private int mReinhardCollectionOperatorID;
     private ReinhardCompilerOperator mReinhardCompilerOperator;
     private int mReinhardCompilerOperatorID;
+    private ReinhardCompilerOperatorRS mReinhardCompilerOperatorRS;
+    private int mReinhardCompilerOperatorRSID;
     private ReinhardRenderScriptOperator mReinhardRenderScriptOperator;
     private int mReinhardRenderScriptOperatorID;
     private ReinhardOpenCLOperatorCPU mReinhardOpenCLOperatorCPU;
@@ -167,6 +169,8 @@ public class MainActivity extends Activity {
             new ReinhardOperatorTask().execute(mReinhardCollectionOperator);
         else if(mRunWithSpinner.getSelectedItemPosition() == mReinhardCompilerOperatorID)
             new ReinhardOperatorTask().execute(mReinhardCompilerOperator);
+        else if(mRunWithSpinner.getSelectedItemPosition() == mReinhardCompilerOperatorRSID)
+            new ReinhardOperatorTask().execute(mReinhardCompilerOperatorRS);
         else if(mRunWithSpinner.getSelectedItemPosition() == mReinhardRenderScriptOperatorID)
             new ReinhardOperatorTask().execute(mReinhardRenderScriptOperator);
         else if(mRunWithSpinner.getSelectedItemPosition() == mReinhardOpenCLOperatorCPUID)
@@ -200,10 +204,11 @@ public class MainActivity extends Activity {
         mReinhardJavaOperator = new ReinhardJavaOperator();
         mReinhardCollectionOperator = new ReinhardCollectionOperator();
         mReinhardCompilerOperator = new ReinhardCompilerOperator(mRS);
+        mReinhardCompilerOperatorRS = new ReinhardCompilerOperatorRS(mRS);
         mReinhardRenderScriptOperator = new ReinhardRenderScriptOperator(mRS);
         mReinhardOpenCLOperatorCPU = new ReinhardOpenCLOperatorCPU();
         mReinhardOpenCLOperatorGPU = new ReinhardOpenCLOperatorGPU();
-        mReinhardScheduledOperator = new ReinhardScheduledOperator(this);
+        mReinhardScheduledOperator = new ReinhardScheduledOperator();
 
         mImageSpinner = (Spinner) findViewById(R.id.spinner_image);
         ArrayAdapter<CharSequence> imageAdapter = ArrayAdapter.createFromResource(this,
@@ -221,7 +226,10 @@ public class MainActivity extends Activity {
         mReinhardCollectionOperatorID = id++;
         runWithOptions.add("Compiler");
         mReinhardCompilerOperatorID = id++;
+        runWithOptions.add("CompilerRS");
+        mReinhardCompilerOperatorRSID = id++;
         runWithOptions.add("RenderScript");
+        mReinhardRenderScriptOperatorID = id++;
         if(mReinhardOpenCLOperatorCPU.inited()) {
             runWithOptions.add("OpenCL CPU");
             mReinhardOpenCLOperatorCPUID = id++;

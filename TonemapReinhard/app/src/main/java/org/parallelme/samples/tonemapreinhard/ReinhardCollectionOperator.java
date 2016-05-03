@@ -93,14 +93,16 @@ public class ReinhardCollectionOperator implements ReinhardOperator {
     }
 
     private void tonemap() {
+        final float fScaleFactor = scaleFactor;
+        final float fLmax2 = lmax2;
         image.foreach(new ForeachFunction<Pixel>() {
             @Override
             public void function(Pixel pixel) {
                 // Scale to midtone.
-                pixel.rgba.red *= scaleFactor;
+                pixel.rgba.red *= fScaleFactor;
 
                 // Tonemap.
-                pixel.rgba.red *= (1.0f + pixel.rgba.red / lmax2) / (1.0f + pixel.rgba.red);
+                pixel.rgba.red *= (1.0f + pixel.rgba.red / fLmax2) / (1.0f + pixel.rgba.red);
             }
         });
     }

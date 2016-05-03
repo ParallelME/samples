@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import org.parallelme.userlibrary.image.RGBE;
 
 public interface ParallelMEReinhardCompilerOperator {
+    boolean valid();
     void createHDRImage(RGBE.ResourceData $imageResourceData);
     void toBitmap(Bitmap bitmap);
     int getHeight();
@@ -21,12 +22,10 @@ public interface ParallelMEReinhardCompilerOperator {
     void iterator2();
     float getSumIterator2();
     float getMaxIterator2();
-    void setScaleFactorIterator3(float scaleFactor);
-    void setLmax2Iterator3(float lmax2);
+    void setScaleFactorIterator3(final float scaleFactor);
+    void setLmax2Iterator3(final float lmax2);
     void iterator3();
-    float getScaleFactorIterator3();
-    float getLmax2Iterator3();
     void iterator4();
-    void setPowerIterator5(float power);
+    void setPowerIterator5(final float power);
     void iterator5();
 }

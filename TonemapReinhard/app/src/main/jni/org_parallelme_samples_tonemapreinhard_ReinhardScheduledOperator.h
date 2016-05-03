@@ -10,10 +10,10 @@ extern "C" {
 /*
  * Class:     org_parallelme_samples_tonemapreinhard_ReinhardScheduledOperator
  * Method:    init
- * Signature: (Landroid/content/Context;Ljava/lang/String;)J
+ * Signature: ()J
  */
 JNIEXPORT jlong JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardScheduledOperator_init
-  (JNIEnv *, jobject, jobject, jstring);
+  (JNIEnv *, jobject);
 
 /*
  * Class:     org_parallelme_samples_tonemapreinhard_ReinhardScheduledOperator

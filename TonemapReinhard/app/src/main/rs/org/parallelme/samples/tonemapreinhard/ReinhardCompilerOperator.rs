@@ -77,29 +77,14 @@ void iterator2()
 	rsSetElementAt_float(gOutputSumIterator2, gSumIterator2, 0);
     rsSetElementAt_float(gOutputMaxIterator2, gMaxIterator2, 0);
 }
-rs_allocation gInputImageIterator3;
-rs_allocation gOutputScaleFactorIterator3;
-rs_allocation gOutputLmax2Iterator3;
-int gInputXSizeIterator3;
-int gInputYSizeIterator3;
 float gScaleFactorIterator3;
 float gLmax2Iterator3;
 
-void iterator3() 
- {
-	float4 pixel;
-	for (int x = 0; x < gInputXSizeIterator3; x++) {
-		for (int y = 0; y < gInputYSizeIterator3; y++) {
-			pixel = rsGetElementAt_float4(gInputImageIterator3, x, y);
-			pixel.s0 *= gScaleFactorIterator3;
+float4 __attribute__((kernel)) iterator3(float4 pixel, uint32_t x, uint32_t y) {
+    pixel.s0 *= gScaleFactorIterator3;
 
-			                
-            pixel.s0 *= (1.0f + pixel.s0 / gLmax2Iterator3) / (1.0f + pixel.s0);
-			rsSetElementAt_float4(gInputImageIterator3, pixel, x, y);
-		}
-	}
-	rsSetElementAt_float(gOutputScaleFactorIterator3, gScaleFactorIterator3, 0);
-    rsSetElementAt_float(gOutputLmax2Iterator3, gLmax2Iterator3, 0);
+    pixel.s0 *= (1.0f + pixel.s0 / gLmax2Iterator3) / (1.0f + pixel.s0);
+    return pixel;
 }
 
 float4 __attribute__((kernel)) iterator4(float4 pixel, uint32_t x, uint32_t y) {

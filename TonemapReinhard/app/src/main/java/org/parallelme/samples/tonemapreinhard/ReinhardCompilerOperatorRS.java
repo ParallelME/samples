@@ -9,16 +9,15 @@
 package org.parallelme.samples.tonemapreinhard;
 
 import android.graphics.Bitmap;
-import android.support.v8.renderscript.*;
+import android.support.v8.renderscript.RenderScript;
+
 import org.parallelme.userlibrary.image.RGBE;
 
-public class ReinhardCompilerOperator implements ReinhardOperator {
+public class ReinhardCompilerOperatorRS implements ReinhardOperator {
     ParallelMEReinhardCompilerOperator $mParallelMEReinhardCompilerOperator;
 
- 	public ReinhardCompilerOperator(RenderScript $mRS) {
-        $mParallelMEReinhardCompilerOperator = new ParallelMEReinhardCompilerOperatorCL();
-        if(!$mParallelMEReinhardCompilerOperator.valid())
-            $mParallelMEReinhardCompilerOperator = new ParallelMEReinhardCompilerOperatorRS($mRS);
+ 	public ReinhardCompilerOperatorRS(RenderScript $mRS) {
+        $mParallelMEReinhardCompilerOperator = new ParallelMEReinhardCompilerOperatorRS($mRS);
 	}
 
     private float sum;

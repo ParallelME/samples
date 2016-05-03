@@ -13,9 +13,7 @@
 #include "kernels.h"
 using namespace parallelme;
 
-ScheduledTonemapper::ScheduledTonemapper(JavaVM *jvm, jobject androidContext,
-        jstring scriptcName)
-        : _jvm(jvm) {
+ScheduledTonemapper::ScheduledTonemapper(JavaVM *jvm) : _jvm(jvm) {
     _runtime = std::make_shared<Runtime>(_jvm);
     _program = std::make_shared<Program>(_runtime, tonemapSource,
             "-Werror -cl-strict-aliasing -cl-mad-enable -cl-no-signed-zeros "
@@ -25,14 +23,14 @@ ScheduledTonemapper::ScheduledTonemapper(JavaVM *jvm, jobject androidContext,
 ScheduledTonemapper::~ScheduledTonemapper() = default;
 
 void ScheduledTonemapper::tonemap(int width, int height, float key, float power,
-        JNIEnv *mainEnv, jbyteArray imageDataArray, jobject bitmap) {
+        JNIEnv *env, jbyteArray imageDataArray, jobject bitmap) {
     size_t workSize = width * height;
     size_t imageSize = workSize * 4; // RGBA.
 
     // Get references to the imageDataArray and bitmap.
-    auto inputArray = reinterpret_cast<jbyteArray>(mainEnv->NewGlobalRef(imageDataArray));
-    auto outputBitmap = mainEnv->NewGlobalRef(bitmap);
+    auto outputBitmap = env->NewGlobalRef(bitmap);
     auto imageBuffer = std::make_shared<Buffer>(imageSize);
+    imageBuffer->copyFromJNI(env, imageDataArray);
     auto dataBuffer = std::make_shared<Buffer>(imageSize * sizeof(float));
 
     auto task = std::make_unique<Task>(_program);
@@ -45,10 +43,6 @@ void ScheduledTonemapper::tonemap(int width, int height, float key, float power,
         ->addKernel("to_bitmap");
 
     task->setConfigFunction([=] (DevicePtr &device, KernelHash &kernelHash) {
-        imageBuffer->copyFrom(device, inputArray);
-        device->JNIEnv()->DeleteGlobalRef(inputArray);
-
-
         kernelHash["to_float"]
             ->setArg(0, imageBuffer)
             ->setArg(1, dataBuffer)
@@ -86,7 +80,7 @@ void ScheduledTonemapper::tonemap(int width, int height, float key, float power,
     });
 
     task->setFinishFunction([=] (DevicePtr &device, KernelHash &kernelHash) {
-        imageBuffer->copyTo(device->JNIEnv(), outputBitmap);
+        imageBuffer->copyToJNI(device->JNIEnv(), outputBitmap);
         device->JNIEnv()->DeleteGlobalRef(outputBitmap);
     });
 
