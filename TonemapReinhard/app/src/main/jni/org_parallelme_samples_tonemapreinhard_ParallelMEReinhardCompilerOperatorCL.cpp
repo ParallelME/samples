@@ -1,3 +1,11 @@
+/**                                               _    __ ____
+ *   _ __  ___ _____   ___   __  __   ___ __     / |  / /  __/
+ *  |  _ \/ _ |  _  | / _ | / / / /  / __/ /    /  | / / /__
+ *  |  __/ __ |  ___|/ __ |/ /_/ /__/ __/ /__  / / v  / /__
+ *  |_| /_/ |_|_|\_\/_/ |_/____/___/___/____/ /_/  /_/____/
+ *
+ */
+
 #include "org_parallelme_samples_tonemapreinhard_ParallelMEReinhardCompilerOperatorCL.h"
 #include <memory>
 #include <stdexcept>
@@ -294,7 +302,7 @@ Java_org_parallelme_samples_tonemapreinhard_ParallelMEReinhardCompilerOperatorCL
     (JNIEnv *env, jobject self, jlong lPtr) {
     auto ptr = (ParallelMEReinhardCompilerOperator *) lPtr;
 
-    auto task = std::make_unique<Task>(ptr->program, Task::Score(0.1f, 100.0f));
+    auto task = std::make_unique<Task>(ptr->program, Task::Score(1.0f, 2.0f));
     task->addKernel("iterator2");
     task->setConfigFunction([=](DevicePtr &device, KernelHash &kernelHash) {
         kernelHash["iterator2"]

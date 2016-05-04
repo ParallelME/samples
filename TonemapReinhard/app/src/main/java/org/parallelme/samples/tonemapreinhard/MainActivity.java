@@ -30,6 +30,11 @@ import java.util.Vector;
 
 import org.parallelme.userlibrary.image.RGBE;
 
+/**
+ * Main activity of the tonemap application.
+ *
+ * @author Renato Utsch
+ */
 public class MainActivity extends Activity {
     private SeekBar mKeyValueSeekBar;
     private SeekBar mGammaCorrectionSeekBar;

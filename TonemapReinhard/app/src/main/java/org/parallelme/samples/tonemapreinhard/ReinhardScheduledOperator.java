@@ -12,6 +12,11 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import org.parallelme.userlibrary.image.RGBE;
 
+/**
+ * Implementation of the Tonemap Reinhard algorithm directly using the ParallelME Runtime.
+ *
+ * @author Renato Utsch
+ */
 public class ReinhardScheduledOperator implements ReinhardOperator {
     private long tonemapperPtr;
 

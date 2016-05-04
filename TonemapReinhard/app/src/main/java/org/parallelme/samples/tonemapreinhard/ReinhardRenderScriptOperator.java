@@ -12,6 +12,11 @@ import android.support.v8.renderscript.*;
 import android.graphics.Bitmap;
 import org.parallelme.userlibrary.image.RGBE;
 
+/**
+ * RenderScript implementation of the Tonemap Reinhard algorithm.
+ *
+ * @author Renato Utsch
+ */
 public class ReinhardRenderScriptOperator implements ReinhardOperator {
     RenderScript mRS;
     Allocation mDataAllocation;

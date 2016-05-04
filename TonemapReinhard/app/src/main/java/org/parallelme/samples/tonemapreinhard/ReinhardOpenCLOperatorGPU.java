@@ -3,6 +3,11 @@ package org.parallelme.samples.tonemapreinhard;
 import android.graphics.Bitmap;
 import org.parallelme.userlibrary.image.RGBE;
 
+/**
+ * OpenCL GPU implementation of the Tonemap Reinhard algorithm.
+ *
+ * @author Renato Utsch
+ */
 public class ReinhardOpenCLOperatorGPU implements ReinhardOperator {
     /// Stores a pointer to the OpenCL tonemapping state.
     private long tonemapperPtr;

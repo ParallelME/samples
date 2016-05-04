@@ -17,6 +17,8 @@
 /**
  * Class responsible for the scheduled implementation of Eric Reinhard's
  * tonemapping algorithm.
+ *
+ * @author Renato Utsch
  */
 class ScheduledTonemapper {
     std::shared_ptr<parallelme::Runtime> _runtime;

@@ -15,6 +15,11 @@ import org.parallelme.userlibrary.image.HDRImage;
 import org.parallelme.userlibrary.image.Pixel;
 import org.parallelme.userlibrary.image.RGBE;
 
+/**
+ * Implementation of the Tonemap Reinhard algorithm using the ParallelME user library.
+ *
+ * @author Pedro Caldeira, Renato Utsch
+ */
 public class ReinhardCollectionOperator implements ReinhardOperator {
     private HDRImage image;
     private float sum;

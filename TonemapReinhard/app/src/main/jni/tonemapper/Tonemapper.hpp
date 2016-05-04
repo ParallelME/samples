@@ -12,7 +12,10 @@
 #include <cstdlib>
 
 /**
- * Class responsible for running Eric Reinhard's tonemapping algorithm.
+ * Class responsible for running Eric Reinhard's tonemapping algorithm using
+ * hard-coded OpenCL.
+ *
+ * @author Renato Utsch
  */
 class Tonemapper {
     struct CLData;

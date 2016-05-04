@@ -12,6 +12,11 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import org.parallelme.userlibrary.image.RGBE;
 
+/**
+ * Single threaded Java implementation of the Tonemap Reinhard algorithm.
+ *
+ * @author Renato Utsch
+ */
 public class ReinhardJavaOperator implements ReinhardOperator {
     public float[][][] data;
     public int width, height;
