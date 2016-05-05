@@ -16,10 +16,6 @@ public class ParallelMEReinhardCompilerOperatorRS implements ParallelMEReinhardC
     private RenderScript $mRS;
     private ScriptC_ReinhardCompilerOperator $kernel_ReinhardCompilerOperator;
     private Allocation $imageIn, $imageOut;
-    private Allocation $gSumIterator2_Allocation;
-    private Allocation $gMaxIterator2_Allocation;
-    private Allocation $gScaleFactorIterator3_Allocation;
-    private Allocation $gLmax2Iterator3_Allocation;
 
     public ParallelMEReinhardCompilerOperatorRS(RenderScript $rs) {
         $mRS = $rs;
@@ -64,46 +60,27 @@ public class ParallelMEReinhardCompilerOperatorRS implements ParallelMEReinhardC
         $kernel_ReinhardCompilerOperator.forEach_iterator1($imageOut, $imageOut);
     }
 
-    public void setSumIterator2(float sum) {
-        $gSumIterator2_Allocation = Allocation.createSized($mRS, Element.F32($mRS), 1);
+    public void iterator2(float sum, float[] $sumIterator2, float max, float[] $maxIterator2) {
+        Allocation $gSumIterator2_Allocation = Allocation.createSized($mRS, Element.F32($mRS), 1);
         $kernel_ReinhardCompilerOperator.set_gSumIterator2(sum);
         $kernel_ReinhardCompilerOperator.set_gOutputSumIterator2($gSumIterator2_Allocation);
-    }
 
-    public void setMaxIterator2(float max) {
-        $gMaxIterator2_Allocation = Allocation.createSized($mRS, Element.F32($mRS), 1);
+        Allocation $gMaxIterator2_Allocation = Allocation.createSized($mRS, Element.F32($mRS), 1);
         $kernel_ReinhardCompilerOperator.set_gMaxIterator2(max);
         $kernel_ReinhardCompilerOperator.set_gOutputMaxIterator2($gMaxIterator2_Allocation);
-    }
 
-    public void iterator2() {
         $kernel_ReinhardCompilerOperator.set_gInputImageIterator2($imageOut);
         $kernel_ReinhardCompilerOperator.set_gInputXSizeIterator2($imageOut.getType().getX());
         $kernel_ReinhardCompilerOperator.set_gInputYSizeIterator2($imageOut.getType().getY());
         $kernel_ReinhardCompilerOperator.invoke_iterator2();
-    }
 
-    public float getSumIterator2() {
-        float[] $sumIterator2 = new float[1];
         $gSumIterator2_Allocation.copyTo($sumIterator2);
-        return $sumIterator2[0];
-    }
-
-    public float getMaxIterator2() {
-        float[] $maxIterator2 = new float[1];
         $gMaxIterator2_Allocation.copyTo($maxIterator2);
-        return $maxIterator2[0];
     }
 
-    public void setScaleFactorIterator3(final float scaleFactor) {
+    public void iterator3(final float scaleFactor, final float lmax2) {
         $kernel_ReinhardCompilerOperator.set_gScaleFactorIterator3(scaleFactor);
-    }
-
-    public void setLmax2Iterator3(final float lmax2) {
         $kernel_ReinhardCompilerOperator.set_gLmax2Iterator3(lmax2);
-    }
-
-    public void iterator3() {
         $kernel_ReinhardCompilerOperator.forEach_iterator3($imageOut, $imageOut);
     }
 
@@ -111,11 +88,8 @@ public class ParallelMEReinhardCompilerOperatorRS implements ParallelMEReinhardC
         $kernel_ReinhardCompilerOperator.forEach_iterator4($imageOut, $imageOut);
     }
 
-    public void setPowerIterator5(final float power) {
+    public void iterator5(final float power) {
         $kernel_ReinhardCompilerOperator.set_gPowerIterator5(power);
-    }
-
-    public void iterator5() {
         $kernel_ReinhardCompilerOperator.forEach_iterator5($imageOut, $imageOut);
     }
 }

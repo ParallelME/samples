@@ -167,13 +167,6 @@ struct ParallelMEReinhardCompilerOperator {
     jint width;
     jint height;
     jint workSize;
-    jfloat sum;
-    std::shared_ptr<Buffer> sumBuffer;
-    jfloat max;
-    std::shared_ptr<Buffer> maxBuffer;
-    jfloat scaleFactor;
-    jfloat lmax2;
-    jfloat power;
 };
 
 JNIEXPORT jlong JNICALL
@@ -282,78 +275,36 @@ Java_org_parallelme_samples_tonemapreinhard_ParallelMEReinhardCompilerOperatorCL
 }
 
 JNIEXPORT void JNICALL
-Java_org_parallelme_samples_tonemapreinhard_ParallelMEReinhardCompilerOperatorCL_nativeSetSumIterator2
-        (JNIEnv *env, jobject self, jlong lPtr, jfloat sum) {
-    auto ptr = (ParallelMEReinhardCompilerOperator *) lPtr;
-    ptr->sum = sum;
-    ptr->sumBuffer = std::make_shared<Buffer>(sizeof(sum));
-}
-
-JNIEXPORT void JNICALL
-Java_org_parallelme_samples_tonemapreinhard_ParallelMEReinhardCompilerOperatorCL_nativeSetMaxIterator2
-        (JNIEnv *env, jobject self, jlong lPtr, jfloat max) {
-    auto ptr = (ParallelMEReinhardCompilerOperator *) lPtr;
-    ptr->max = max;
-    ptr->maxBuffer = std::make_shared<Buffer>(sizeof(max));
-}
-
-JNIEXPORT void JNICALL
 Java_org_parallelme_samples_tonemapreinhard_ParallelMEReinhardCompilerOperatorCL_nativeIterator2
-    (JNIEnv *env, jobject self, jlong lPtr) {
+    (JNIEnv *env, jobject self, jlong lPtr, jfloat sum, jfloatArray outSum, jfloat max, jfloatArray outMax) {
     auto ptr = (ParallelMEReinhardCompilerOperator *) lPtr;
+
+    auto sumBuffer = std::make_shared<Buffer>(sizeof(sum));
+    auto maxBuffer = std::make_shared<Buffer>(sizeof(max));
 
     auto task = std::make_unique<Task>(ptr->program, Task::Score(1.0f, 2.0f));
     task->addKernel("iterator2");
     task->setConfigFunction([=](DevicePtr &device, KernelHash &kernelHash) {
         kernelHash["iterator2"]
             ->setArg(0, ptr->imageOut)
-            ->setArg(1, ptr->sum)
-            ->setArg(2, ptr->sumBuffer)
-            ->setArg(3, ptr->max)
-            ->setArg(4, ptr->maxBuffer)
+            ->setArg(1, sum)
+            ->setArg(2, sumBuffer)
+            ->setArg(3, max)
+            ->setArg(4, maxBuffer)
             ->setArg(5, ptr->width)
             ->setArg(6, ptr->height)
             ->setWorkSize(1);
     });
     ptr->runtime->submitTask(std::move(task));
     ptr->runtime->finish();
-}
 
-JNIEXPORT jfloat JNICALL
-Java_org_parallelme_samples_tonemapreinhard_ParallelMEReinhardCompilerOperatorCL_nativeGetSumIterator2
-        (JNIEnv *env, jobject self, jlong lPtr) {
-    auto ptr = (ParallelMEReinhardCompilerOperator *) lPtr;
-    jfloat sum;
-    ptr->sumBuffer->copyTo(&sum);
-    return sum;
-}
-
-JNIEXPORT jfloat JNICALL
-Java_org_parallelme_samples_tonemapreinhard_ParallelMEReinhardCompilerOperatorCL_nativeGetMaxIterator2
-        (JNIEnv *env, jobject self, jlong lPtr) {
-    auto ptr = (ParallelMEReinhardCompilerOperator *) lPtr;
-    jfloat max;
-    ptr->maxBuffer->copyTo(&max);
-    return max;
-}
-
-JNIEXPORT void JNICALL
-Java_org_parallelme_samples_tonemapreinhard_ParallelMEReinhardCompilerOperatorCL_nativeSetScaleFactorIterator3
-        (JNIEnv *env, jobject self, jlong lPtr, jfloat scaleFactor) {
-    auto ptr = (ParallelMEReinhardCompilerOperator *) lPtr;
-    ptr->scaleFactor = scaleFactor;
-}
-
-JNIEXPORT void JNICALL
-Java_org_parallelme_samples_tonemapreinhard_ParallelMEReinhardCompilerOperatorCL_nativeSetLmax2Iterator3
-        (JNIEnv *env, jobject self, jlong lPtr, jfloat lmax2) {
-    auto ptr = (ParallelMEReinhardCompilerOperator *) lPtr;
-    ptr->lmax2 = lmax2;
+    sumBuffer->copyToJNI(env, outSum);
+    maxBuffer->copyToJNI(env, outMax);
 }
 
 JNIEXPORT void JNICALL
 Java_org_parallelme_samples_tonemapreinhard_ParallelMEReinhardCompilerOperatorCL_nativeIterator3
-        (JNIEnv *env, jobject self, jlong lPtr) {
+        (JNIEnv *env, jobject self, jlong lPtr, jfloat scaleFactor, jfloat lmax2) {
     auto ptr = (ParallelMEReinhardCompilerOperator *) lPtr;
 
     auto task = std::make_unique<Task>(ptr->program);
@@ -361,8 +312,8 @@ Java_org_parallelme_samples_tonemapreinhard_ParallelMEReinhardCompilerOperatorCL
     task->setConfigFunction([=](DevicePtr &device, KernelHash &kernelHash) {
         kernelHash["iterator3"]
             ->setArg(0, ptr->imageOut)
-            ->setArg(1, ptr->scaleFactor)
-            ->setArg(2, ptr->lmax2)
+            ->setArg(1, scaleFactor)
+            ->setArg(2, lmax2)
             ->setWorkSize(ptr->workSize);
     });
     ptr->runtime->submitTask(std::move(task));
@@ -386,15 +337,8 @@ Java_org_parallelme_samples_tonemapreinhard_ParallelMEReinhardCompilerOperatorCL
 }
 
 JNIEXPORT void JNICALL
-Java_org_parallelme_samples_tonemapreinhard_ParallelMEReinhardCompilerOperatorCL_nativeSetPowerIterator5
-        (JNIEnv *env, jobject self, jlong lPtr, jfloat power) {
-    auto ptr = (ParallelMEReinhardCompilerOperator *) lPtr;
-    ptr->power = power;
-}
-
-JNIEXPORT void JNICALL
 Java_org_parallelme_samples_tonemapreinhard_ParallelMEReinhardCompilerOperatorCL_nativeIterator5
-        (JNIEnv *env, jobject self, jlong lPtr) {
+        (JNIEnv *env, jobject self, jlong lPtr, jfloat power) {
     auto ptr = (ParallelMEReinhardCompilerOperator *) lPtr;
 
     auto task = std::make_unique<Task>(ptr->program);
@@ -402,7 +346,7 @@ Java_org_parallelme_samples_tonemapreinhard_ParallelMEReinhardCompilerOperatorCL
     task->setConfigFunction([=](DevicePtr &device, KernelHash &kernelHash) {
         kernelHash["iterator5"]
             ->setArg(0, ptr->imageOut)
-            ->setArg(1, ptr->power)
+            ->setArg(1, power)
             ->setWorkSize(ptr->workSize);
     });
     ptr->runtime->submitTask(std::move(task));

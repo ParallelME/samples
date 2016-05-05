@@ -65,67 +65,19 @@ JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ParallelMERei
 
 /*
  * Class:     org_parallelme_samples_tonemapreinhard_ParallelMEReinhardCompilerOperatorCL
- * Method:    nativeSetSumIterator2
- * Signature: (JF)V
- */
-JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ParallelMEReinhardCompilerOperatorCL_nativeSetSumIterator2
-  (JNIEnv *, jobject, jlong, jfloat);
-
-/*
- * Class:     org_parallelme_samples_tonemapreinhard_ParallelMEReinhardCompilerOperatorCL
- * Method:    nativeSetMaxIterator2
- * Signature: (JF)V
- */
-JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ParallelMEReinhardCompilerOperatorCL_nativeSetMaxIterator2
-  (JNIEnv *, jobject, jlong, jfloat);
-
-/*
- * Class:     org_parallelme_samples_tonemapreinhard_ParallelMEReinhardCompilerOperatorCL
  * Method:    nativeIterator2
- * Signature: (J)V
+ * Signature: (JF[FF[F)V
  */
 JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ParallelMEReinhardCompilerOperatorCL_nativeIterator2
-  (JNIEnv *, jobject, jlong);
-
-/*
- * Class:     org_parallelme_samples_tonemapreinhard_ParallelMEReinhardCompilerOperatorCL
- * Method:    nativeGetSumIterator2
- * Signature: (J)F
- */
-JNIEXPORT jfloat JNICALL Java_org_parallelme_samples_tonemapreinhard_ParallelMEReinhardCompilerOperatorCL_nativeGetSumIterator2
-  (JNIEnv *, jobject, jlong);
-
-/*
- * Class:     org_parallelme_samples_tonemapreinhard_ParallelMEReinhardCompilerOperatorCL
- * Method:    nativeGetMaxIterator2
- * Signature: (J)F
- */
-JNIEXPORT jfloat JNICALL Java_org_parallelme_samples_tonemapreinhard_ParallelMEReinhardCompilerOperatorCL_nativeGetMaxIterator2
-  (JNIEnv *, jobject, jlong);
-
-/*
- * Class:     org_parallelme_samples_tonemapreinhard_ParallelMEReinhardCompilerOperatorCL
- * Method:    nativeSetScaleFactorIterator3
- * Signature: (JF)V
- */
-JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ParallelMEReinhardCompilerOperatorCL_nativeSetScaleFactorIterator3
-  (JNIEnv *, jobject, jlong, jfloat);
-
-/*
- * Class:     org_parallelme_samples_tonemapreinhard_ParallelMEReinhardCompilerOperatorCL
- * Method:    nativeSetLmax2Iterator3
- * Signature: (JF)V
- */
-JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ParallelMEReinhardCompilerOperatorCL_nativeSetLmax2Iterator3
-  (JNIEnv *, jobject, jlong, jfloat);
+  (JNIEnv *, jobject, jlong, jfloat, jfloatArray, jfloat, jfloatArray);
 
 /*
  * Class:     org_parallelme_samples_tonemapreinhard_ParallelMEReinhardCompilerOperatorCL
  * Method:    nativeIterator3
- * Signature: (J)V
+ * Signature: (JFF)V
  */
 JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ParallelMEReinhardCompilerOperatorCL_nativeIterator3
-  (JNIEnv *, jobject, jlong);
+  (JNIEnv *, jobject, jlong, jfloat, jfloat);
 
 /*
  * Class:     org_parallelme_samples_tonemapreinhard_ParallelMEReinhardCompilerOperatorCL
@@ -137,19 +89,11 @@ JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ParallelMERei
 
 /*
  * Class:     org_parallelme_samples_tonemapreinhard_ParallelMEReinhardCompilerOperatorCL
- * Method:    nativeSetPowerIterator5
+ * Method:    nativeIterator5
  * Signature: (JF)V
  */
-JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ParallelMEReinhardCompilerOperatorCL_nativeSetPowerIterator5
-  (JNIEnv *, jobject, jlong, jfloat);
-
-/*
- * Class:     org_parallelme_samples_tonemapreinhard_ParallelMEReinhardCompilerOperatorCL
- * Method:    nativeIterator5
- * Signature: (J)V
- */
 JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ParallelMEReinhardCompilerOperatorCL_nativeIterator5
-  (JNIEnv *, jobject, jlong);
+  (JNIEnv *, jobject, jlong, jfloat);
 
 #ifdef __cplusplus
 }

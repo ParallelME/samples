@@ -13,17 +13,10 @@ public class ParallelMEReinhardCompilerOperatorCL implements ParallelMEReinhardC
     private native int nativeGetHeight(long ptr);
     private native int nativeGetWidth(long ptr);
     private native void nativeIterator1(long ptr);
-    private native void nativeSetSumIterator2(long ptr, float sum);
-    private native void nativeSetMaxIterator2(long ptr, float max);
-    private native void nativeIterator2(long ptr);
-    private native float nativeGetSumIterator2(long ptr);
-    private native float nativeGetMaxIterator2(long ptr);
-    private native void nativeSetScaleFactorIterator3(long ptr, final float scaleFactor);
-    private native void nativeSetLmax2Iterator3(long ptr, final float lmax2);
-    private native void nativeIterator3(long ptr);
+    private native void nativeIterator2(long ptr, float sum, float[] outSum, float max, float[] outMax);
+    private native void nativeIterator3(long ptr, final float scaleFactor, final float lmax2);
     private native void nativeIterator4(long ptr);
-    private native void nativeSetPowerIterator5(long ptr, final float power);
-    private native void nativeIterator5(long ptr);
+    private native void nativeIterator5(long ptr, final float power);
 
     public ParallelMEReinhardCompilerOperatorCL() {
         mPtr = nativeInit();
@@ -69,47 +62,19 @@ public class ParallelMEReinhardCompilerOperatorCL implements ParallelMEReinhardC
         nativeIterator1(mPtr);
     }
 
-    public void setSumIterator2(float sum) {
-        nativeSetSumIterator2(mPtr, sum);
+    public void iterator2(float sum, float[] outSum, float max, float[] outMax) {
+        nativeIterator2(mPtr, sum, outSum, max, outMax);
     }
 
-    public void setMaxIterator2(float max) {
-        nativeSetMaxIterator2(mPtr, max);
-    }
-
-    public void iterator2() {
-        nativeIterator2(mPtr);
-    }
-
-    public float getSumIterator2() {
-        return nativeGetSumIterator2(mPtr);
-    }
-
-    public float getMaxIterator2() {
-        return nativeGetMaxIterator2(mPtr);
-    }
-
-    public void setScaleFactorIterator3(final float scaleFactor) {
-        nativeSetScaleFactorIterator3(mPtr, scaleFactor);
-    }
-
-    public void setLmax2Iterator3(final float lmax2) {
-        nativeSetLmax2Iterator3(mPtr, lmax2);
-    }
-
-    public void iterator3() {
-        nativeIterator3(mPtr);
+    public void iterator3(final float scaleFactor, final float lmax2) {
+        nativeIterator3(mPtr, scaleFactor, lmax2);
     }
 
     public void iterator4() {
         nativeIterator4(mPtr);
     }
 
-    public void setPowerIterator5(final float power) {
-        nativeSetPowerIterator5(mPtr, power);
-    }
-
-    public void iterator5() {
-        nativeIterator5(mPtr);
+    public void iterator5(final float power) {
+        nativeIterator5(mPtr, power);
     }
 }

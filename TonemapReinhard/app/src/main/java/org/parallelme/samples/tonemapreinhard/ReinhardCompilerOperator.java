@@ -49,11 +49,11 @@ public class ReinhardCompilerOperator implements ReinhardOperator {
         sum = 0.0f;
         max = 0.0f;
 
-        $mParallelMEReinhardCompilerOperator.setSumIterator2(sum);
-        $mParallelMEReinhardCompilerOperator.setMaxIterator2(max);
-        $mParallelMEReinhardCompilerOperator.iterator2();
-        sum = $mParallelMEReinhardCompilerOperator.getSumIterator2();
-        max = $mParallelMEReinhardCompilerOperator.getMaxIterator2();
+        float[] $outSum = new float[1];
+        float[] $outMax = new float[1];
+        $mParallelMEReinhardCompilerOperator.iterator2(sum, $outSum, max, $outMax);
+        sum = $outSum[0];
+        max = $outMax[0];
 
         float average = (float) Math.exp(sum /(float)(
                 $mParallelMEReinhardCompilerOperator.getHeight()
@@ -66,9 +66,7 @@ public class ReinhardCompilerOperator implements ReinhardOperator {
     private void tonemap() {
         final float fScaleFactor = scaleFactor;
         final float fLmax2 = lmax2;
-        $mParallelMEReinhardCompilerOperator.setScaleFactorIterator3(fScaleFactor);
-        $mParallelMEReinhardCompilerOperator.setLmax2Iterator3(fLmax2);
-        $mParallelMEReinhardCompilerOperator.iterator3();
+        $mParallelMEReinhardCompilerOperator.iterator3(fScaleFactor, fLmax2);
     }
 
     private void toRgb(){
@@ -76,7 +74,6 @@ public class ReinhardCompilerOperator implements ReinhardOperator {
     }
 
     private void clamp(final float power) {
-        $mParallelMEReinhardCompilerOperator.setPowerIterator5(power);
-        $mParallelMEReinhardCompilerOperator.iterator5();
+        $mParallelMEReinhardCompilerOperator.iterator5(power);
     }
 }

@@ -9,16 +9,15 @@
 package org.parallelme.samples.tonemapreinhard;
 
 import android.graphics.Bitmap;
-import android.support.v8.renderscript.RenderScript;
-
+import android.support.v8.renderscript.*;
 import org.parallelme.userlibrary.image.RGBE;
 
 public class ReinhardCompilerOperatorRS implements ReinhardOperator {
     ParallelMEReinhardCompilerOperator $mParallelMEReinhardCompilerOperator;
 
- 	public ReinhardCompilerOperatorRS(RenderScript $mRS) {
+    public ReinhardCompilerOperatorRS(RenderScript $mRS) {
         $mParallelMEReinhardCompilerOperator = new ParallelMEReinhardCompilerOperatorRS($mRS);
-	}
+    }
 
     private float sum;
     private float max;
@@ -37,7 +36,7 @@ public class ReinhardCompilerOperatorRS implements ReinhardOperator {
     }
 
     public void waitFinish() {
-        
+
     }
 
     private void toYxy(){
@@ -48,11 +47,11 @@ public class ReinhardCompilerOperatorRS implements ReinhardOperator {
         sum = 0.0f;
         max = 0.0f;
 
-        $mParallelMEReinhardCompilerOperator.setSumIterator2(sum);
-        $mParallelMEReinhardCompilerOperator.setMaxIterator2(max);
-        $mParallelMEReinhardCompilerOperator.iterator2();
-        sum = $mParallelMEReinhardCompilerOperator.getSumIterator2();
-        max = $mParallelMEReinhardCompilerOperator.getMaxIterator2();
+        float[] $outSum = new float[1];
+        float[] $outMax = new float[1];
+        $mParallelMEReinhardCompilerOperator.iterator2(sum, $outSum, max, $outMax);
+        sum = $outSum[0];
+        max = $outMax[0];
 
         float average = (float) Math.exp(sum /(float)(
                 $mParallelMEReinhardCompilerOperator.getHeight()
@@ -65,9 +64,7 @@ public class ReinhardCompilerOperatorRS implements ReinhardOperator {
     private void tonemap() {
         final float fScaleFactor = scaleFactor;
         final float fLmax2 = lmax2;
-        $mParallelMEReinhardCompilerOperator.setScaleFactorIterator3(fScaleFactor);
-        $mParallelMEReinhardCompilerOperator.setLmax2Iterator3(fLmax2);
-        $mParallelMEReinhardCompilerOperator.iterator3();
+        $mParallelMEReinhardCompilerOperator.iterator3(fScaleFactor, fLmax2);
     }
 
     private void toRgb(){
@@ -75,7 +72,6 @@ public class ReinhardCompilerOperatorRS implements ReinhardOperator {
     }
 
     private void clamp(final float power) {
-        $mParallelMEReinhardCompilerOperator.setPowerIterator5(power);
-        $mParallelMEReinhardCompilerOperator.iterator5();
+        $mParallelMEReinhardCompilerOperator.iterator5(power);
     }
 }

@@ -17,15 +17,8 @@ public interface ParallelMEReinhardCompilerOperator {
     int getHeight();
     int getWidth();
     void iterator1();
-    void setSumIterator2(float sum);
-    void setMaxIterator2(float max);
-    void iterator2();
-    float getSumIterator2();
-    float getMaxIterator2();
-    void setScaleFactorIterator3(final float scaleFactor);
-    void setLmax2Iterator3(final float lmax2);
-    void iterator3();
+    void iterator2(float sum, float[] outSum, float max, float[] outMax);
+    void iterator3(final float scaleFactor, final float lmax2);
     void iterator4();
-    void setPowerIterator5(final float power);
-    void iterator5();
+    void iterator5(final float power);
 }
