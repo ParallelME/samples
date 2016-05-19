@@ -116,30 +116,30 @@ public class ReinhardCollectionOperator implements ReinhardOperator {
         image.foreach(new ForeachFunction<Pixel>() {
             @Override
             public void function(Pixel pixel) {
-                float x, y, z, g, b;
+                float _x, _y, _z, g, b;
 
-                y = pixel.rgba.red;     // Y
+                _y = pixel.rgba.red;    // Y
                 g = pixel.rgba.green;   // x
                 b = pixel.rgba.blue;    // y
 
-                if (y > 0.0f && g > 0.0f && b > 0.0f) {
-                    x = g * y / b;
-                    z = x / g - x - y;
+                if (_y > 0.0f && g > 0.0f && b > 0.0f) {
+                    _x = g * _y / b;
+                    _z = _x / g - _x - _y;
                 } else {
-                    x = z = 0.0f;
+                    _x = _z = 0.0f;
                 }
 
                 // These constants are the conversion coefficients.
                 pixel.rgba.red = pixel.rgba.green = pixel.rgba.blue = 0.0f;
-                pixel.rgba.red += 2.5651f * x;
-                pixel.rgba.red += -1.1665f * y;
-                pixel.rgba.red += -0.3986f * z;
-                pixel.rgba.green += -1.0217f * x;
-                pixel.rgba.green += 1.9777f * y;
-                pixel.rgba.green += 0.0439f * z;
-                pixel.rgba.blue += 0.0753f * x;
-                pixel.rgba.blue += -0.2543f * y;
-                pixel.rgba.blue += 1.1892f * z;
+                pixel.rgba.red += 2.5651f * _x;
+                pixel.rgba.red += -1.1665f * _y;
+                pixel.rgba.red += -0.3986f * _z;
+                pixel.rgba.green += -1.0217f * _x;
+                pixel.rgba.green += 1.9777f * _y;
+                pixel.rgba.green += 0.0439f * _z;
+                pixel.rgba.blue += 0.0753f * _x;
+                pixel.rgba.blue += -0.2543f * _y;
+                pixel.rgba.blue += 1.1892f * _z;
             }
         });
     }
