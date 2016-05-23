@@ -6,8 +6,8 @@
  *
  */
 
-#ifndef REINHARD_OPENCL_OPERATOR_H
-#define REINHARD_OPENCL_OPERATOR_H
+#ifndef REINHARD_OPENCL_OPERATOR_HPP
+#define REINHARD_OPENCL_OPERATOR_HPP
 
 #include <jni.h>
 
@@ -24,4 +24,4 @@ void reinhardCleanUp(jlong tonemapperPtr);
 void reinhardRunOp(JNIEnv *env, jlong tonemapperPtr, jint width, jint height,
         jbyteArray imageDataArray, jfloat key, jfloat gamma, jobject bitmap);
 
-#endif // !REINHARD_OPENCL_OPERATOR_H
+#endif // !REINHARD_OPENCL_OPERATOR_HPP

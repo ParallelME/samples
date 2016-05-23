@@ -6,7 +6,7 @@
  *
  */
 
-#include "ReinhardOpenCLOperator.h"
+#include "ReinhardOpenCLOperator.hpp"
 #include "tonemapper/Tonemapper.hpp"
 #include "error.h"
 
