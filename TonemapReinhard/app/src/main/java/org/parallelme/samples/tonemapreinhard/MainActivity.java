@@ -51,12 +51,12 @@ public class MainActivity extends Activity {
     private RenderScript mRS;
     private ReinhardJavaOperator mReinhardJavaOperator;
     private int mReinhardJavaOperatorID;
+    private ReinhardUserLibraryOperator mReinhardUserLibraryOperator;
+    private int mReinhardUserLibraryOperatorID;
     private ReinhardCollectionOperator mReinhardCollectionOperator;
     private int mReinhardCollectionOperatorID;
     private ReinhardCompilerOperator mReinhardCompilerOperator;
     private int mReinhardCompilerOperatorID;
-    private ReinhardCompilerOperatorRS mReinhardCompilerOperatorRS;
-    private int mReinhardCompilerOperatorRSID;
     private ReinhardRenderScriptOperator mReinhardRenderScriptOperator;
     private int mReinhardRenderScriptOperatorID;
     private ReinhardOpenCLOperatorCPU mReinhardOpenCLOperatorCPU;
@@ -170,12 +170,12 @@ public class MainActivity extends Activity {
         // Choose between the Reinhard Operator versions.
         if(mRunWithSpinner.getSelectedItemPosition() == mReinhardJavaOperatorID)
             new ReinhardOperatorTask().execute(mReinhardJavaOperator);
+        else if(mRunWithSpinner.getSelectedItemPosition() == mReinhardUserLibraryOperatorID)
+            new ReinhardOperatorTask().execute(mReinhardUserLibraryOperator);
         else if(mRunWithSpinner.getSelectedItemPosition() == mReinhardCollectionOperatorID)
             new ReinhardOperatorTask().execute(mReinhardCollectionOperator);
         else if(mRunWithSpinner.getSelectedItemPosition() == mReinhardCompilerOperatorID)
             new ReinhardOperatorTask().execute(mReinhardCompilerOperator);
-        else if(mRunWithSpinner.getSelectedItemPosition() == mReinhardCompilerOperatorRSID)
-            new ReinhardOperatorTask().execute(mReinhardCompilerOperatorRS);
         else if(mRunWithSpinner.getSelectedItemPosition() == mReinhardRenderScriptOperatorID)
             new ReinhardOperatorTask().execute(mReinhardRenderScriptOperator);
         else if(mRunWithSpinner.getSelectedItemPosition() == mReinhardOpenCLOperatorCPUID)
@@ -207,9 +207,8 @@ public class MainActivity extends Activity {
 
         mRS = RenderScript.create(this);
         mReinhardJavaOperator = new ReinhardJavaOperator();
-        mReinhardCollectionOperator = new ReinhardCollectionOperator();
+        mReinhardCollectionOperator = new ReinhardCollectionOperator(mRS);
         mReinhardCompilerOperator = new ReinhardCompilerOperator(mRS);
-        mReinhardCompilerOperatorRS = new ReinhardCompilerOperatorRS(mRS);
         mReinhardRenderScriptOperator = new ReinhardRenderScriptOperator(mRS);
         mReinhardOpenCLOperatorCPU = new ReinhardOpenCLOperatorCPU();
         mReinhardOpenCLOperatorGPU = new ReinhardOpenCLOperatorGPU();
@@ -228,11 +227,11 @@ public class MainActivity extends Activity {
         runWithOptions.add("Java");
         mReinhardJavaOperatorID = id++;
         runWithOptions.add("User Library");
-        mReinhardCollectionOperatorID = id++;
+        mReinhardUserLibraryOperatorID = id++;
         runWithOptions.add("Compiler");
+        mReinhardCollectionOperatorID = id++;
+        runWithOptions.add("Hand Compiler");
         mReinhardCompilerOperatorID = id++;
-        runWithOptions.add("CompilerRS");
-        mReinhardCompilerOperatorRSID = id++;
         runWithOptions.add("RenderScript");
         mReinhardRenderScriptOperatorID = id++;
         if(mReinhardOpenCLOperatorCPU.inited()) {

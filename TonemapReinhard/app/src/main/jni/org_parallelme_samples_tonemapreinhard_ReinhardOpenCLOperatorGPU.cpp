@@ -7,7 +7,7 @@
  */
 
 #include "org_parallelme_samples_tonemapreinhard_ReinhardOpenCLOperatorGPU.h"
-#include "ReinhardOpenCLOperator.h"
+#include "ReinhardOpenCLOperator.hpp"
 
 JNIEXPORT jlong JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardOpenCLOperatorGPU_init
         (JNIEnv *env, jobject a) {
