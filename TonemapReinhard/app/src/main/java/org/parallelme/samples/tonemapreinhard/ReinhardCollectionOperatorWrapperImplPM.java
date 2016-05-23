@@ -61,6 +61,6 @@ public class ReinhardCollectionOperatorWrapperImplPM implements ReinhardCollecti
 	}
 
     static {
-        System.loadLibrary("TonemapReinhard");
+        System.loadLibrary("ParallelMEGenerated");
     }
 }
