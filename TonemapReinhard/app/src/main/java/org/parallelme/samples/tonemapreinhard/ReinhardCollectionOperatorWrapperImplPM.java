@@ -14,11 +14,22 @@ import org.parallelme.ParallelMERuntime;
 
 public class ReinhardCollectionOperatorWrapperImplPM implements ReinhardCollectionOperatorWrapper {
 	private long PM_image2Ptr;
+	 
 	private native void iterator1(long runtimePtr, long varPtr);
 	private native void iterator2(long runtimePtr, long varPtr, float sum, float[] PM_sum, float max, float[] PM_max);
 	private native void iterator3(long runtimePtr, long varPtr, float fScaleFactor, float fLmax2);
 	private native void iterator4(long runtimePtr, long varPtr);
 	private native void iterator5(long runtimePtr, long varPtr, float power);
+	 
+	@Override
+	protected void finalize() throws Throwable {
+		ParallelMERuntime.getInstance().cleanUpImage(PM_image2Ptr);
+		super.finalize();
+	}
+	 
+	static {
+		System.loadLibrary("ParallelMECompiled");
+	}
 
 	public boolean isValid() {
 		return ParallelMERuntime.getInstance().runtimePointer != 0;
@@ -58,9 +69,5 @@ public class ReinhardCollectionOperatorWrapperImplPM implements ReinhardCollecti
 
 	public int getWidth2() {
 		return ParallelMERuntime.getInstance().getWidth(PM_image2Ptr);
-	}
-
-	static {
-		System.loadLibrary("ParallelMECompiled");
 	}
 }

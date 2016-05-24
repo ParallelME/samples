@@ -17,6 +17,5 @@ LOCAL_CPPFLAGS := -O3 -std=c++14 -fexceptions
 LOCAL_CPP_FEATURES += exceptions
 LOCAL_LDLIBS := -llog -ljnigraphics
 LOCAL_SHARED_LIBRARIES := libParallelMERuntime
-LOCAL_SRC_FILES := org_parallelme_ParallelMERuntime.cpp \
-	org_parallelme_samples_tonemapreinhard_ReinhardCollectionOperatorWrapperImplPM.cpp
+LOCAL_SRC_FILES := org_parallelme_ParallelMERuntime.cpp org_parallelme_samples_tonemapreinhard_ReinhardCollectionOperatorWrapperImplPM.cpp
 include $(BUILD_SHARED_LIBRARY)
