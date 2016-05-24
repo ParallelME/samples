@@ -12,23 +12,23 @@ package org.parallelme.samples.tonemapreinhard;
 import android.graphics.Bitmap;
 
 public interface ReinhardCollectionOperatorWrapper {
-	boolean isValid();
+	public boolean isValid();
 
-	void inputBind1(byte[] data, int width, int height);
+	public void inputBind1(byte[] data, int width, int height);
 
-	void iterator1();
+	public void iterator1();
 
-	void iterator2(float[] sum, float[] max);
+	public void iterator2(float[] sum, float[] max);
 
-	void iterator3(float fScaleFactor, float fLmax2);
+	public void iterator3(float fScaleFactor, float fLmax2);
 
-	void iterator4();
+	public void iterator4();
 
-	void iterator5(float power);
+	public void iterator5(float power);
 
-	void outputBind1(Bitmap bitmap);
+	public void outputBind1(Bitmap bitmap);
 
-	int getHeight1();
+	public int getHeight1();
 
-	int getWidth2();
+	public int getWidth2();
 }

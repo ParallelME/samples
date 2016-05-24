@@ -19,7 +19,7 @@
 using namespace parallelme;
 
 JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardCollectionOperatorWrapperImplPM_iterator1
-        (JNIEnv *env, jobject self, jlong rtmPtr, jlong varPtr) {
+		(JNIEnv *env, jobject self, jlong rtmPtr, jlong varPtr) {
 	auto runtimePtr = (ParallelMERuntimeData *) rtmPtr;
 	auto variablePtr = (ImageData *) varPtr;
 	auto task = std::make_unique<Task>(runtimePtr->program);
@@ -34,7 +34,7 @@ JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardColle
 }
 
 JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardCollectionOperatorWrapperImplPM_iterator2
-        (JNIEnv *env, jobject self, jlong rtmPtr, jlong varPtr, float sum, jfloatArray $sum, float max, jfloatArray $max) {
+		(JNIEnv *env, jobject self, jlong rtmPtr, jlong varPtr, float sum, jfloatArray PM_sum, float max, jfloatArray PM_max) {
 	auto runtimePtr = (ParallelMERuntimeData *) rtmPtr;
 	auto variablePtr = (ImageData *) varPtr;
 	auto sumBuffer = std::make_shared<Buffer>(sizeof(sum));
@@ -54,12 +54,12 @@ JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardColle
 	});
 	runtimePtr->runtime->submitTask(std::move(task));
 	runtimePtr->runtime->finish();
-	sumBuffer->copyToJNI(env, $sum);
-	maxBuffer->copyToJNI(env, $max);
+	sumBuffer->copyToJNI(env, PM_sum);
+	maxBuffer->copyToJNI(env, PM_max);
 }
 
 JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardCollectionOperatorWrapperImplPM_iterator3
-        (JNIEnv *env, jobject self, jlong rtmPtr, jlong varPtr, float fScaleFactor, float fLmax2) {
+		(JNIEnv *env, jobject self, jlong rtmPtr, jlong varPtr, float fScaleFactor, float fLmax2) {
 	auto runtimePtr = (ParallelMERuntimeData *) rtmPtr;
 	auto variablePtr = (ImageData *) varPtr;
 	auto task = std::make_unique<Task>(runtimePtr->program);
@@ -67,8 +67,8 @@ JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardColle
 	task->setConfigFunction([=](DevicePtr &device, KernelHash &kernelHash) {
 		kernelHash["iterator3"]
 			->setArg(0, variablePtr->outputBuffer)
-            ->setArg(1, fScaleFactor)
-            ->setArg(2, fLmax2)
+			->setArg(1, fScaleFactor)
+			->setArg(2, fLmax2)
 			->setWorkSize(variablePtr->workSize);
 	});
 	runtimePtr->runtime->submitTask(std::move(task));
@@ -76,7 +76,7 @@ JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardColle
 }
 
 JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardCollectionOperatorWrapperImplPM_iterator4
-        (JNIEnv *env, jobject self, jlong rtmPtr, jlong varPtr) {
+		(JNIEnv *env, jobject self, jlong rtmPtr, jlong varPtr) {
 	auto runtimePtr = (ParallelMERuntimeData *) rtmPtr;
 	auto variablePtr = (ImageData *) varPtr;
 	auto task = std::make_unique<Task>(runtimePtr->program);
@@ -91,7 +91,7 @@ JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardColle
 }
 
 JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardCollectionOperatorWrapperImplPM_iterator5
-        (JNIEnv *env, jobject self, jlong rtmPtr, jlong varPtr, float power) {
+		(JNIEnv *env, jobject self, jlong rtmPtr, jlong varPtr, float power) {
 	auto runtimePtr = (ParallelMERuntimeData *) rtmPtr;
 	auto variablePtr = (ImageData *) varPtr;
 	auto task = std::make_unique<Task>(runtimePtr->program);
@@ -99,7 +99,7 @@ JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardColle
 	task->setConfigFunction([=](DevicePtr &device, KernelHash &kernelHash) {
 		kernelHash["iterator5"]
 			->setArg(0, variablePtr->outputBuffer)
-            ->setArg(1, power)
+			->setArg(1, power)
 			->setWorkSize(variablePtr->workSize);
 	});
 	runtimePtr->runtime->submitTask(std::move(task));

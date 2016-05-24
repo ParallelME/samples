@@ -9,19 +9,19 @@
 
 #pragma version(1)
 #pragma rs java_package_name(org.parallelme.samples.tonemapreinhard)
-float4 __attribute__((kernel)) toFloatHDRImage(uchar4 $in, uint32_t x, uint32_t y) {
-	float4 $out;
-	if ($in.s3 != 0) {
-		float f = ldexp(1.0f, ($in.s3 & 0xFF) - (128 + 8));
-		$out.s0 = ($in.s0 & 0xFF) * f;
-		$out.s1 = ($in.s1 & 0xFF) * f;
-		$out.s2 = ($in.s2 & 0xFF) * f;
+float4 __attribute__((kernel)) toFloatHDRImage(uchar4 PM_in, uint32_t x, uint32_t y) {
+	float4 PM_out;
+	if (PM_in.s3 != 0) {
+		float f = ldexp(1.0f, (PM_in.s3 & 0xFF) - (128 + 8));
+		PM_out.s0 = (PM_in.s0 & 0xFF) * f;
+		PM_out.s1 = (PM_in.s1 & 0xFF) * f;
+		PM_out.s2 = (PM_in.s2 & 0xFF) * f;
 	} else {
-		$out.s0 = 0.0f;
-		$out.s1 = 0.0f;
-		$out.s2 = 0.0f;
+		PM_out.s0 = 0.0f;
+		PM_out.s1 = 0.0f;
+		PM_out.s2 = 0.0f;
 	}
-	return $out;
+	return PM_out;
 }
 
 float4 __attribute__((kernel)) iterator1(float4 pixel, uint32_t x, uint32_t y) {
@@ -49,39 +49,39 @@ float4 __attribute__((kernel)) iterator1(float4 pixel, uint32_t x, uint32_t y) {
             
 	return pixel;
 }
-rs_allocation $gInputImageIterator2;
-rs_allocation $gOutputSumIterator2;
-rs_allocation $gOutputMaxIterator2;
-int $gInputXSizeIterator2;
-int $gInputYSizeIterator2;
-float $gSumIterator2;
-float $gMaxIterator2;
+rs_allocation PM_gInputImageIterator2;
+rs_allocation PM_gOutputSumIterator2;
+rs_allocation PM_gOutputMaxIterator2;
+int PM_gInputXSizeIterator2;
+int PM_gInputYSizeIterator2;
+float PM_gSumIterator2;
+float PM_gMaxIterator2;
 
 void iterator2() 
  {
 	float4 pixel;
-	for (int $x = 0; $x < $gInputXSizeIterator2; $x++) {
-		for (int $y = 0; $y < $gInputYSizeIterator2; $y++) {
-			pixel = rsGetElementAt_float4($gInputImageIterator2, $x, $y);
-			$gSumIterator2 += log(0.00001f + pixel.s0);
+	for (int PM_x = 0; PM_x < PM_gInputXSizeIterator2; PM_x++) {
+		for (int PM_y = 0; PM_y < PM_gInputYSizeIterator2; PM_y++) {
+			pixel = rsGetElementAt_float4(PM_gInputImageIterator2, PM_x, PM_y);
+			PM_gSumIterator2 += log(0.00001f + pixel.s0);
 
-			                if(pixel.s0 > $gMaxIterator2)
-			                    $gMaxIterator2 = pixel.s0;
-			rsSetElementAt_float4($gInputImageIterator2, pixel, $x, $y);
+			                if(pixel.s0 > PM_gMaxIterator2)
+			                    PM_gMaxIterator2 = pixel.s0;
+			rsSetElementAt_float4(PM_gInputImageIterator2, pixel, PM_x, PM_y);
 		}
 	}
-	rsSetElementAt_float($gOutputSumIterator2, $gSumIterator2, 0);
-rsSetElementAt_float($gOutputMaxIterator2, $gMaxIterator2, 0);
+	rsSetElementAt_float(PM_gOutputSumIterator2, PM_gSumIterator2, 0);
+rsSetElementAt_float(PM_gOutputMaxIterator2, PM_gMaxIterator2, 0);
 }
-float $gFScaleFactorIterator3;
-float $gFLmax2Iterator3;
+float PM_gFScaleFactorIterator3;
+float PM_gFLmax2Iterator3;
 
 float4 __attribute__((kernel)) iterator3(float4 pixel, uint32_t x, uint32_t y) {
                 
-                pixel.s0 *= $gFScaleFactorIterator3;
+                pixel.s0 *= PM_gFScaleFactorIterator3;
 
                 
-                pixel.s0 *= (1.0f + pixel.s0 / $gFLmax2Iterator3) / (1.0f + pixel.s0);
+                pixel.s0 *= (1.0f + pixel.s0 / PM_gFLmax2Iterator3) / (1.0f + pixel.s0);
             
 	return pixel;
 }
@@ -114,7 +114,7 @@ float4 __attribute__((kernel)) iterator4(float4 pixel, uint32_t x, uint32_t y) {
             
 	return pixel;
 }
-float $gPowerIterator5;
+float PM_gPowerIterator5;
 
 float4 __attribute__((kernel)) iterator5(float4 pixel, uint32_t x, uint32_t y) {
                 
@@ -122,17 +122,17 @@ float4 __attribute__((kernel)) iterator5(float4 pixel, uint32_t x, uint32_t y) {
                 if (pixel.s1 > 1.0f) pixel.s1 = 1.0f;
                 if (pixel.s2 > 1.0f) pixel.s2 = 1.0f;
 
-                pixel.s0 = (float) pow(pixel.s0, $gPowerIterator5);
-                pixel.s1 = (float) pow(pixel.s1, $gPowerIterator5);
-                pixel.s2 = (float) pow(pixel.s2, $gPowerIterator5);
+                pixel.s0 = (float) pow(pixel.s0, PM_gPowerIterator5);
+                pixel.s1 = (float) pow(pixel.s1, PM_gPowerIterator5);
+                pixel.s2 = (float) pow(pixel.s2, PM_gPowerIterator5);
             
 	return pixel;
 }
-uchar4 __attribute__((kernel)) toBitmapHDRImage(float4 $in, uint32_t x, uint32_t y) {
-	uchar4 $out;
-	$out.r = (uchar) ($in.s0 * 255.0f);
-	$out.g = (uchar) ($in.s1 * 255.0f);
-	$out.b = (uchar) ($in.s2 * 255.0f);
-	$out.a = 255;
-	return $out;
+uchar4 __attribute__((kernel)) toBitmapHDRImage(float4 PM_in, uint32_t x, uint32_t y) {
+	uchar4 PM_out;
+	PM_out.r = (uchar) (PM_in.s0 * 255.0f);
+	PM_out.g = (uchar) (PM_in.s1 * 255.0f);
+	PM_out.b = (uchar) (PM_in.s2 * 255.0f);
+	PM_out.a = 255;
+	return PM_out;
 }

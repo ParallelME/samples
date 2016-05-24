@@ -11,10 +11,9 @@ package org.parallelme;
 import android.graphics.Bitmap;
 
 /**
- * Wrapper class for JNI calls to ParallelME runtime. It is also
- * responsible for keeping the runtime pointer in memory so it
- * can be used in multiple calls to the low-level runtime without
- * recreating objects.
+ * Wrapper class for JNI calls to ParallelME runtime. It is also responsible for
+ * keeping the runtime pointer in memory so it can be used in multiple calls to
+ * the low-level runtime without recreating objects.
  *
  * @author Pedro Caldeira, Wilson de Carvalho
  */
@@ -27,21 +26,28 @@ public class ParallelMERuntime {
 	}
 
 	private native long nativeInit();
-	private native void nativeCleanUp(long runtimePointer);
-    private native long nativeCreateHDRImage(long runtimePointer, byte[] data, int width, int height);
-    private native void nativeToBitmapHDRImage(long runtimePointer, long imagePointer, Bitmap bitmap);
-    private native int nativeGetHeight(long imagePointer);
-    private native int nativeGetWidth(long imagePointer);
 
-    private ParallelMERuntime() {
-        System.loadLibrary("ParallelMEGenerated");
-        this.runtimePointer = nativeInit();
-    }
+	private native void nativeCleanUp(long runtimePointer);
+
+	private native long nativeCreateHDRImage(long runtimePointer, byte[] data,
+			int width, int height);
+
+	private native void nativeToBitmapHDRImage(long runtimePointer,
+			long imagePointer, Bitmap bitmap);
+
+	private native int nativeGetHeight(long imagePointer);
+
+	private native int nativeGetWidth(long imagePointer);
+
+	private ParallelMERuntime() {
+		System.loadLibrary("ParallelMEGenerated");
+		this.runtimePointer = nativeInit();
+	}
 
 	@Override
 	protected void finalize() throws Throwable {
-        nativeCleanUp(runtimePointer);
-        super.finalize();
+		nativeCleanUp(runtimePointer);
+		super.finalize();
 	}
 
 	public long createHDRImage(byte[] data, int width, int height) {
@@ -52,11 +58,11 @@ public class ParallelMERuntime {
 		nativeToBitmapHDRImage(runtimePointer, imagePointer, bitmap);
 	}
 
-    public int getHeight(long imagePointer) {
-        return nativeGetHeight(imagePointer);
-    }
+	public int getHeight(long imagePointer) {
+		return nativeGetHeight(imagePointer);
+	}
 
-    public int getWidth(long imagePointer) {
-        return nativeGetWidth(imagePointer);
-    }
+	public int getWidth(long imagePointer) {
+		return nativeGetWidth(imagePointer);
+	}
 }
