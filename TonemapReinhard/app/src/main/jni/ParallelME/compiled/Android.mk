@@ -9,7 +9,7 @@
 
 LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
-LOCAL_MODULE := libParallelMEGenerated
+LOCAL_MODULE := libParallelMECompiled
 LOCAL_ARM_MODE := arm
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../runtime/include
 LOCAL_CFLAGS := -O3 -Wall -Wextra -Werror -Wno-unused-parameter -Wno-extern-c-compat

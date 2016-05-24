@@ -61,6 +61,6 @@ public class ReinhardCollectionOperatorWrapperImplPM implements ReinhardCollecti
 	}
 
 	static {
-		System.loadLibrary("ParallelMEGenerated");
+		System.loadLibrary("ParallelMECompiled");
 	}
 }

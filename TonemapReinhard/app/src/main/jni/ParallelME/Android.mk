@@ -8,4 +8,4 @@
 
 # Remember to set PM_JNI_PATH to $(call my-dir)/ParallelME at the jni folder.
 include $(PM_JNI_PATH)/runtime/Android.mk
-include $(PM_JNI_PATH)/generated/Android.mk
+include $(PM_JNI_PATH)/compiled/Android.mk
