@@ -18,14 +18,14 @@
 
 using namespace parallelme;
 
-JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardCollectionOperatorWrapperImplPM_iterator1
+JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardCollectionOperatorWrapperImplPM_foreach1
 		(JNIEnv *env, jobject self, jlong rtmPtr, jlong varPtr) {
 	auto runtimePtr = (ParallelMERuntimeData *) rtmPtr;
 	auto variablePtr = (ImageData *) varPtr;
 	auto task = std::make_unique<Task>(runtimePtr->program);
-	task->addKernel("iterator1");
+	task->addKernel("foreach1");
 	task->setConfigFunction([=](DevicePtr &device, KernelHash &kernelHash) {
-		kernelHash["iterator1"]
+		kernelHash["foreach1"]
 			->setArg(0, variablePtr->outputBuffer)
 			->setWorkSize(variablePtr->workSize);
 	});
@@ -33,16 +33,16 @@ JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardColle
 	runtimePtr->runtime->finish();
 }
 
-JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardCollectionOperatorWrapperImplPM_iterator2
+JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardCollectionOperatorWrapperImplPM_foreach2
 		(JNIEnv *env, jobject self, jlong rtmPtr, jlong varPtr, float sum, jfloatArray PM_sum, float max, jfloatArray PM_max) {
 	auto runtimePtr = (ParallelMERuntimeData *) rtmPtr;
 	auto variablePtr = (ImageData *) varPtr;
 	auto sumBuffer = std::make_shared<Buffer>(sizeof(sum));
 	auto maxBuffer = std::make_shared<Buffer>(sizeof(max));
 	auto task = std::make_unique<Task>(runtimePtr->program, Task::Score(1.0f, 2.0f));
-	task->addKernel("iterator2");
+	task->addKernel("foreach2");
 	task->setConfigFunction([=](DevicePtr &device, KernelHash &kernelHash) {
-		kernelHash["iterator2"]
+		kernelHash["foreach2"]
 			->setArg(0, variablePtr->outputBuffer)
 			->setArg(1, sum)
 			->setArg(2, sumBuffer)
@@ -58,14 +58,14 @@ JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardColle
 	maxBuffer->copyToJNI(env, PM_max);
 }
 
-JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardCollectionOperatorWrapperImplPM_iterator3
+JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardCollectionOperatorWrapperImplPM_foreach3
 		(JNIEnv *env, jobject self, jlong rtmPtr, jlong varPtr, float fScaleFactor, float fLmax2) {
 	auto runtimePtr = (ParallelMERuntimeData *) rtmPtr;
 	auto variablePtr = (ImageData *) varPtr;
 	auto task = std::make_unique<Task>(runtimePtr->program);
-	task->addKernel("iterator3");
+	task->addKernel("foreach3");
 	task->setConfigFunction([=](DevicePtr &device, KernelHash &kernelHash) {
-		kernelHash["iterator3"]
+		kernelHash["foreach3"]
 			->setArg(0, variablePtr->outputBuffer)
 			->setArg(1, fScaleFactor)
 			->setArg(2, fLmax2)
@@ -75,14 +75,14 @@ JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardColle
 	runtimePtr->runtime->finish();
 }
 
-JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardCollectionOperatorWrapperImplPM_iterator4
+JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardCollectionOperatorWrapperImplPM_foreach4
 		(JNIEnv *env, jobject self, jlong rtmPtr, jlong varPtr) {
 	auto runtimePtr = (ParallelMERuntimeData *) rtmPtr;
 	auto variablePtr = (ImageData *) varPtr;
 	auto task = std::make_unique<Task>(runtimePtr->program);
-	task->addKernel("iterator4");
+	task->addKernel("foreach4");
 	task->setConfigFunction([=](DevicePtr &device, KernelHash &kernelHash) {
-		kernelHash["iterator4"]
+		kernelHash["foreach4"]
 			->setArg(0, variablePtr->outputBuffer)
 			->setWorkSize(variablePtr->workSize);
 	});
@@ -90,14 +90,14 @@ JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardColle
 	runtimePtr->runtime->finish();
 }
 
-JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardCollectionOperatorWrapperImplPM_iterator5
+JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardCollectionOperatorWrapperImplPM_foreach5
 		(JNIEnv *env, jobject self, jlong rtmPtr, jlong varPtr, float power) {
 	auto runtimePtr = (ParallelMERuntimeData *) rtmPtr;
 	auto variablePtr = (ImageData *) varPtr;
 	auto task = std::make_unique<Task>(runtimePtr->program);
-	task->addKernel("iterator5");
+	task->addKernel("foreach5");
 	task->setConfigFunction([=](DevicePtr &device, KernelHash &kernelHash) {
-		kernelHash["iterator5"]
+		kernelHash["foreach5"]
 			->setArg(0, variablePtr->outputBuffer)
 			->setArg(1, power)
 			->setWorkSize(variablePtr->workSize);

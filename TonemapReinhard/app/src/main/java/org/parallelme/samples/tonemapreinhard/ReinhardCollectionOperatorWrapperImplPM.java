@@ -15,20 +15,19 @@ import org.parallelme.ParallelMERuntime;
 public class ReinhardCollectionOperatorWrapperImplPM implements ReinhardCollectionOperatorWrapper {
 	private long PM_image2Ptr;
 	 
-	private native void iterator1(long runtimePtr, long varPtr);
-	private native void iterator2(long runtimePtr, long varPtr, float sum, float[] PM_sum, float max, float[] PM_max);
-	private native void iterator3(long runtimePtr, long varPtr, float fScaleFactor, float fLmax2);
-	private native void iterator4(long runtimePtr, long varPtr);
-	private native void iterator5(long runtimePtr, long varPtr, float power);
+	private native void foreach1(long runtimePtr, long varPtr);
+	private native void foreach2(long runtimePtr, long varPtr, float sum, float[] PM_sum, float max, float[] PM_max);
+	private native void foreach3(long runtimePtr, long varPtr, float fScaleFactor, float fLmax2);
+	private native void foreach4(long runtimePtr, long varPtr);
+	private native void foreach5(long runtimePtr, long varPtr, float power);
 	 
 	@Override
 	protected void finalize() throws Throwable {
-		ParallelMERuntime.getInstance().cleanUpImage(PM_image2Ptr);
 		super.finalize();
 	}
 	 
 	static {
-		System.loadLibrary("ParallelMECompiled");
+		System.loadLibrary("ParallelMEGenerated");
 	}
 
 	public boolean isValid() {
@@ -39,24 +38,24 @@ public class ReinhardCollectionOperatorWrapperImplPM implements ReinhardCollecti
 		PM_image2Ptr = ParallelMERuntime.getInstance().createHDRImage(data, width, height);
 	}
 
-	public void iterator1() {
-		iterator1(ParallelMERuntime.getInstance().runtimePointer, PM_image2Ptr);
+	public void foreach1() {
+		foreach1(ParallelMERuntime.getInstance().runtimePointer, PM_image2Ptr);
 	}
 
-	public void iterator2(float[] sum, float[] max) {
-		iterator2(ParallelMERuntime.getInstance().runtimePointer, PM_image2Ptr, sum[0], sum, max[0], max);
+	public void foreach2(float[] sum, float[] max) {
+		foreach2(ParallelMERuntime.getInstance().runtimePointer, PM_image2Ptr, sum[0], sum, max[0], max);
 	}
 
-	public void iterator3(float fScaleFactor, float fLmax2) {
-		iterator3(ParallelMERuntime.getInstance().runtimePointer, PM_image2Ptr, fScaleFactor, fLmax2);
+	public void foreach3(float fScaleFactor, float fLmax2) {
+		foreach3(ParallelMERuntime.getInstance().runtimePointer, PM_image2Ptr, fScaleFactor, fLmax2);
 	}
 
-	public void iterator4() {
-		iterator4(ParallelMERuntime.getInstance().runtimePointer, PM_image2Ptr);
+	public void foreach4() {
+		foreach4(ParallelMERuntime.getInstance().runtimePointer, PM_image2Ptr);
 	}
 
-	public void iterator5(float power) {
-		iterator5(ParallelMERuntime.getInstance().runtimePointer, PM_image2Ptr, power);
+	public void foreach5(float power) {
+		foreach5(ParallelMERuntime.getInstance().runtimePointer, PM_image2Ptr, power);
 	}
 
 	public void outputBind1(Bitmap bitmap) {

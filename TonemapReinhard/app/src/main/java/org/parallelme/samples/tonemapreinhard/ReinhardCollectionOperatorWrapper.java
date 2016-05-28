@@ -16,15 +16,15 @@ public interface ReinhardCollectionOperatorWrapper {
 
 	public void inputBind1(byte[] data, int width, int height);
 
-	public void iterator1();
+	public void foreach1();
 
-	public void iterator2(float[] sum, float[] max);
+	public void foreach2(float[] sum, float[] max);
 
-	public void iterator3(float fScaleFactor, float fLmax2);
+	public void foreach3(float fScaleFactor, float fLmax2);
 
-	public void iterator4();
+	public void foreach4();
 
-	public void iterator5(float power);
+	public void foreach5(float power);
 
 	public void outputBind1(Bitmap bitmap);
 

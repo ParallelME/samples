@@ -43,7 +43,7 @@ public class ReinhardCollectionOperator implements ReinhardOperator {
     }
 
     private void toYxy(){
-        PM_parallelME.iterator1();
+        PM_parallelME.foreach1();
     }
 
 
@@ -56,7 +56,7 @@ public class ReinhardCollectionOperator implements ReinhardOperator {
 PM_sum[0] = sum;
 float[] PM_max = new float[1];
 PM_max[0] = max;
-PM_parallelME.iterator2(PM_sum, PM_max);
+PM_parallelME.foreach2(PM_sum, PM_max);
 sum = PM_sum[0];max = PM_max[0];
 
         
@@ -70,14 +70,14 @@ sum = PM_sum[0];max = PM_max[0];
     private void tonemap() {
         final float fScaleFactor = scaleFactor;
         final float fLmax2 = lmax2;
-        PM_parallelME.iterator3(fScaleFactor, fLmax2);
+        PM_parallelME.foreach3(fScaleFactor, fLmax2);
     }
 
     private void toRgb(){
-        PM_parallelME.iterator4();
+        PM_parallelME.foreach4();
     }
 
     private void clamp(final float power) {
-        PM_parallelME.iterator5(power);
+        PM_parallelME.foreach5(power);
     }
 }

@@ -15,19 +15,19 @@
 extern "C" {
 #endif
 
-JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardCollectionOperatorWrapperImplPM_iterator1
+JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardCollectionOperatorWrapperImplPM_foreach1
 		(JNIEnv *, jobject , jlong , jlong );
 
-JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardCollectionOperatorWrapperImplPM_iterator2
+JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardCollectionOperatorWrapperImplPM_foreach2
 		(JNIEnv *, jobject , jlong , jlong , float, jfloatArray, float, jfloatArray);
 
-JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardCollectionOperatorWrapperImplPM_iterator3
+JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardCollectionOperatorWrapperImplPM_foreach3
 		(JNIEnv *, jobject , jlong , jlong , float, float);
 
-JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardCollectionOperatorWrapperImplPM_iterator4
+JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardCollectionOperatorWrapperImplPM_foreach4
 		(JNIEnv *, jobject , jlong , jlong );
 
-JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardCollectionOperatorWrapperImplPM_iterator5
+JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardCollectionOperatorWrapperImplPM_foreach5
 		(JNIEnv *, jobject , jlong , jlong , float);
 
 #ifdef __cplusplus
