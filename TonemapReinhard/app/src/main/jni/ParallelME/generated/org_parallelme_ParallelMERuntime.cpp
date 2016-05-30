@@ -39,7 +39,7 @@ JNIEXPORT void JNICALL Java_org_parallelme_ParallelMERuntime_nativeCleanUpRuntim
 		delete (ParallelMERuntimeData *) rtmPtr;
 }
 
-JNIEXPORT jlong JNICALL Java_org_parallelme_ParallelMERuntime_nativeCreateShortArray(JNIEnv *env, jobject self, jlong rtmPtr, jarray data, jint length) {
+JNIEXPORT jlong JNICALL Java_org_parallelme_ParallelMERuntime_nativeCreateShortArray(JNIEnv *env, jobject self, jarray data, jint length) {
 	auto arrayPtr = new ArrayData();
 	arrayPtr->length = length;
 	arrayPtr->workSize = length;
@@ -51,7 +51,7 @@ JNIEXPORT jlong JNICALL Java_org_parallelme_ParallelMERuntime_nativeCreateShortA
 	return (jlong) arrayPtr;
 }
 
-JNIEXPORT jlong JNICALL Java_org_parallelme_ParallelMERuntime_nativeCreateIntArray(JNIEnv *env, jobject self, jlong rtmPtr, jarray data, jint length) {
+JNIEXPORT jlong JNICALL Java_org_parallelme_ParallelMERuntime_nativeCreateIntArray(JNIEnv *env, jobject self, jarray data, jint length) {
 	auto arrayPtr = new ArrayData();
 	arrayPtr->length = length;
 	arrayPtr->workSize = length;
@@ -63,7 +63,7 @@ JNIEXPORT jlong JNICALL Java_org_parallelme_ParallelMERuntime_nativeCreateIntArr
 	return (jlong) arrayPtr;
 }
 
-JNIEXPORT jlong JNICALL Java_org_parallelme_ParallelMERuntime_nativeCreateFloatArray(JNIEnv *env, jobject self, jlong rtmPtr, jarray data, jint length) {
+JNIEXPORT jlong JNICALL Java_org_parallelme_ParallelMERuntime_nativeCreateFloatArray(JNIEnv *env, jobject self, jarray data, jint length) {
 	auto arrayPtr = new ArrayData();
 	arrayPtr->length = length;
 	arrayPtr->workSize = length;
@@ -75,12 +75,22 @@ JNIEXPORT jlong JNICALL Java_org_parallelme_ParallelMERuntime_nativeCreateFloatA
 	return (jlong) arrayPtr;
 }
 
-JNIEXPORT void JNICALL Java_org_parallelme_ParallelMERuntime_nativetoArray(JNIEnv *env, jobject self, jlong rtmPtr, jlong arrPtr, jarray data) {
+JNIEXPORT void JNICALL Java_org_parallelme_ParallelMERuntime_nativeToShortArray(JNIEnv *env, jobject self, jlong arrPtr, jarray data) {
 	auto arrayPtr = (ArrayData *) arrPtr;
-
 	arrayPtr->inputBuffer->copyToJNI(env, data);
+	delete arrayPtr;	
+}
 
-	delete arrayPtr;
+JNIEXPORT void JNICALL Java_org_parallelme_ParallelMERuntime_nativeToIntArray(JNIEnv *env, jobject self, jlong arrPtr, jarray data) {
+	auto arrayPtr = (ArrayData *) arrPtr;
+	arrayPtr->inputBuffer->copyToJNI(env, data);
+	delete arrayPtr;	
+}
+
+JNIEXPORT void JNICALL Java_org_parallelme_ParallelMERuntime_nativeToFloatArray(JNIEnv *env, jobject self, jlong arrPtr, jarray data) {
+	auto arrayPtr = (ArrayData *) arrPtr;
+	arrayPtr->inputBuffer->copyToJNI(env, data);
+	delete arrayPtr;	
 }
 
 JNIEXPORT jlong JNICALL Java_org_parallelme_ParallelMERuntime_nativeCreateBitmapImage(JNIEnv *env, jobject self, jlong rtmPtr, jobject data, jint width, jint height) {
