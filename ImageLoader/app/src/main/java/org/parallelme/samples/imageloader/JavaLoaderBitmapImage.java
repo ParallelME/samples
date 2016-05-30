@@ -45,7 +45,7 @@ public class JavaLoaderBitmapImage implements Loader {
      * Converts RGB to float.
      */
     public void toFloat(BitmapImage image) {
-        image.foreach(new ForeachFunction<Pixel>() {
+        image.foreach(new Foreach<Pixel>() {
             @Override
             public void function(Pixel pixel) {
                 pixel.rgba.red /= 255.0f;
@@ -61,7 +61,7 @@ public class JavaLoaderBitmapImage implements Loader {
     private void toYxy(BitmapImage image) {
         final RGBA result = new RGBA();
 
-        image.foreach(new ForeachFunction<Pixel>() {
+        image.foreach(new Foreach<Pixel>() {
             @Override
             public void function(Pixel pixel) {
                 result.red = result.green = result.blue = 0.0f;
@@ -90,7 +90,7 @@ public class JavaLoaderBitmapImage implements Loader {
      * Converts from YXY to RGB space.
      */
     private void toRgb(BitmapImage image) {
-        image.foreach(new ForeachFunction<Pixel>() {
+        image.foreach(new Foreach<Pixel>() {
             @Override
             public void function(Pixel pixel) {
                 float xVal, zVal;

@@ -12,7 +12,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import org.parallelme.userlibrary.function.ForeachFunction;
+import org.parallelme.userlibrary.function.Foreach;
 import org.parallelme.userlibrary.image.BitmapImage;
 import org.parallelme.userlibrary.image.Pixel;
 import org.parallelme.userlibrary.image.RGB;
@@ -29,7 +29,7 @@ public class BitmapLoaderTest {
 
         BitmapImage image = new BitmapImage(bitmap);
         // to Yxy
-        image.foreach(new ForeachFunction<Pixel>() {
+        image.foreach(new Foreach<Pixel>() {
             @Override
             public void function(Pixel pixel) {
                 RGB foo = new RGB(0, 0, 0);
@@ -54,7 +54,7 @@ public class BitmapLoaderTest {
             }
         });
         // to RGB
-        image.foreach(new ForeachFunction<Pixel>() {
+        image.foreach(new Foreach<Pixel>() {
             @Override
             public void function(Pixel pixel) {
                 float xVal, zVal;

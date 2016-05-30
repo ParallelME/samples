@@ -13,7 +13,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 
-import org.parallelme.userlibrary.function.ForeachFunction;
+import org.parallelme.userlibrary.function.Foreach;
 import org.parallelme.userlibrary.image.BitmapImage;
 import org.parallelme.userlibrary.image.Pixel;
 import org.parallelme.userlibrary.image.RGB;
@@ -58,7 +58,7 @@ public class JavaConvolutionBitmapImage {
 
     private void convolute(final Bitmap bitmap, final BitmapImage image, final float[] kernel, final float kernelDivisor)
     {
-        image.foreach(new ForeachFunction<Pixel>() {
+        image.foreach(new Foreach<Pixel>() {
             @Override
             public void function(Pixel pixel) {
                 RGB rgb = new RGB(0, 0, 0);
