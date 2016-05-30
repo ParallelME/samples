@@ -75,19 +75,19 @@ JNIEXPORT jlong JNICALL Java_org_parallelme_ParallelMERuntime_nativeCreateFloatA
 	return (jlong) arrayPtr;
 }
 
-JNIEXPORT void JNICALL Java_org_parallelme_ParallelMERuntime_nativeToShortArray(JNIEnv *env, jobject self, jlong arrPtr, jarray data) {
+JNIEXPORT void JNICALL Java_org_parallelme_ParallelMERuntime_nativeToArray(JNIEnv *env, jobject self, jlong arrPtr, jshortArray data) {
 	auto arrayPtr = (ArrayData *) arrPtr;
 	arrayPtr->inputBuffer->copyToJNI(env, data);
 	delete arrayPtr;	
 }
 
-JNIEXPORT void JNICALL Java_org_parallelme_ParallelMERuntime_nativeToIntArray(JNIEnv *env, jobject self, jlong arrPtr, jarray data) {
+JNIEXPORT void JNICALL Java_org_parallelme_ParallelMERuntime_nativeToArray(JNIEnv *env, jobject self, jlong arrPtr, jintArray data) {
 	auto arrayPtr = (ArrayData *) arrPtr;
 	arrayPtr->inputBuffer->copyToJNI(env, data);
 	delete arrayPtr;	
 }
 
-JNIEXPORT void JNICALL Java_org_parallelme_ParallelMERuntime_nativeToFloatArray(JNIEnv *env, jobject self, jlong arrPtr, jarray data) {
+JNIEXPORT void JNICALL Java_org_parallelme_ParallelMERuntime_nativeToArray(JNIEnv *env, jobject self, jlong arrPtr, jfloatArray data) {
 	auto arrayPtr = (ArrayData *) arrPtr;
 	arrayPtr->inputBuffer->copyToJNI(env, data);
 	delete arrayPtr;	
