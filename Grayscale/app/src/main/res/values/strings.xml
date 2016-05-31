@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Grayscale Image</string>
+    <string name="button_grayscale">Grayscale</string>
+    <string name="button_original">Original</string>
+</resources>
