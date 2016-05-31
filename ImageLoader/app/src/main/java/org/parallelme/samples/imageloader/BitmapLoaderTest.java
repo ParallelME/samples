@@ -32,22 +32,22 @@ public class BitmapLoaderTest {
         image.foreach(new Foreach<Pixel>() {
             @Override
             public void function(Pixel pixel) {
-                RGB foo = new RGB(0, 0, 0);
-                foo.red = foo.green = foo.blue = 0.0f;
-                foo.red += 0.5141364f * pixel.rgba.red;
-                foo.red += 0.3238786f * pixel.rgba.green;
-                foo.red += 0.16036376f * pixel.rgba.blue;
-                foo.green += 0.265068f * pixel.rgba.red;
-                foo.green += 0.67023428f * pixel.rgba.green;
-                foo.green += 0.06409157f * pixel.rgba.blue;
-                foo.blue += 0.0241188f * pixel.rgba.red;
-                foo.blue += 0.1228178f * pixel.rgba.green;
-                foo.blue += 0.84442666f * pixel.rgba.blue;
-                float w = foo.red + foo.green + foo.blue;
+                float red, green, blue;
+                red = green = blue = 0.0f;
+                red += 0.5141364f * pixel.rgba.red;
+                red += 0.3238786f * pixel.rgba.green;
+                red += 0.16036376f * pixel.rgba.blue;
+                green += 0.265068f * pixel.rgba.red;
+                green += 0.67023428f * pixel.rgba.green;
+                green += 0.06409157f * pixel.rgba.blue;
+                blue += 0.0241188f * pixel.rgba.red;
+                blue += 0.1228178f * pixel.rgba.green;
+                blue += 0.84442666f * pixel.rgba.blue;
+                float w = red + green + blue;
                 if (w > 0.0f) {
-                    pixel.rgba.red = foo.green;
-                    pixel.rgba.green = foo.red / w;
-                    pixel.rgba.blue = foo.green / w;
+                    pixel.rgba.red = green;
+                    pixel.rgba.green = red / w;
+                    pixel.rgba.blue = green / w;
                 } else {
                     pixel.rgba.red = pixel.rgba.green = pixel.rgba.blue = 0.0f;
                 }
