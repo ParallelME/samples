@@ -212,6 +212,7 @@ public class MainActivity extends Activity {
         mReinhardRenderScriptOperator = new ReinhardRenderScriptOperator(mRS);
         mReinhardOpenCLOperatorCPU = new ReinhardOpenCLOperatorCPU();
         mReinhardOpenCLOperatorGPU = new ReinhardOpenCLOperatorGPU();
+        mReinhardUserLibraryOperator = new ReinhardUserLibraryOperator();
         mReinhardScheduledOperator = new ReinhardScheduledOperator();
 
         mImageSpinner = (Spinner) findViewById(R.id.spinner_image);
