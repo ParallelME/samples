@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">ArrayTest</string>
+    <string name="button_text">Run Tests</string>
+</resources>
