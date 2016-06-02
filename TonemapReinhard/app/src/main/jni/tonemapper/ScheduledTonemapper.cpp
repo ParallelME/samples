@@ -30,7 +30,7 @@ void ScheduledTonemapper::tonemap(int width, int height, float key, float power,
     // Get references to the imageDataArray and bitmap.
     auto outputBitmap = env->NewGlobalRef(bitmap);
     auto imageBuffer = std::make_shared<Buffer>(imageSize);
-    imageBuffer->copyFromJNI(env, imageDataArray);
+    imageBuffer->setJArraySource(env, imageDataArray);
     auto dataBuffer = std::make_shared<Buffer>(imageSize * sizeof(float));
 
     auto task = std::make_unique<Task>(_program);
@@ -80,7 +80,7 @@ void ScheduledTonemapper::tonemap(int width, int height, float key, float power,
     });
 
     task->setFinishFunction([=] (DevicePtr &device, KernelHash &kernelHash) {
-        imageBuffer->copyToJNI(device->JNIEnv(), outputBitmap);
+        imageBuffer->copyToAndroidBitmap(device->JNIEnv(), outputBitmap);
         device->JNIEnv()->DeleteGlobalRef(outputBitmap);
     });
 

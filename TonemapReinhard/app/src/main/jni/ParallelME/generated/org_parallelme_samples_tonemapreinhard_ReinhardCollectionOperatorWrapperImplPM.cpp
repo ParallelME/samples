@@ -54,8 +54,8 @@ JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardColle
 	});
 	runtimePtr->runtime->submitTask(std::move(task));
 	runtimePtr->runtime->finish();
-	sumBuffer->copyToJNI(env, PM_sum);
-	maxBuffer->copyToJNI(env, PM_max);
+	sumBuffer->copyToJArray(env, PM_sum);
+	maxBuffer->copyToJArray(env, PM_max);
 }
 
 JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardCollectionOperatorWrapperImplPM_foreach3

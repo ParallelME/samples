@@ -208,7 +208,7 @@ Java_org_parallelme_samples_tonemapreinhard_ParallelMEReinhardCompilerOperatorCL
 
     // Num elements * items per element * size of item
     ptr->imageIn = std::make_shared<Buffer>(Buffer::sizeGenerator(ptr->workSize, Buffer::RGBA));
-    ptr->imageIn->copyFromJNI(env, data);
+    ptr->imageIn->setJArraySource(env, data);
     ptr->imageOut = std::make_shared<Buffer>(Buffer::sizeGenerator(ptr->workSize, Buffer::FLOAT4));
 
     auto task = std::make_unique<Task>(ptr->program);
@@ -238,7 +238,7 @@ Java_org_parallelme_samples_tonemapreinhard_ParallelMEReinhardCompilerOperatorCL
     });
     ptr->runtime->submitTask(std::move(task));
     ptr->runtime->finish();
-    ptr->imageIn->copyToJNI(env, bitmap);
+    ptr->imageIn->copyToAndroidBitmap(env, bitmap);
 
     ptr->imageIn.reset();
     ptr->imageOut.reset();
@@ -298,8 +298,8 @@ Java_org_parallelme_samples_tonemapreinhard_ParallelMEReinhardCompilerOperatorCL
     ptr->runtime->submitTask(std::move(task));
     ptr->runtime->finish();
 
-    sumBuffer->copyToJNI(env, outSum);
-    maxBuffer->copyToJNI(env, outMax);
+    sumBuffer->copyToJArray(env, outSum);
+    maxBuffer->copyToJArray(env, outMax);
 }
 
 JNIEXPORT void JNICALL
