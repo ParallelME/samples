@@ -12,7 +12,6 @@ import android.app.ProgressDialog;
 import android.support.v8.renderscript.*;
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -39,7 +38,7 @@ import org.parallelme.userlibrary.image.RGBE;
 public class MainActivity extends Activity {
     private SeekBar mKeyValueSeekBar;
     private SeekBar mGammaCorrectionSeekBar;
-    private Spinner mRunCountSpinner;
+    private Spinner mNumImagesSpinner;
     private Spinner mImageSpinner;
     private Spinner mRunWithSpinner;
     private TextView mKeyValueText;
@@ -64,7 +63,7 @@ public class MainActivity extends Activity {
     private int mReinhardOpenCLOperatorGPUID;
     private ReinhardScheduledOperator mReinhardScheduledOperator;
     private int mReinhardScheduledOperatorID;
-    private int mRunCount;
+    private int mNumImages;
     private int mImageResource;
     private float mKey;
     private float mGamma;
@@ -80,14 +79,14 @@ public class MainActivity extends Activity {
             Vector<RGBE.ResourceData> resources = new Vector<>();
             Vector<Bitmap> bitmaps = new Vector<>();
 
-            for(int i = 0; i < mRunCount; ++i) {
+            for(int i = 0; i < mNumImages; ++i) {
                 resources.add(RGBE.loadFromResource(getResources(), mImageResource));
                 bitmaps.add(Bitmap.createBitmap(resources.get(i).width, resources.get(i).height,
                         Bitmap.Config.ARGB_8888));
             }
 
             time = java.lang.System.currentTimeMillis();
-            for(int i = 0; i < mRunCount; ++i)
+            for(int i = 0; i < mNumImages; ++i)
                 reinhard[0].runOp(resources.get(i), mKey, 1.0f / mGamma, bitmaps.get(i));
             reinhard[0].waitFinish();
             mTime = (java.lang.System.currentTimeMillis() - time);
@@ -101,8 +100,8 @@ public class MainActivity extends Activity {
             mBitmap = bitmap;
             mDisplay.setImageBitmap(mBitmap);
 
-            String result = "Result: " + (mTime / mRunCount) + "ms";
-            if(mRunCount > 1)
+            String result = "Result: " + (mTime / mNumImages) + "ms";
+            if(mNumImages > 1)
                 result += " (mean)\nTotal: " + mTime + "ms";
 
             mBenchmarkText.setText(result);
@@ -110,9 +109,9 @@ public class MainActivity extends Activity {
         }
     }
 
-    private class RunCountChangeListener implements Spinner.OnItemSelectedListener {
+    private class NumImagesChangeListener implements Spinner.OnItemSelectedListener {
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-            mRunCount = Integer.parseInt(mRunCountSpinner.getItemAtPosition(pos).toString());
+            mNumImages = Integer.parseInt(mNumImagesSpinner.getItemAtPosition(pos).toString());
         }
 
         public void onNothingSelected(AdapterView<?> parent) { }
@@ -191,7 +190,7 @@ public class MainActivity extends Activity {
     public void reset(View view) {
         mImageSpinner.setSelection(0);
         mRunWithSpinner.setSelection(0);
-        mRunCountSpinner.setSelection(0);
+        mNumImagesSpinner.setSelection(0);
         mKeyValueSeekBar.setProgress(18);
         mGammaCorrectionSeekBar.setProgress(16);
         mBenchmarkText.setText("");
@@ -253,12 +252,12 @@ public class MainActivity extends Activity {
         runWithAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mRunWithSpinner.setAdapter(runWithAdapter);
 
-        mRunCountSpinner = (Spinner) findViewById(R.id.spinner_run_count);
-        ArrayAdapter<CharSequence> runCountAdapter = ArrayAdapter.createFromResource(this,
+        mNumImagesSpinner = (Spinner) findViewById(R.id.spinner_num_images);
+        ArrayAdapter<CharSequence> numImagesAdapter = ArrayAdapter.createFromResource(this,
                 R.array.run_count, R.layout.spinner_layout);
-        runCountAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mRunCountSpinner.setAdapter(runCountAdapter);
-        mRunCountSpinner.setOnItemSelectedListener(new RunCountChangeListener());
+        numImagesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mNumImagesSpinner.setAdapter(numImagesAdapter);
+        mNumImagesSpinner.setOnItemSelectedListener(new NumImagesChangeListener());
 
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setTitle("Loading");

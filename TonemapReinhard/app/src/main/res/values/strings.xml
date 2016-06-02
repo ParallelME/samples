@@ -2,7 +2,7 @@
     <string name="app_name">TonemapReinhard</string>
     <string name="text_image_select">Image:</string>
     <string name="text_run_with">Run with:</string>
-    <string name="text_run_count">Number of images:</string>
+    <string name="text_num_images">Number of images:</string>
     <string name="text_key_value">Key:</string>
     <string name="text_gamma_correction">Gamma:</string>
     <string name="button_tonemap">Tonemap</string>

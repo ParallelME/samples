@@ -17,6 +17,6 @@ import org.parallelme.userlibrary.image.RGBE;
  * @author Renato Utsch
  */
 public interface ReinhardOperator {
-    public void runOp(RGBE.ResourceData resourceData, float key, float power, Bitmap bitmap);
-    public void waitFinish();
+    void runOp(RGBE.ResourceData resourceData, float key, float power, Bitmap bitmap);
+    void waitFinish();
 }
