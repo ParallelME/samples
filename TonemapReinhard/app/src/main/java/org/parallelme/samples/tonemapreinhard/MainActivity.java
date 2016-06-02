@@ -26,6 +26,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Vector;
 
 import org.parallelme.userlibrary.image.RGBE;
@@ -43,18 +44,18 @@ public class MainActivity extends Activity {
     private Spinner mRunWithSpinner;
     private TextView mKeyValueText;
     private TextView mGammaCorrectionText;
-    private BitmapFactory.Options  mBitmapOptions;
     private Bitmap mBitmap;
     private ImageView mDisplay;
     private ProgressDialog mProgressDialog;
     private TextView mBenchmarkText;
-    private RenderScript mRS;
     private ReinhardJavaOperator mReinhardJavaOperator;
     private int mReinhardJavaOperatorID;
     private ReinhardUserLibraryOperator mReinhardUserLibraryOperator;
     private int mReinhardUserLibraryOperatorID;
     private ReinhardCollectionOperator mReinhardCollectionOperator;
     private int mReinhardCollectionOperatorID;
+    private ReinhardCollectionRSOperator mReinhardCollectionRSOperator;
+    private int mReinhardCollectionRSOperatorID;
     private ReinhardRenderScriptOperator mReinhardRenderScriptOperator;
     private int mReinhardRenderScriptOperatorID;
     private ReinhardOpenCLOperatorCPU mReinhardOpenCLOperatorCPU;
@@ -137,7 +138,7 @@ public class MainActivity extends Activity {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             mKey = ((float) progress) / 100.0f;
-            mKeyValueText.setText(String.format("%.2f", mKey));
+            mKeyValueText.setText(String.format(Locale.getDefault(), "%.2f", mKey));
         }
 
         @Override
@@ -151,7 +152,7 @@ public class MainActivity extends Activity {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             mGamma = ((float) progress) / 10.0f;
-            mGammaCorrectionText.setText(String.format("%.1f", mGamma));
+            mGammaCorrectionText.setText(String.format(Locale.getDefault(), "%.1f", mGamma));
         }
 
         @Override
@@ -172,6 +173,8 @@ public class MainActivity extends Activity {
             new ReinhardOperatorTask().execute(mReinhardUserLibraryOperator);
         else if(mRunWithSpinner.getSelectedItemPosition() == mReinhardCollectionOperatorID)
             new ReinhardOperatorTask().execute(mReinhardCollectionOperator);
+        else if(mRunWithSpinner.getSelectedItemPosition() == mReinhardCollectionRSOperatorID)
+            new ReinhardOperatorTask().execute(mReinhardCollectionRSOperator);
         else if(mRunWithSpinner.getSelectedItemPosition() == mReinhardRenderScriptOperatorID)
             new ReinhardOperatorTask().execute(mReinhardRenderScriptOperator);
         else if(mRunWithSpinner.getSelectedItemPosition() == mReinhardOpenCLOperatorCPUID)
@@ -201,10 +204,11 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mRS = RenderScript.create(this);
+        RenderScript rs = RenderScript.create(this);
         mReinhardJavaOperator = new ReinhardJavaOperator();
-        mReinhardCollectionOperator = new ReinhardCollectionOperator(mRS);
-        mReinhardRenderScriptOperator = new ReinhardRenderScriptOperator(mRS);
+        mReinhardCollectionOperator = new ReinhardCollectionOperator(rs);
+        mReinhardCollectionRSOperator = new ReinhardCollectionRSOperator(rs);
+        mReinhardRenderScriptOperator = new ReinhardRenderScriptOperator(rs);
         mReinhardOpenCLOperatorCPU = new ReinhardOpenCLOperatorCPU();
         mReinhardOpenCLOperatorGPU = new ReinhardOpenCLOperatorGPU();
         mReinhardUserLibraryOperator = new ReinhardUserLibraryOperator();
@@ -226,19 +230,21 @@ public class MainActivity extends Activity {
         mReinhardUserLibraryOperatorID = id++;
         runWithOptions.add("Compiler");
         mReinhardCollectionOperatorID = id++;
-        runWithOptions.add("RenderScript");
+        runWithOptions.add("Compiler Forced RS");
+        mReinhardCollectionRSOperatorID = id++;
+        if(mReinhardScheduledOperator.inited()) {
+            runWithOptions.add("Hand Runtime");
+            mReinhardScheduledOperatorID = id++;
+        }
+        runWithOptions.add("Hand RenderScript");
         mReinhardRenderScriptOperatorID = id++;
         if(mReinhardOpenCLOperatorCPU.inited()) {
-            runWithOptions.add("OpenCL CPU");
+            runWithOptions.add("Hand OpenCL CPU");
             mReinhardOpenCLOperatorCPUID = id++;
         }
         if(mReinhardOpenCLOperatorGPU.inited()) {
-            runWithOptions.add("OpenCL GPU");
+            runWithOptions.add("Hand OpenCL GPU");
             mReinhardOpenCLOperatorGPUID = id++;
-        }
-        if(mReinhardScheduledOperator.inited()) {
-            runWithOptions.add("Scheduler");
-            mReinhardScheduledOperatorID = id++;
         }
 
         mRunWithSpinner = (Spinner) findViewById(R.id.spinner_run_with);
@@ -266,9 +272,6 @@ public class MainActivity extends Activity {
         mGammaCorrectionText = (TextView) findViewById(R.id.text_gama_correction);
         mGammaCorrectionSeekBar = (SeekBar) findViewById(R.id.seekbar_gamma_correction);
         mGammaCorrectionSeekBar.setOnSeekBarChangeListener(new GammaCorrectionSeekBarChangeListener());
-
-        mBitmapOptions = new BitmapFactory.Options();
-        mBitmapOptions.inMutable = true;
 
         mBenchmarkText = (TextView) findViewById(R.id.text_benchmark);
         mDisplay = (ImageView) findViewById(R.id.display);
