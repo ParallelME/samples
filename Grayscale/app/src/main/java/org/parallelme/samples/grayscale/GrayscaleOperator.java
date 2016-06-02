@@ -13,14 +13,14 @@ public class GrayscaleOperator {
     private native void nativeCleanUp(long dataPointer);
     private native void nativeGrayscale(long dataPointer, Bitmap bitmap, int width, int height);
 
-    public void grayscale(Bitmap bitmap) {
-        nativeGrayscale(dataPointer, bitmap, bitmap.getWidth(), bitmap.getHeight());
-    }
-
     @Override
     protected void finalize() throws Throwable {
         nativeCleanUp(dataPointer);
         super.finalize();
+    }
+
+    public void grayscale(Bitmap image) {
+        nativeGrayscale(dataPointer, image, image.getWidth(), image.getHeight());
     }
 
     static {

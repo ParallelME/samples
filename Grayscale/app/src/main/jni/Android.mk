@@ -10,12 +10,10 @@ PM_JNI_PATH := $(call my-dir)/ParallelME
 LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 LOCAL_MODULE := Grayscale
-LOCAL_ARM_MODE := arm
-LOCAL_C_INCLUDES := $(LOCAL_PATH)/ParallelME/runtime/include
-LOCAL_CPPFLAGS := -O3 -std=c++14
-LOCAL_LDLIBS := -ljnigraphics
-LOCAL_SHARED_LIBRARIES := libParallelMERuntime
+LOCAL_C_INCLUDES := $(PM_JNI_PATH)/runtime/include
+LOCAL_CPPFLAGS := -Ofast -Wall -Wextra -Werror -Wno-unused-parameter -std=c++14
+LOCAL_SHARED_LIBRARIES := ParallelMERuntime
 LOCAL_SRC_FILES := org_parallelme_samples_grayscale_GrayscaleOperator.cpp
 
 include $(BUILD_SHARED_LIBRARY)
-include $(PM_JNI_PATH)/Android.mk
+include $(wildcard $(PM_JNI_PATH)/**/Android.mk)

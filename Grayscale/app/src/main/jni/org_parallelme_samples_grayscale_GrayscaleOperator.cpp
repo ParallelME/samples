@@ -1,6 +1,5 @@
 #include <parallelme/ParallelME.hpp>
 #include "org_parallelme_samples_grayscale_GrayscaleOperator.h"
-
 using namespace parallelme;
 
 const static char gKernels[] =
@@ -8,8 +7,9 @@ const static char gKernels[] =
     "    int gid = get_global_id(0);                   \n"
     "    uchar4 pixel = image[gid];                    \n"
     "                                                  \n"
-    "    pixel.x = pixel.y = pixel.z = 0.21f * pixel.x \n"
+    "    uchar luminosity = 0.21f * pixel.x            \n"
     "        + 0.72f * pixel.y + 0.07f * pixel.z;      \n"
+    "    pixel.x = pixel.y = pixel.z = luminosity;     \n"
     "                                                  \n"
     "    image[gid] = pixel;                           \n"
     "}                                                 \n";
@@ -24,8 +24,7 @@ JNIEXPORT jlong JNICALL Java_org_parallelme_samples_grayscale_GrayscaleOperator_
         (JNIEnv *env, jobject self) {
     JavaVM *jvm;
     env->GetJavaVM(&jvm);
-    if(!jvm)
-        return (jlong) nullptr;
+    if(!jvm) return (jlong) nullptr;
 
     auto dataPointer = new NativeData();
     dataPointer->runtime = std::make_shared<Runtime>(jvm);
@@ -45,7 +44,7 @@ JNIEXPORT void JNICALL Java_org_parallelme_samples_grayscale_GrayscaleOperator_n
     auto dataPointer = (NativeData *) dataLong;
     auto imageSize = width * height;
     auto bitmapBuffer = std::make_shared<Buffer>(Buffer::sizeGenerator(imageSize, Buffer::RGBA));
-    bitmapBuffer->copyFromJNI(env, bitmap);
+    bitmapBuffer->setAndroidBitmapSource(env, bitmap);
 
     auto task = std::make_unique<Task>(dataPointer->program);
     task->addKernel("grayscale");
@@ -58,5 +57,5 @@ JNIEXPORT void JNICALL Java_org_parallelme_samples_grayscale_GrayscaleOperator_n
     dataPointer->runtime->submitTask(std::move(task));
     dataPointer->runtime->finish();
 
-    bitmapBuffer->copyToJNI(env, bitmap);
+    bitmapBuffer->copyToAndroidBitmap(env, bitmap);
 }
