@@ -7,4 +7,4 @@
  ##
 
 PM_JNI_PATH := $(call my-dir)/ParallelME
-include $(PM_JNI_PATH)/Android.mk
+include $(wildcard $(PM_JNI_PATH)/**/Android.mk)

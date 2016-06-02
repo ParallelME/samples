@@ -35,5 +35,5 @@ JNIEXPORT void JNICALL Java_org_parallelme_samples_arraytest_ArrayTestWrapperImp
 	});
 	runtimePtr->runtime->submitTask(std::move(task));
 	runtimePtr->runtime->finish();
-	varTesteBuffer->copyToJNI(env, PM_varTeste);
+	varTesteBuffer->copyToJArray(env, PM_varTeste);
 }

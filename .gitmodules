@@ -7,3 +7,6 @@
 [submodule "Grayscale/app/src/main/jni/ParallelME/runtime"]
 	path = Grayscale/app/src/main/jni/ParallelME/runtime
 	url = git@github.com:ParallelME/runtime.git
+[submodule "ArrayTest/app/src/main/jni/ParallelME/runtime"]
+	path = ArrayTest/app/src/main/jni/ParallelME/runtime
+	url = git@github.com:ParallelME/runtime.git
