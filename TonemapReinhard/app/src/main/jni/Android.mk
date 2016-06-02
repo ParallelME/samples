@@ -20,7 +20,6 @@ LOCAL_SRC_FILES := clUtils/src/clUtils.c clUtils/src/clLoader.c \
 	org_parallelme_samples_tonemapreinhard_ReinhardOpenCLOperatorCPU.cpp \
 	org_parallelme_samples_tonemapreinhard_ReinhardOpenCLOperatorGPU.cpp \
 	org_parallelme_samples_tonemapreinhard_ReinhardScheduledOperator.cpp \
-	org_parallelme_samples_tonemapreinhard_ParallelMEReinhardCompilerOperatorCL.cpp \
 	ReinhardOpenCLOperator.cpp tonemapper/Tonemapper.cpp \
 	tonemapper/ScheduledTonemapper.cpp
 include $(BUILD_SHARED_LIBRARY)

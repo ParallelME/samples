@@ -55,8 +55,6 @@ public class MainActivity extends Activity {
     private int mReinhardUserLibraryOperatorID;
     private ReinhardCollectionOperator mReinhardCollectionOperator;
     private int mReinhardCollectionOperatorID;
-    private ReinhardCompilerOperator mReinhardCompilerOperator;
-    private int mReinhardCompilerOperatorID;
     private ReinhardRenderScriptOperator mReinhardRenderScriptOperator;
     private int mReinhardRenderScriptOperatorID;
     private ReinhardOpenCLOperatorCPU mReinhardOpenCLOperatorCPU;
@@ -174,8 +172,6 @@ public class MainActivity extends Activity {
             new ReinhardOperatorTask().execute(mReinhardUserLibraryOperator);
         else if(mRunWithSpinner.getSelectedItemPosition() == mReinhardCollectionOperatorID)
             new ReinhardOperatorTask().execute(mReinhardCollectionOperator);
-        else if(mRunWithSpinner.getSelectedItemPosition() == mReinhardCompilerOperatorID)
-            new ReinhardOperatorTask().execute(mReinhardCompilerOperator);
         else if(mRunWithSpinner.getSelectedItemPosition() == mReinhardRenderScriptOperatorID)
             new ReinhardOperatorTask().execute(mReinhardRenderScriptOperator);
         else if(mRunWithSpinner.getSelectedItemPosition() == mReinhardOpenCLOperatorCPUID)
@@ -208,7 +204,6 @@ public class MainActivity extends Activity {
         mRS = RenderScript.create(this);
         mReinhardJavaOperator = new ReinhardJavaOperator();
         mReinhardCollectionOperator = new ReinhardCollectionOperator(mRS);
-        mReinhardCompilerOperator = new ReinhardCompilerOperator(mRS);
         mReinhardRenderScriptOperator = new ReinhardRenderScriptOperator(mRS);
         mReinhardOpenCLOperatorCPU = new ReinhardOpenCLOperatorCPU();
         mReinhardOpenCLOperatorGPU = new ReinhardOpenCLOperatorGPU();
@@ -231,8 +226,6 @@ public class MainActivity extends Activity {
         mReinhardUserLibraryOperatorID = id++;
         runWithOptions.add("Compiler");
         mReinhardCollectionOperatorID = id++;
-        runWithOptions.add("Hand Compiler");
-        mReinhardCompilerOperatorID = id++;
         runWithOptions.add("RenderScript");
         mReinhardRenderScriptOperatorID = id++;
         if(mReinhardOpenCLOperatorCPU.inited()) {
