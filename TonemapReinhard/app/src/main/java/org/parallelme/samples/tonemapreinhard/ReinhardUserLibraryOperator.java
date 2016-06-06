@@ -11,6 +11,7 @@ package org.parallelme.samples.tonemapreinhard;
 import android.graphics.Bitmap;
 
 import org.parallelme.userlibrary.function.Foreach;
+import org.parallelme.userlibrary.function.Reduce;
 import org.parallelme.userlibrary.image.HDRImage;
 import org.parallelme.userlibrary.image.Pixel;
 import org.parallelme.userlibrary.image.RGBE;
@@ -77,15 +78,25 @@ public class ReinhardUserLibraryOperator implements ReinhardOperator {
         sum = 0.0f;
         max = 0.0f;
 
-        image.foreach(new Foreach<Pixel>() {
+        Pixel ret = image.reduce(new Reduce<Pixel>() {
             @Override
-            public void function(Pixel pixel) {
-                sum += Math.log(0.00001f + pixel.rgba.red);
-
-                if(pixel.rgba.red > max)
-                    max = pixel.rgba.red;
+            public Pixel function(Pixel pixel1, Pixel pixel2) {
+                if(Math.abs(pixel1.rgba.alpha) < 0.000001f)
+                    pixel1.rgba.alpha = (float) Math.log(0.00001f + pixel1.rgba.red);
+                if(Math.abs(pixel2.rgba.alpha) < 0.000001f)
+                    pixel2.rgba.alpha = (float) Math.log(0.00001f + pixel2.rgba.red);
+                if(pixel1.rgba.red > pixel2.rgba.red) {
+                    pixel1.rgba.alpha += pixel2.rgba.alpha;
+                    return pixel1;
+                }
+                else {
+                    pixel2.rgba.alpha += pixel1.rgba.alpha;
+                    return pixel2;
+                }
             }
         });
+        sum = ret.rgba.alpha;
+        max = ret.rgba.red;
 
         // Calculate the scale factor.
         float average = (float) Math.exp(sum / (float)(image.getHeight() * image.getWidth()));
