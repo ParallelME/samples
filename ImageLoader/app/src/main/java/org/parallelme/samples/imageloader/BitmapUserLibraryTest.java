@@ -20,7 +20,7 @@ import org.parallelme.userlibrary.image.RGB;
 /**
  * @author Wilson de Carvalho.
  */
-public class BitmapLoaderTest {
+public class BitmapUserLibraryTest {
     public Bitmap load(Resources res, int resource) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inMutable = true;

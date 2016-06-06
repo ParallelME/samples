@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Bitmap Test</string>
+    <string name="show_image">Show Images</string>
+</resources>

@@ -10,3 +10,6 @@
 [submodule "ArrayTest/app/src/main/jni/ParallelME/runtime"]
 	path = ArrayTest/app/src/main/jni/ParallelME/runtime
 	url = git@github.com:ParallelME/runtime.git
+[submodule "BitmapTest/app/src/main/jni/ParallelME/runtime"]
+	path = BitmapTest/app/src/main/jni/ParallelME/runtime
+	url = git@github.com:ParallelME/runtime.git
