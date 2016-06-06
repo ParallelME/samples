@@ -11,14 +11,15 @@ package org.parallelme.samples.tonemapreinhard;
 
 import android.graphics.Bitmap;
 import android.support.v8.renderscript.*;
+import org.parallelme.userlibrary.image.Pixel;
 
-public class ReinhardCollectionOperatorWrapperImplRS implements ReinhardCollectionOperatorWrapper {
+public class ReinhardCompilerOperatorWrapperImplRS implements ReinhardCompilerOperatorWrapper {
 	private Allocation PM_image2In, PM_image2Out;
 	private RenderScript PM_mRS;
-	private ScriptC_ReinhardCollectionOperator PM_kernel;
-	public ReinhardCollectionOperatorWrapperImplRS(RenderScript PM_mRS) {
+	private ScriptC_ReinhardCompilerOperator PM_kernel;
+	public ReinhardCompilerOperatorWrapperImplRS(RenderScript PM_mRS) {
 		this.PM_mRS = PM_mRS;
-		this.PM_kernel = new ScriptC_ReinhardCollectionOperator(PM_mRS);
+		this.PM_kernel = new ScriptC_ReinhardCompilerOperator(PM_mRS);
 	}
 
 	public boolean isValid() {
@@ -44,18 +45,26 @@ public class ReinhardCollectionOperatorWrapperImplRS implements ReinhardCollecti
 		PM_kernel.forEach_foreach1(PM_image2Out, PM_image2Out);
 	}
 
-	public void foreach2(float[] sum, float[] max) {
-		Allocation PM_gSumForeach2_Allocation = Allocation.createSized(PM_mRS, Element.F32(PM_mRS), 1);
-		PM_kernel.set_PM_gSumForeach2(sum[0]);
-		PM_kernel.set_PM_gOutputSumForeach2(PM_gSumForeach2_Allocation);
-		Allocation PM_gMaxForeach2_Allocation = Allocation.createSized(PM_mRS, Element.F32(PM_mRS), 1);
-		PM_kernel.set_PM_gMaxForeach2(max[0]);
-		PM_kernel.set_PM_gOutputMaxForeach2(PM_gMaxForeach2_Allocation);
-		PM_kernel.set_PM_gInputImageForeach2(PM_image2Out);
-		PM_kernel.set_PM_gInputXSizeForeach2(PM_image2Out.getType().getX());
-		PM_kernel.set_PM_gInputYSizeForeach2(PM_image2Out.getType().getY());
-		PM_kernel.invoke_foreach2();
-		PM_gSumForeach2_Allocation.copyTo(sum);PM_gMaxForeach2_Allocation.copyTo(max);
+	public Pixel reduce2() {
+		Type PM_tileType = new Type.Builder(PM_mRS, Element.F32_4(PM_mRS))
+				.setX(PM_image2Out.getType().getX())
+				.create();
+		Type PM_redType = new Type.Builder(PM_mRS, Element.F32_4(PM_mRS))
+				.setX(1)
+				.create();
+		Allocation PM_tile = Allocation.createTyped(PM_mRS, PM_tileType);
+		Allocation PM_red = Allocation.createTyped(PM_mRS, PM_redType);
+
+		PM_kernel.set_PM_gInputImageReduce2((PM_image2Out));
+		PM_kernel.set_PM_gTileReduce2((PM_tile));
+		PM_kernel.set_PM_gInputXSizeReduce2(PM_image2Out.getType().getX());
+		PM_kernel.set_PM_gInputYSizeReduce2(PM_image2Out.getType().getY());
+		PM_kernel.forEach_reduce2_tile(PM_tile);
+		PM_kernel.forEach_reduce2(PM_red);
+
+		float[] PM_outRed = new float[4];
+		PM_red.copyTo(PM_outRed);
+		return new Pixel(PM_outRed[0], PM_outRed[1], PM_outRed[2], PM_outRed[3], -1, -1);
 	}
 
 	public void foreach3(float fScaleFactor, float fLmax2) {

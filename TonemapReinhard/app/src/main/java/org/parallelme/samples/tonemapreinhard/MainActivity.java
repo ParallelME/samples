@@ -51,10 +51,10 @@ public class MainActivity extends Activity {
     private int mReinhardJavaOperatorID;
     private ReinhardUserLibraryOperator mReinhardUserLibraryOperator;
     private int mReinhardUserLibraryOperatorID;
-    private ReinhardCollectionOperator mReinhardCollectionOperator;
-    private int mReinhardCollectionOperatorID;
-    private ReinhardCollectionRSOperator mReinhardCollectionRSOperator;
-    private int mReinhardCollectionRSOperatorID;
+    private ReinhardCompilerOperator mReinhardCompilerOperator;
+    private int mReinhardCompilerOperatorID;
+    private ReinhardCompilerRSOperator mReinhardCompilerRSOperator;
+    private int mReinhardCompilerRSOperatorID;
     private ReinhardRenderScriptOperator mReinhardRenderScriptOperator;
     private int mReinhardRenderScriptOperatorID;
     private ReinhardOpenCLOperatorCPU mReinhardOpenCLOperatorCPU;
@@ -170,10 +170,10 @@ public class MainActivity extends Activity {
             new ReinhardOperatorTask().execute(mReinhardJavaOperator);
         else if(mRunWithSpinner.getSelectedItemPosition() == mReinhardUserLibraryOperatorID)
             new ReinhardOperatorTask().execute(mReinhardUserLibraryOperator);
-        else if(mRunWithSpinner.getSelectedItemPosition() == mReinhardCollectionOperatorID)
-            new ReinhardOperatorTask().execute(mReinhardCollectionOperator);
-        else if(mRunWithSpinner.getSelectedItemPosition() == mReinhardCollectionRSOperatorID)
-            new ReinhardOperatorTask().execute(mReinhardCollectionRSOperator);
+        else if(mRunWithSpinner.getSelectedItemPosition() == mReinhardCompilerOperatorID)
+            new ReinhardOperatorTask().execute(mReinhardCompilerOperator);
+        else if(mRunWithSpinner.getSelectedItemPosition() == mReinhardCompilerRSOperatorID)
+            new ReinhardOperatorTask().execute(mReinhardCompilerRSOperator);
         else if(mRunWithSpinner.getSelectedItemPosition() == mReinhardRenderScriptOperatorID)
             new ReinhardOperatorTask().execute(mReinhardRenderScriptOperator);
         else if(mRunWithSpinner.getSelectedItemPosition() == mReinhardOpenCLOperatorCPUID)
@@ -205,8 +205,8 @@ public class MainActivity extends Activity {
 
         RenderScript rs = RenderScript.create(this);
         mReinhardJavaOperator = new ReinhardJavaOperator();
-        mReinhardCollectionOperator = new ReinhardCollectionOperator(rs);
-        mReinhardCollectionRSOperator = new ReinhardCollectionRSOperator(rs);
+        mReinhardCompilerOperator = new ReinhardCompilerOperator(rs);
+        mReinhardCompilerRSOperator = new ReinhardCompilerRSOperator(rs);
         mReinhardRenderScriptOperator = new ReinhardRenderScriptOperator(rs);
         mReinhardOpenCLOperatorCPU = new ReinhardOpenCLOperatorCPU();
         mReinhardOpenCLOperatorGPU = new ReinhardOpenCLOperatorGPU();
@@ -228,9 +228,9 @@ public class MainActivity extends Activity {
         runWithOptions.add("User Library");
         mReinhardUserLibraryOperatorID = id++;
         runWithOptions.add("Compiler");
-        mReinhardCollectionOperatorID = id++;
+        mReinhardCompilerOperatorID = id++;
         runWithOptions.add("Compiler Forced RS");
-        mReinhardCollectionRSOperatorID = id++;
+        mReinhardCompilerRSOperatorID = id++;
         if(mReinhardScheduledOperator.inited()) {
             runWithOptions.add("Hand Runtime");
             mReinhardScheduledOperatorID = id++;

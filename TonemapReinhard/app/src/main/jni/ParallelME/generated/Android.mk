@@ -16,5 +16,5 @@ LOCAL_CPP_FEATURES += exceptions
 LOCAL_LDLIBS := -llog
 LOCAL_SHARED_LIBRARIES := ParallelMERuntime
 LOCAL_SRC_FILES := org_parallelme_ParallelMERuntime.cpp \
-	org_parallelme_samples_tonemapreinhard_ReinhardCollectionOperatorWrapperImplPM.cpp
+	org_parallelme_samples_tonemapreinhard_ReinhardCompilerOperatorWrapperImplPM.cpp
 include $(BUILD_SHARED_LIBRARY)

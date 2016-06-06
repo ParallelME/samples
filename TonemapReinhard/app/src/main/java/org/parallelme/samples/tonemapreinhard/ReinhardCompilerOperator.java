@@ -3,16 +3,20 @@
 package org.parallelme.samples.tonemapreinhard;
 
 import android.graphics.Bitmap;
-import android.support.v8.renderscript.RenderScript;
 
+import org.parallelme.userlibrary.image.Pixel;
 import org.parallelme.userlibrary.image.RGBE;
 
-public class ReinhardCollectionRSOperator implements ReinhardOperator {
-	private ReinhardCollectionOperatorWrapper PM_parallelME;
 
-	public ReinhardCollectionRSOperator(RenderScript PM_mRS) {
-        // Force RS
-        this.PM_parallelME = new ReinhardCollectionOperatorWrapperImplRS(PM_mRS);
+import android.support.v8.renderscript.*;
+
+public class ReinhardCompilerOperator implements ReinhardOperator {
+	private ReinhardCompilerOperatorWrapper PM_parallelME;
+
+	public ReinhardCompilerOperator(RenderScript PM_mRS) {
+		this.PM_parallelME = new ReinhardCompilerOperatorWrapperImplPM();
+		if (!this.PM_parallelME.isValid())
+			this.PM_parallelME = new ReinhardCompilerOperatorWrapperImplRS(PM_mRS);
 	}
 
     
@@ -43,17 +47,10 @@ public class ReinhardCollectionRSOperator implements ReinhardOperator {
 
     
     private void logAverage(float key) {
-        sum = 0.0f;
-        max = 0.0f;
+		Pixel maxRed = PM_parallelME.reduce2();
+		max = maxRed.rgba.red;
+		sum = maxRed.rgba.alpha;
 
-        float[] PM_sum = new float[1];
-PM_sum[0] = sum;
-float[] PM_max = new float[1];
-PM_max[0] = max;
-PM_parallelME.foreach2(PM_sum, PM_max);
-sum = PM_sum[0];max = PM_max[0];
-
-        
         float average = (float) Math.exp(sum / (float)(PM_parallelME.getHeight1() * PM_parallelME.getWidth2()));
         scaleFactor = key * (1.0f / average);
 

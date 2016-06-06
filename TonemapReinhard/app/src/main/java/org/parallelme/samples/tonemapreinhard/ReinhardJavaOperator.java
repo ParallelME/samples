@@ -10,6 +10,7 @@ package org.parallelme.samples.tonemapreinhard;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
+
 import org.parallelme.userlibrary.image.RGBE;
 
 /**
