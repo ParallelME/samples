@@ -8,6 +8,7 @@
 
 #pragma version(1)
 #pragma rs java_package_name(org.parallelme.samples.tonemapreinhard)
+#pragma rs_fp_imprecise
 
 float4 __attribute__((kernel)) to_float(uchar4 in, uint32_t x, uint32_t y) {
     float4 out;

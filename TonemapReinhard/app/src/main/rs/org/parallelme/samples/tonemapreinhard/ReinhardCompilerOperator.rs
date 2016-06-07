@@ -9,6 +9,7 @@
 
 #pragma version(1)
 #pragma rs java_package_name(org.parallelme.samples.tonemapreinhard)
+#pragma rs_fp_imprecise
 float4 __attribute__((kernel)) toFloatHDRImage(uchar4 PM_in, uint32_t x, uint32_t y) {
 	float4 PM_out;
 	if (PM_in.s3 != 0) {
