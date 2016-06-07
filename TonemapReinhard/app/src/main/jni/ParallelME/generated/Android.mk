@@ -11,7 +11,7 @@ LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 LOCAL_MODULE := ParallelMEGenerated
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../runtime/include
-LOCAL_CPPFLAGS := -Ofast -Wall -Wextra -Werror -Wno-unused-parameter -std=c++14 -fexceptions
+LOCAL_CPPFLAGS := -O3 -Wall -Wextra -Werror -Wno-unused-parameter -std=c++14 -fexceptions
 LOCAL_CPP_FEATURES += exceptions
 LOCAL_LDLIBS := -llog
 LOCAL_SHARED_LIBRARIES := ParallelMERuntime

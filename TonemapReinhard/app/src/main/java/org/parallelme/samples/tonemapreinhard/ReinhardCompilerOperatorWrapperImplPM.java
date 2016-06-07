@@ -17,7 +17,7 @@ public class ReinhardCompilerOperatorWrapperImplPM implements ReinhardCompilerOp
 	private long PM_image2Ptr;
 	 
 	private native void foreach1(long runtimePtr, long varPtr);
-	private native void reduce2(long runtimePtr, long varPtr, float[] PM_maxRed);
+	private native void reduce2(long runtimePtr, long varPtr, float[] PM_ret);
 	private native void foreach3(long runtimePtr, long varPtr, float fScaleFactor, float fLmax2);
 	private native void foreach4(long runtimePtr, long varPtr);
 	private native void foreach5(long runtimePtr, long varPtr, float power);
@@ -44,14 +44,15 @@ public class ReinhardCompilerOperatorWrapperImplPM implements ReinhardCompilerOp
 	}
 
 	public Pixel reduce2() {
-		float[] PM_maxRed = new float[4];
-		reduce2(ParallelMERuntime.getInstance().runtimePointer, PM_image2Ptr, PM_maxRed);
-		return new Pixel(PM_maxRed[0], PM_maxRed[1], PM_maxRed[2], PM_maxRed[3], -1, -1);
+		float[] PM_ret = new float[4];
+		reduce2(ParallelMERuntime.getInstance().runtimePointer, PM_image2Ptr, PM_ret);
+		return new Pixel(PM_ret[0], PM_ret[1], PM_ret[2], PM_ret[3], -1, -1);
 	}
 
 	public void foreach3(float fScaleFactor, float fLmax2) {
 		foreach3(ParallelMERuntime.getInstance().runtimePointer, PM_image2Ptr, fScaleFactor, fLmax2);
 	}
+
 
 	public void foreach4() {
 		foreach4(ParallelMERuntime.getInstance().runtimePointer, PM_image2Ptr);

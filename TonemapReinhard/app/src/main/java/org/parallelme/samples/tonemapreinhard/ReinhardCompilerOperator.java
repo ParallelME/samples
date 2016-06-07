@@ -4,6 +4,9 @@ package org.parallelme.samples.tonemapreinhard;
 
 import android.graphics.Bitmap;
 
+import org.parallelme.userlibrary.function.Foreach;
+import org.parallelme.userlibrary.function.Reduce;
+import org.parallelme.userlibrary.image.HDRImage;
 import org.parallelme.userlibrary.image.Pixel;
 import org.parallelme.userlibrary.image.RGBE;
 
@@ -47,10 +50,14 @@ public class ReinhardCompilerOperator implements ReinhardOperator {
 
     
     private void logAverage(float key) {
-		Pixel maxRed = PM_parallelME.reduce2();
-		max = maxRed.rgba.red;
-		sum = maxRed.rgba.alpha;
+        sum = 0.0f;
+        max = 0.0f;
 
+        Pixel ret = PM_parallelME.reduce2();
+        sum = ret.rgba.alpha;
+        max = ret.rgba.red;
+
+        
         float average = (float) Math.exp(sum / (float)(PM_parallelME.getHeight1() * PM_parallelME.getWidth2()));
         scaleFactor = key * (1.0f / average);
 

@@ -34,13 +34,13 @@ JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardCompi
 }
 
 JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardCompilerOperatorWrapperImplPM_reduce2
-		(JNIEnv *env, jobject self, jlong rtmPtr, jlong varPtr, jfloatArray red) {
+		(JNIEnv *env, jobject self, jlong rtmPtr, jlong varPtr, jfloatArray ret) {
 	auto runtimePtr = (ParallelMERuntimeData *) rtmPtr;
 	auto variablePtr = (ImageData *) varPtr;
 	auto task = std::make_unique<Task>(runtimePtr->program);
-    auto tileElemSize = Buffer::sizeGenerator(1, Buffer::FLOAT4);
+	auto tileElemSize = sizeof(float) * env->GetArrayLength(ret);
 	auto tileBuffer = std::make_shared<Buffer>(tileElemSize * variablePtr->height);
-    auto redBuffer = std::make_shared<Buffer>(tileElemSize);
+	auto retBuffer = std::make_shared<Buffer>(tileElemSize);
 	task->addKernel("reduce2_tile");
 	task->addKernel("reduce2");
 	task->setConfigFunction([=](DevicePtr &device, KernelHash &kernelHash) {
@@ -51,13 +51,13 @@ JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardCompi
 			->setWorkSize(variablePtr->height);
 		kernelHash["reduce2"]
 			->setArg(0, tileBuffer)
-            ->setArg(1, redBuffer)
-            ->setArg(2, variablePtr->height)
+			->setArg(1, retBuffer)
+			->setArg(2, variablePtr->height)
 			->setWorkSize(1);
 	});
 	runtimePtr->runtime->submitTask(std::move(task));
 	runtimePtr->runtime->finish();
-	redBuffer->copyToJArray(env, red);
+	retBuffer->copyToJArray(env, ret);
 }
 
 JNIEXPORT void JNICALL Java_org_parallelme_samples_tonemapreinhard_ReinhardCompilerOperatorWrapperImplPM_foreach3

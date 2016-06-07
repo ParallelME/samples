@@ -25,9 +25,7 @@ JNIEXPORT jlong JNICALL Java_org_parallelme_ParallelMERuntime_nativeInit
 		env->GetJavaVM(&jvm);
 		auto runtimePtr = new ParallelMERuntimeData();
 		runtimePtr->runtime = std::make_shared<Runtime>(jvm, std::make_shared<SchedulerHEFT>());
-		runtimePtr->program = std::make_shared<Program>(runtimePtr->runtime, userKernels,
-            "-Werror -cl-strict-aliasing -cl-mad-enable -cl-no-signed-zeros "
-            "-cl-finite-math-only");
+		runtimePtr->program = std::make_shared<Program>(runtimePtr->runtime, userKernels);
 		ret = (jlong) runtimePtr;
 	} catch (const std::runtime_error &e) {
 		__android_log_print(ANDROID_LOG_ERROR, "ParallelME Runtime",
@@ -92,7 +90,7 @@ JNIEXPORT void JNICALL Java_org_parallelme_ParallelMERuntime_nativeToFloatArray(
 	delete arrayPtr;
 }
 
-JNIEXPORT jlong JNICALL Java_org_parallelme_ParallelMERuntime_nativeCreateBitmapImage(JNIEnv *env, jobject self, jlong rtmPtr, jobject bitmap, jint width, jint height) {
+JNIEXPORT jlong JNICALL Java_org_parallelme_ParallelMERuntime_nativeCreateBitmapImage(JNIEnv *env, jobject self, jlong rtmPtr, jobject data, jint width, jint height) {
 	auto runtimePtr = (ParallelMERuntimeData *) rtmPtr;
 	auto imagePtr = new ImageData();
 	imagePtr->width = width;
@@ -101,7 +99,7 @@ JNIEXPORT jlong JNICALL Java_org_parallelme_ParallelMERuntime_nativeCreateBitmap
 
 	// Num elements * items per element * size of item
 	imagePtr->inputBuffer = std::make_shared<Buffer>(Buffer::sizeGenerator(imagePtr->workSize, Buffer::CHAR4));
-	imagePtr->inputBuffer->setAndroidBitmapSource(env, bitmap);
+	imagePtr->inputBuffer->setAndroidBitmapSource(env, data);
 	imagePtr->outputBuffer = std::make_shared<Buffer>(Buffer::sizeGenerator(imagePtr->workSize, Buffer::FLOAT4));
 
 	auto task = std::make_unique<Task>(runtimePtr->program);
