@@ -25,7 +25,8 @@ JNIEXPORT jlong JNICALL Java_org_parallelme_ParallelMERuntime_nativeInit
 		env->GetJavaVM(&jvm);
 		auto runtimePtr = new ParallelMERuntimeData();
 		runtimePtr->runtime = std::make_shared<Runtime>(jvm, std::make_shared<SchedulerHEFT>());
-		runtimePtr->program = std::make_shared<Program>(runtimePtr->runtime, userKernels);
+		runtimePtr->program = std::make_shared<Program>(runtimePtr->runtime, userKernels,
+			"-Werror -cl-strict-aliasing -cl-mad-enable -cl-no-signed-zeros -cl-finite-math-only");
 		ret = (jlong) runtimePtr;
 	} catch (const std::runtime_error &e) {
 		__android_log_print(ANDROID_LOG_ERROR, "ParallelME Runtime",

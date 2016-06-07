@@ -10,8 +10,8 @@
 package org.parallelme.samples.tonemapreinhard;
 
 import android.graphics.Bitmap;
-import org.parallelme.ParallelMERuntime;
 import org.parallelme.userlibrary.image.Pixel;
+import org.parallelme.ParallelMERuntime;
 
 public class ReinhardCompilerOperatorWrapperImplPM implements ReinhardCompilerOperatorWrapper {
 	private long PM_image2Ptr;
@@ -52,7 +52,6 @@ public class ReinhardCompilerOperatorWrapperImplPM implements ReinhardCompilerOp
 	public void foreach3(float fScaleFactor, float fLmax2) {
 		foreach3(ParallelMERuntime.getInstance().runtimePointer, PM_image2Ptr, fScaleFactor, fLmax2);
 	}
-
 
 	public void foreach4() {
 		foreach4(ParallelMERuntime.getInstance().runtimePointer, PM_image2Ptr);

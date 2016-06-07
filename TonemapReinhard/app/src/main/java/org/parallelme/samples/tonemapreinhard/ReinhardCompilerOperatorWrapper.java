@@ -10,27 +10,26 @@
 package org.parallelme.samples.tonemapreinhard;
 
 import android.graphics.Bitmap;
-
 import org.parallelme.userlibrary.image.Pixel;
 
 public interface ReinhardCompilerOperatorWrapper {
-	public boolean isValid();
+	boolean isValid();
 
-	public void inputBind1(byte[] data, int width, int height);
+	void inputBind1(byte[] data, int width, int height);
 
-	 void foreach1();
+	void foreach1();
 
-	 Pixel reduce2();
+	Pixel reduce2();
 
-	 void foreach3(float fScaleFactor, float fLmax2);
+	void foreach3(float fScaleFactor, float fLmax2);
 
-	 void foreach4();
+	void foreach4();
 
-	 void foreach5(float power);
+	void foreach5(float power);
 
-	public void outputBind1(Bitmap bitmap);
+	void outputBind1(Bitmap bitmap);
 
-	public int getHeight1();
+	int getHeight1();
 
-	public int getWidth2();
+	int getWidth2();
 }
