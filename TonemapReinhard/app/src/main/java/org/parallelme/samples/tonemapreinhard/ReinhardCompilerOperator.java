@@ -53,8 +53,6 @@ public class ReinhardCompilerOperator implements ReinhardOperator {
         sum = 0.0f;
         max = 0.0f;
 
-		final int max2 = 10;
-		
         Pixel ret = PM_parallelME.reduce2();
         sum = ret.rgba.alpha;
         max = ret.rgba.red;
