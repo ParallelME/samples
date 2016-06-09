@@ -10,8 +10,8 @@
 package org.parallelme.samples.tonemapreinhard;
 
 import android.graphics.Bitmap;
-import android.support.v8.renderscript.*;
 import org.parallelme.userlibrary.image.Pixel;
+import android.support.v8.renderscript.*;
 
 public class ReinhardCompilerOperatorWrapperImplRS implements ReinhardCompilerOperatorWrapper {
 	private Allocation PM_image2In, PM_image2Out;
@@ -46,25 +46,23 @@ public class ReinhardCompilerOperatorWrapperImplRS implements ReinhardCompilerOp
 	}
 
 	public Pixel reduce2() {
-		Type PM_tileType = new Type.Builder(PM_mRS, Element.F32_4(PM_mRS))
-				.setX(PM_image2Out.getType().getX())
-				.create();
-		Type PM_redType = new Type.Builder(PM_mRS, Element.F32_4(PM_mRS))
-				.setX(1)
-				.create();
-		Allocation PM_tile = Allocation.createTyped(PM_mRS, PM_tileType);
-		Allocation PM_red = Allocation.createTyped(PM_mRS, PM_redType);
-
-		PM_kernel.set_PM_gInputImageReduce2((PM_image2Out));
-		PM_kernel.set_PM_gTileReduce2((PM_tile));
+		Type PM_gTileReduce2Type = new Type.Builder(PM_mRS, Element.F32_4(PM_mRS))
+			.setX(PM_image2Out.getType().getX())
+			.create();
+		Allocation PM_gTileReduce2 = Allocation.createTyped(PM_mRS, PM_gTileReduce2Type);
+		Type PM_retType = new Type.Builder(PM_mRS, Element.F32_4(PM_mRS))
+			.setX(1)
+			.create();
+		Allocation PM_ret = Allocation.createTyped(PM_mRS, PM_retType);
+		PM_kernel.set_PM_gInputReduce2(PM_image2Out);
+		PM_kernel.set_PM_gTileReduce2(PM_gTileReduce2);
 		PM_kernel.set_PM_gInputXSizeReduce2(PM_image2Out.getType().getX());
 		PM_kernel.set_PM_gInputYSizeReduce2(PM_image2Out.getType().getY());
-		PM_kernel.forEach_reduce2_tile(PM_tile);
-		PM_kernel.forEach_reduce2(PM_red);
-
-		float[] PM_outRed = new float[4];
-		PM_red.copyTo(PM_outRed);
-		return new Pixel(PM_outRed[0], PM_outRed[1], PM_outRed[2], PM_outRed[3], -1, -1);
+		PM_kernel.forEach_reduce2_tile(PM_gTileReduce2);
+		PM_kernel.forEach_reduce2(PM_ret);
+		float[] PM_retTmp = new float[4];
+		PM_ret.copyTo(PM_retTmp);
+		return new Pixel(PM_retTmp[0], PM_retTmp[1], PM_retTmp[2], PM_retTmp[3], -1, -1);
 	}
 
 	public void foreach3(float fScaleFactor, float fLmax2) {
