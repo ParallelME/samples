@@ -261,7 +261,7 @@ public class MainActivity extends Activity {
 
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setTitle("Loading");
-        mProgressDialog.setMessage("Applying the tonemap...");
+        mProgressDialog.setMessage("Applying tone mapping...");
         mProgressDialog.setCanceledOnTouchOutside(false);
 
         mKeyValueText = (TextView) findViewById(R.id.text_key_value);
