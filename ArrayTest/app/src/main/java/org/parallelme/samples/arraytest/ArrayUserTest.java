@@ -4,7 +4,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 import org.parallelme.userlibrary.Array;
-import org.parallelme.userlibrary.datatypes.Int32;
+import org.parallelme.userlibrary.datatype.Int32;
 import org.parallelme.userlibrary.function.Foreach;
 
 import java.util.Locale;

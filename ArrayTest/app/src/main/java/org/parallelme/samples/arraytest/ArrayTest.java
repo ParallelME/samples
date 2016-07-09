@@ -1,6 +1,6 @@
 package org.parallelme.samples.arraytest;
 
-import org.parallelme.userlibrary.datatypes.Int32;
+import org.parallelme.userlibrary.datatype.Int32;
 import org.parallelme.userlibrary.function.Foreach;
 
 import android.support.v8.renderscript.*;
