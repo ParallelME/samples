@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "D:\\Users\\Heenett\\Programas\\GitHub\\FaceME\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi-v4\\ic_launcher.png",
+        "source": "D:\\Users\\Heenett\\Programas\\GitHub\\FaceME\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "D:\\Users\\Heenett\\Programas\\GitHub\\FaceRecognizer2\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi-v4\\ic_launcher.png",
+        "source": "D:\\Users\\Heenett\\Programas\\GitHub\\FaceRecognizer2\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "D:\\Users\\Heenett\\Programas\\GitHub\\LGSamples\\samples\\FaceME\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi-v4\\ic_launcher.png",
+        "source": "D:\\Users\\Heenett\\Programas\\GitHub\\LGSamples\\samples\\FaceME\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher.png"
+    }
+]
