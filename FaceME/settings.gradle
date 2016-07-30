@@ -1,1 +1,2 @@
-include ':app', ':opencv'
+include ':app', ':opencv', ':userlibrary'
+project(':userlibrary').projectDir = new File('userlibrary')

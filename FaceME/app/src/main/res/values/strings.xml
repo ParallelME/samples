@@ -1,4 +1,14 @@
 <resources>
-    <string name="app_name">FaceRecognizer</string>
+    <string name="app_name">FaceAR</string>
+
     <string name="action_settings">Settings</string>
+
+    <string name="action_change_camera">Switch Camera</string>
+
+    <string name="action_configure_facereco">Configure facial recognition</string>
+    <string name="capture">Take picture</string>
+    <string name="picture">Picture</string>
+    <string name= "appbar_scrolling_view_behavior">Scrolling</string>
+    <string name="send">Send images</string>
+
 </resources>

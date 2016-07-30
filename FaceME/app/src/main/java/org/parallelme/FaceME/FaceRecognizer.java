@@ -1,12 +1,15 @@
 package org.parallelme.FaceME;
 
+import org.parallelme.userlibrary.Array;
+import org.parallelme.userlibrary.datatypes.Float32;
+import org.parallelme.userlibrary.parallel.ParallelIterator;
+
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.graphics.Bitmap;
 import android.util.Log;
 
 import java.io.IOException;
-
 /**
  * Given a squared image, this class classifies it accordingly to the network parameters. These (number of layers, number of nodes per layer, layer's weights) are hardcoded, but can be easily changed for code adaptation.
  *
@@ -70,34 +73,30 @@ public class FaceRecognizer extends ContextWrapper {
     }
 
     //Processes a layer operation in the neural network
-    private static void mult(final FlatArray2<LayerNode> Input, final WeightsTable Weights,
-                             final FlatArray2<LayerNode> Layer1, final WeightsTable Bias) {
-        Layer1.foreach(new UserFunctionWithIndex2<LayerNode>() {
+    private static void mult(final Array<LayerNode> Input, final WeightsTable Weights,
+                             final Array<LayerNode> Layer1, final WeightsTable Bias) {
+        Layer1.foreach(new ParallelIterator<LayerNode>(){    //(new UserFunctionWithIndex2<LayerNode>() {
             @Override
-            public void function(final ElementWithIndex2<LayerNode> eixLayer1) { //TODO: add par to this foreach
-                Input.foreach(new UserFunctionWithIndex2<LayerNode>() {
+            public void function(final LayerNode eixLayer1) { //TODO: add par to this foreach?
+                Input.foreach(new ParallelIterator<LayerNode>() {
                     @Override
-                    public void function(final ElementWithIndex2<LayerNode> eixInput) { //TODO: add par to this foreach
-                        eixLayer1.element.setWeight(eixLayer1.element.getWeight() + ((eixInput.element.getWeight() * Weights.getField(eixInput.y, eixLayer1.y))));
+                    public void function(final LayerNode eixInput) { //TODO: add par to this foreach?
+                        eixLayer1.setWeight(eixLayer1.getWeight() + ((eixInput.getWeight() * Weights.getField(eixInput.x, eixLayer1.y)))); //TODO: must get these coordinates through the new library
                     }
                 });
-                eixLayer1.element.setWeight(eixLayer1.element.getWeight() + Bias.getField(0, eixLayer1.y));
-                eixLayer1.element.setWeight((float) (1 / (1 + (Math.exp(-(eixLayer1.element.getWeight())))))); //Sigmoid activation function over the node's final weight plus the bias
+                eixLayer1.setWeight(eixLayer1.getWeight() + Bias.getField(0, eixLayer1.y));
+                eixLayer1.setWeight((float) (1 / (1 + (Math.exp(-(float)(eixLayer1.getWeight())))))); //Sigmoid activation function over the node's final weight plus the bias
+                //TODO: need to check this '-' operator for the new float
             }
         });
     }
 
     public boolean recognize(Bitmap thePic) throws IOException {
-        /*
-        * Autoencoder matrices. Layers work as follows
-        * (In*W1)+B1 = L1;
-        * (L1*W2)+B2 = Out;
-        * A sigmoid function is applied to all final values at every step.
-         */
+
         face = thePic;
-        FlatArray2<LayerNode> In = null; //Input
-        FlatArray2<LayerNode> L1 = null; //Layer 1
-        FlatArray2<LayerNode> Out = null; //Layer 2
+        Array<LayerNode> In = null; //Input
+        Array<LayerNode> L1 = null; //Layer 1
+        Array<LayerNode> Out = null; //Layer 2
         //Configure and get image sizes
         this.resizeImage(face, 56);
         int w = face.getWidth();
@@ -120,9 +119,9 @@ public class FaceRecognizer extends ContextWrapper {
         B1.readAndInit("experiment-01-none-sigmoid-parameters-01-B1.txt", getResources().getAssets());
         B2.readAndInit("experiment-01-none-sigmoid-parameters-01-B2.txt", getResources().getAssets());
         //Allocating and initializing memory spaces to be operated on
-        In = new FlatArray2<LayerNode>(LayerNode.class, false, 1, sizeIn);
-        L1 = new FlatArray2<LayerNode>(LayerNode.class, false, 1, sizeL1);
-        Out = new FlatArray2<LayerNode>(LayerNode.class, false, 1, sizeOut);
+        In = new Array<LayerNode>(LayerNode.class, false, 1, sizeIn);
+        L1 = new Array<LayerNode>(LayerNode.class, false, 1, sizeL1);
+        Out = new Array<LayerNode>(LayerNode.class, false, 1, sizeOut);
 
         for (int i = 0; i < w; i++) {
             for (int j = 0; j < h; j++) {
