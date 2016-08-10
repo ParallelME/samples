@@ -3,6 +3,7 @@ package org.parallelme.FaceME;
 import org.parallelme.userlibrary.Array;
 import org.parallelme.userlibrary.datatypes.Float32;
 import org.parallelme.userlibrary.function.Foreach;
+import org.parallelme.userlibrary.function.Reduce;
 import org.parallelme.userlibrary.parallel.ParallelIterator;
 
 import android.content.Context;
@@ -82,14 +83,27 @@ public class FaceRecognizer extends ContextWrapper {
                 Input.par().foreach(new Foreach<Float32>() {
                     @Override
                     public void function(final Float32 eixInput) {
-                        eixLayer1.value = eixLayer1.value + ((eixInput.value * Weights.getField(eixInput.x, eixLayer1.x)));
+                        //eixLayer1.value = eixLayer1.value + ((eixInput.value * Weights.getField(eixInput.x, eixLayer1.x))); //TODO: revive this and erase below when ParallelME support element index location and matrix multiplication
                         //TODO: must get these coordinates through the new library
                     }
                 });
-                eixLayer1.value = eixLayer1.value + Bias.getField(0, eixLayer1.x);
-                eixLayer1.value = (float) (1 / (1 + (Math.exp(-(float) (eixLayer1.value))))); //Sigmoid activation function over the node's final weight plus the bias
+                //eixLayer1.value = eixLayer1.value + Bias.getField(0, eixLayer1.x);
+                eixLayer1.value = (float) (1 / (1 + (Math.exp(-(float) (eixLayer1.value))))); //Sigmoid activation function over the node's final weight plus the bias //TODO: revive this and erase below when ParallelME support element index location and matrix multiplication
             }
         });
+    }
+
+    private float node_mult(final float v, final float[] column) {
+        Array<Float32> W = new Array<Float32>(column, Float32.class);
+        final Float32 out = new Float32();
+        out.value = (float) 0;
+        W.par().foreach(new Foreach<Float32>() {
+            @Override
+            public void function(Float32 element) {
+                out.value = out.value + v * (float) element.value;
+            }
+        });
+        return out.value;
     }
 
     public boolean recognize(Bitmap thePic) throws IOException {
@@ -145,20 +159,24 @@ public class FaceRecognizer extends ContextWrapper {
         Out = new Array<Float32>(arrOut, Float32.class);
 
         //Network processing
-        mult(In, W1, L1, B1); //In -> L1
+        //mult(In, W1, L1, B1); //In -> L1 //TODO: revive this and erase below when ParallelME support element index location and matrix multiplication
+        for(int i = 0; i < sizeL1; i++){
+            arrL1[i] = node_mult(arrIn[i], W1.getColumn(i));
+        }
 
-        //<log>
-        float[] l1 = new float[sizeL1];
-        L1.toJavaArray(l1);
-        Log.d("NetworkProcChecking", "L1 random samples " + l1[sizeL1 / 4] + " and " + l1[sizeL1 - 1]);
-        //</log>
-        mult(L1, W2, Out, B2); //In -> L1
+        //mult(L1, W2, Out, B2); //In -> L1 //TODO: revive this and erase below when ParallelME support element index location and matrix multiplication
+        for(int i = 0; i < sizeOut; i++){
+            arrOut[i] = node_mult(arrL1[i], W2.getColumn(i));
+        }
+
 
         float[] final_classification = new float[sizeOut];
         float biggest_value = -10;
         int result = -1;
         float[] out = new float[sizeOut];
-        Out.toJavaArray(out);
+        //Out.toJavaArray(out); //TODO: revive this and erase below when ParallelME support element index location and matrix multiplication
+        for(int i = 0; i < sizeOut; i++)
+            out[i] = arrOut[i];
         for(int k = 0; k < sizeOut; k++) {
             final_classification[k] = out[k];
             Log.d("FinalResult",  "k" + k + ": was " + final_classification[k] + ".");

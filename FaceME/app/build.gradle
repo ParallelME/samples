@@ -26,4 +26,5 @@ dependencies {
     compile 'com.android.support:design:23.1.1'
     compile project(':opencv')
     compile project(':userlibrary')
+    compile 'com.android.support:design:23.0.1'
 }

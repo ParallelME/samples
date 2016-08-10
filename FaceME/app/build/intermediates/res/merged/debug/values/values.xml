@@ -271,9 +271,9 @@
     <string name="abc_shareactionprovider_share_with_application">Share with %s</string>
     <string name="abc_toolbar_collapse_description">Collapse</string>
     <string name="action_change_camera">Switch Camera</string>
-    <string name="action_configure_facereco">Configure facial recognition</string>
+    <string name="action_configure_facereco">Configure Engine</string>
     <string name="action_settings">Settings</string>
-    <string name="app_name">FaceAR</string>
+    <string name="app_name">FaceME</string>
     <string name="appbar_scrolling_view_behavior">Scrolling</string>
     <string name="capture">Take picture</string>
     <string name="character_counter_pattern" translatable="false">%1$d / %2$d</string>
