@@ -7,6 +7,4 @@
 /captures
 /app/src/main/libs
 /app/src/main/obj
-/opencv/build
-/userlibrary/build
 *.gch
