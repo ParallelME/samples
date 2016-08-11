@@ -1,4 +1,3 @@
-*.ign
 *.iml
 .gradle
 /local.properties
