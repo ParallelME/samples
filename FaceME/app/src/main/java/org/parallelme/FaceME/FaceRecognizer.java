@@ -1,12 +1,17 @@
 package org.parallelme.FaceME;
 
+import org.parallelme.userlibrary.Array;
+import org.parallelme.userlibrary.datatypes.Float32;
+import org.parallelme.userlibrary.function.Foreach;
+import org.parallelme.userlibrary.function.Reduce;
+import org.parallelme.userlibrary.parallel.ParallelIterator;
+
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.graphics.Bitmap;
 import android.util.Log;
 
 import java.io.IOException;
-
 /**
  * Given a squared image, this class classifies it accordingly to the network parameters. These (number of layers, number of nodes per layer, layer's weights) are hardcoded, but can be easily changed for code adaptation.
  *
@@ -70,34 +75,43 @@ public class FaceRecognizer extends ContextWrapper {
     }
 
     //Processes a layer operation in the neural network
-    private static void mult(final FlatArray2<LayerNode> Input, final WeightsTable Weights,
-                             final FlatArray2<LayerNode> Layer1, final WeightsTable Bias) {
-        Layer1.foreach(new UserFunctionWithIndex2<LayerNode>() {
+    private static void mult(final Array<Float32> Input, final WeightsTable Weights,
+                             final Array<Float32> Layer1, final WeightsTable Bias) {
+        Layer1.par().foreach(new Foreach<Float32>() {
             @Override
-            public void function(final ElementWithIndex2<LayerNode> eixLayer1) { //TODO: add par to this foreach
-                Input.foreach(new UserFunctionWithIndex2<LayerNode>() {
+            public void function(final Float32 eixLayer1) {
+                Input.par().foreach(new Foreach<Float32>() {
                     @Override
-                    public void function(final ElementWithIndex2<LayerNode> eixInput) { //TODO: add par to this foreach
-                        eixLayer1.element.setWeight(eixLayer1.element.getWeight() + ((eixInput.element.getWeight() * Weights.getField(eixInput.y, eixLayer1.y))));
+                    public void function(final Float32 eixInput) {
+                        //eixLayer1.value = eixLayer1.value + ((eixInput.value * Weights.getField(eixInput.x, eixLayer1.x))); //TODO: revive this and erase below when ParallelME support element index location and matrix multiplication
+                        //TODO: must get these coordinates through the new library
                     }
                 });
-                eixLayer1.element.setWeight(eixLayer1.element.getWeight() + Bias.getField(0, eixLayer1.y));
-                eixLayer1.element.setWeight((float) (1 / (1 + (Math.exp(-(eixLayer1.element.getWeight())))))); //Sigmoid activation function over the node's final weight plus the bias
+                //eixLayer1.value = eixLayer1.value + Bias.getField(0, eixLayer1.x);
+                eixLayer1.value = (float) (1 / (1 + (Math.exp(-(float) (eixLayer1.value))))); //Sigmoid activation function over the node's final weight plus the bias //TODO: revive this and erase below when ParallelME support element index location and matrix multiplication
             }
         });
     }
 
+    private float node_mult(final float v, final float[] column) {
+        Array<Float32> W = new Array<Float32>(column, Float32.class);
+        final Float32 out = new Float32();
+        out.value = (float) 0;
+        W.par().foreach(new Foreach<Float32>() {
+            @Override
+            public void function(Float32 element) {
+                out.value = out.value + v * (float) element.value;
+            }
+        });
+        return out.value;
+    }
+
     public boolean recognize(Bitmap thePic) throws IOException {
-        /*
-        * Autoencoder matrices. Layers work as follows
-        * (In*W1)+B1 = L1;
-        * (L1*W2)+B2 = Out;
-        * A sigmoid function is applied to all final values at every step.
-         */
+
         face = thePic;
-        FlatArray2<LayerNode> In = null; //Input
-        FlatArray2<LayerNode> L1 = null; //Layer 1
-        FlatArray2<LayerNode> Out = null; //Layer 2
+        Array<Float32> In = null; //Input
+        Array<Float32> L1 = null; //Layer 1
+        Array<Float32> Out = null; //Layer 2
         //Configure and get image sizes
         this.resizeImage(face, 56);
         int w = face.getWidth();
@@ -120,37 +134,51 @@ public class FaceRecognizer extends ContextWrapper {
         B1.readAndInit("experiment-01-none-sigmoid-parameters-01-B1.txt", getResources().getAssets());
         B2.readAndInit("experiment-01-none-sigmoid-parameters-01-B2.txt", getResources().getAssets());
         //Allocating and initializing memory spaces to be operated on
-        In = new FlatArray2<LayerNode>(LayerNode.class, false, 1, sizeIn);
-        L1 = new FlatArray2<LayerNode>(LayerNode.class, false, 1, sizeL1);
-        Out = new FlatArray2<LayerNode>(LayerNode.class, false, 1, sizeOut);
+        float[] arrIn = new float[sizeIn];
+        float[] arrL1 = new float[sizeL1];
+        float[] arrOut = new float[sizeOut];
 
         for (int i = 0; i < w; i++) {
             for (int j = 0; j < h; j++) {
-                In.set(new LayerNode(pixelsNormalized[i + (j * w)]), 0, i + (j * w));
+                arrIn[i + (j * w)] = pixelsNormalized[i + (j * w)];
             }
         }
-        In.set(new LayerNode(1), 0, (w-1) + ((h-1) * w) + 1);
+        arrIn[(w-1) + ((h-1) * w) + 1] = 1;
 
         for (int j = 0; j < sizeL1; j++) {
-            L1.set(new LayerNode(0), 0, j);
+            arrL1[j] = 0;
         }
-        L1.set(new LayerNode(1), 0, sizeL1-1);
+        arrL1[sizeL1-1] = 1;
 
         for (int j = 0; j < sizeOut; j++) {
-            Out.set(new LayerNode(0), 0, j);
+            arrOut[j] = 0;
         }
 
-        //Network processing
-        mult(In, W1, L1, B1); //In -> L1
-        Log.d("NetworkProcChecking", "L1 random samples " + L1.get(0, sizeL1 / 4).getWeight() + " and " + L1.get(0, sizeL1 - 1).getWeight());
+        In= new Array<Float32>(arrIn, Float32.class);
+        L1 = new Array<Float32>(arrL1, Float32.class);
+        Out = new Array<Float32>(arrOut, Float32.class);
 
-        mult(L1, W2, Out, B2); //In -> L1
+        //Network processing
+        //mult(In, W1, L1, B1); //In -> L1 //TODO: revive this and erase below when ParallelME support element index location and matrix multiplication
+        for(int i = 0; i < sizeL1; i++){
+            arrL1[i] = node_mult(arrIn[i], W1.getColumn(i));
+        }
+
+        //mult(L1, W2, Out, B2); //In -> L1 //TODO: revive this and erase below when ParallelME support element index location and matrix multiplication
+        for(int i = 0; i < sizeOut; i++){
+            arrOut[i] = node_mult(arrL1[i], W2.getColumn(i));
+        }
+
 
         float[] final_classification = new float[sizeOut];
         float biggest_value = -10;
         int result = -1;
+        float[] out = new float[sizeOut];
+        //Out.toJavaArray(out); //TODO: revive this and erase below when ParallelME support element index location and matrix multiplication
+        for(int i = 0; i < sizeOut; i++)
+            out[i] = arrOut[i];
         for(int k = 0; k < sizeOut; k++) {
-            final_classification[k] = Out.get(0, k).getWeight();
+            final_classification[k] = out[k];
             Log.d("FinalResult",  "k" + k + ": was " + final_classification[k] + ".");
             if (final_classification[k] > biggest_value)
             {
@@ -161,7 +189,7 @@ public class FaceRecognizer extends ContextWrapper {
         Log.d("FinalResult",  "Biggest value was " + result + ".");
 
 
-        if(result == 0)
+        if(result == 0) //TODO: this is trying to detect only the face whose's class is zero. This should change.
             return true;
         else
             return false;

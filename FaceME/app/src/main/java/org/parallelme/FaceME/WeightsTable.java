@@ -44,6 +44,8 @@ public class WeightsTable {
         return W[_w][_h];
     }
 
+    public float[] getColumn(int _w){return W[_w];}
+
     public void readAndInit(String _filename, AssetManager _assets) throws IOException {
         BufferedReader in = new BufferedReader(new InputStreamReader(_assets.open(_filename), "UTF-8"));
 

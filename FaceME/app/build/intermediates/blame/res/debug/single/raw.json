@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "D:\\Users\\Heenett\\Programas\\GitHub\\LGSamples\\samples\\FaceME\\app\\build\\intermediates\\res\\merged\\debug\\raw\\lbpcascade_frontalface.xml",
+        "source": "D:\\Users\\Heenett\\Programas\\GitHub\\LGSamples\\samples\\FaceME\\app\\src\\main\\res\\raw\\lbpcascade_frontalface.xml"
+    },
+    {
+        "merged": "D:\\Users\\Heenett\\Programas\\GitHub\\LGSamples\\samples\\FaceME\\app\\build\\intermediates\\res\\merged\\debug\\raw\\haarcascade_frontalface_default.xml",
+        "source": "D:\\Users\\Heenett\\Programas\\GitHub\\LGSamples\\samples\\FaceME\\app\\src\\main\\res\\raw\\haarcascade_frontalface_default.xml"
+    }
+]

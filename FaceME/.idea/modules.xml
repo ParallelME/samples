@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/FaceME.iml" filepath="$PROJECT_DIR$/FaceME.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/opencv/opencv.iml" filepath="$PROJECT_DIR$/opencv/opencv.iml" />
+      <module fileurl="file://$PROJECT_DIR$/userlibrary/userlibrary/userlibrary.iml" filepath="$PROJECT_DIR$/userlibrary/userlibrary/userlibrary.iml" />
     </modules>
   </component>
 </project>

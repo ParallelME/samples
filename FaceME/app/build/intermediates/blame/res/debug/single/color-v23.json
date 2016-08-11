@@ -1,14 +1,6 @@
 [
     {
-        "merged": "D:\\Users\\Heenett\\Programas\\GitHub\\FaceRecognizer2\\app\\build\\intermediates\\res\\merged\\debug\\color-v23\\abc_color_highlight_material.xml",
-        "source": "D:\\Users\\Heenett\\Programas\\GitHub\\FaceRecognizer2\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\color-v23\\abc_color_highlight_material.xml"
-    },
-    {
         "merged": "D:\\Users\\Heenett\\Programas\\GitHub\\LGSamples\\samples\\FaceME\\app\\build\\intermediates\\res\\merged\\debug\\color-v23\\abc_color_highlight_material.xml",
         "source": "D:\\Users\\Heenett\\Programas\\GitHub\\LGSamples\\samples\\FaceME\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\color-v23\\abc_color_highlight_material.xml"
-    },
-    {
-        "merged": "D:\\Users\\Heenett\\Programas\\GitHub\\FaceME\\app\\build\\intermediates\\res\\merged\\debug\\color-v23\\abc_color_highlight_material.xml",
-        "source": "D:\\Users\\Heenett\\Programas\\GitHub\\FaceME\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\color-v23\\abc_color_highlight_material.xml"
     }
 ]

@@ -1,22 +1,25 @@
 package org.parallelme.FaceME;
 
+import org.parallelme.userlibrary.datatypes.Float32;
+import org.parallelme.userlibrary.datatypes.NumericalData;
+
 /**
  * This class was created to wrap the neural network layer's node weight. Other node attributes might be added later.
  * @author AlbertoSCA
  * @since 09/12/2015.
  */
 
-public class LayerNode {
-    private float weight;
+public class LayerNode extends NumericalData {
+    private Float32 weight;
 
     /**
      * @param _w: node's weight
      */
-    public LayerNode(float _w){
+    public LayerNode(Float32 _w){
         weight = _w;
     }
 
-    public float getWeight() {
+    public Float32 getWeight() {
         return weight;
     }
 
@@ -24,7 +27,7 @@ public class LayerNode {
      *
      * @param _w: node's weight
      */
-    public void setWeight(float _w){
+    public void setWeight(Float32 _w){
         weight = _w;
     }
 }
