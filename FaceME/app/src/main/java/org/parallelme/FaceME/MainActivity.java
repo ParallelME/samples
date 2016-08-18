@@ -45,13 +45,14 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
     private final int  MY_PERMISSIONS_REQUEST_CAMERA = 10;
     private final int  MY_PERMISSIONS_REQUEST_STORAGE = 11;
     private static final int MY_PERMISSIONS_REQUEST_READ = 12;
+    private boolean opencvReady = false;
 
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
         public void onManagerConnected(int status) {
             switch (status){
                 case LoaderCallbackInterface.SUCCESS:
-                    initializeOpenCVDependencies();
+                    if(askPermissions()) initializeOpenCVDependencies();
                     break;
                 default:
                     super.onManagerConnected(status);
@@ -59,6 +60,17 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
             }
         }
     };
+
+    private boolean askPermissions(){
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
+            if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     private void initializeOpenCVDependencies(){
         try{
@@ -81,8 +93,7 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
         } catch (Exception e) {
             Log.e("OpenCVActivity", "Error loading cascade", e);
         }
-
-        openCvCameraView.enableView();
+        if(opencvReady) openCvCameraView.enableView();
     }
 
     @Override
@@ -110,14 +121,16 @@ public class MainActivity extends AppCompatActivity implements CvCameraViewListe
                     new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                     MY_PERMISSIONS_REQUEST_READ);
         }
-
-        openCvCameraView = (CameraBridgeViewBase) findViewById(R.id.faceCamera);
-        openCvCameraView.setVisibility(SurfaceView.VISIBLE);
-        openCvCameraView.setCvCameraViewListener(this);
-        openCvCameraView.setCameraIndex(cameraNumber);
-        openCvCameraView.setMaxFrameSize(Parameters.camResolutionWidth, Parameters.camResolutionHeigth);
-        this.getApplicationContext();
-
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            Log.d("onCreate", "Permission to camera granted");
+            openCvCameraView = (CameraBridgeViewBase) findViewById(R.id.faceCamera);
+            openCvCameraView.setVisibility(SurfaceView.VISIBLE);
+            openCvCameraView.setCvCameraViewListener(this);
+            openCvCameraView.setCameraIndex(cameraNumber);
+            openCvCameraView.setMaxFrameSize(Parameters.camResolutionWidth, Parameters.camResolutionHeigth);
+            opencvReady = true;
+            this.getApplicationContext();
+        }
     }
 
     @Override
